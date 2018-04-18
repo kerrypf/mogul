@@ -1,1 +1,4 @@
-module.exports = require('./plop-templates');
+module.exports = {
+  plopfile: require('./plopfile'),
+  registerServiceWorker: require('./registerServiceWorker')
+};
