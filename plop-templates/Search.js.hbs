@@ -1,0 +1,55 @@
+import React from 'react';
+import { Input, Select } from 'antd';
+import CreateSearch, { RemoteSelect } from '../../components/CreateSearch';
+
+const { Option } = Select;
+
+const searchItems = [
+  [
+    {
+      label: '名称',
+      dataIndex: 'name',
+      render: () => (
+        <Input style={ { width: '100%' } } placeholder="请输入名称" />
+      ),
+      simple: true
+    },
+    {
+      label: '远程搜索',
+      dataIndex: 'remoteSearch',
+      render: ({ form }) => {
+        const handleSearch = query =>
+          fetch('https://randomuser.me/api/?results=5')
+            .then(response => response.json())
+            .then(body =>
+              body.results.map(user => ({
+                label: `${user.name.first} ${user.name.last}`,
+                value: user.login.username
+              }))
+            );
+        return (
+          <RemoteSelect
+            form={form}
+            dataIndex="remoteSearch"
+            placeholder="请搜索并选择"
+            handleSearch={handleSearch}
+          />
+        );
+      },
+      simple: true
+    },
+    {
+      label: '状态',
+      dataIndex: 'status',
+      render: () => (
+        <Select placeholder="请选择状态" style={ { width: '100%' } }>
+          <Option key={1}>111</Option>
+        </Select>
+      )
+    }
+  ]
+];
+
+const Search = CreateSearch(searchItems);
+
+export default Search;

@@ -1,0 +1,56 @@
+import { action, configure, runInAction } from 'mobx';
+import { listUsers } from '../services/randomuser';
+import BasicStore from './basic';
+
+const queryOptions = () => ({
+  {{name}}Option: [
+    {
+      label: 'label',
+      value: 'value'
+    }
+  ]
+});
+
+configure({ enforceActions: true });
+
+class Store extends BasicStore {
+  @action
+  // 获取表格数据
+  listTable = async params => {
+    this.showLoading();
+    const response = await listUsers(params);
+    this.initList({
+      list: response.results.map(item => {
+        // 每一个row item , 必须有一个 unique 的 key
+        const { name: { first, last } } = item;
+        return {
+          ...item,
+          key: `${first} ${last}`
+        };
+      }),
+      pagination: {
+        current: response.info.page,
+        pageSize: response.info.results,
+        total: 10000
+      }
+    });
+    runInAction(() => {
+      this.hideLoading();
+    });
+  };
+  @action
+  // 获取选项
+  listOptions = async params => {
+    const response = await queryOptions(params);
+    this.initOptions(response);
+  };
+}
+
+const {{name}} = new Store({
+  // 给予 options 默认值
+  options: {
+    {{name}}Option: []
+  }
+});
+
+export default {{name}};
