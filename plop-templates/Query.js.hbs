@@ -1,10 +1,11 @@
 import React from 'react';
 import { Input, Select } from 'antd';
-import CreateSearch, { RemoteSelect } from '../../components/CreateSearch';
+import { Query } from 'mogul';
 
+const { RemoteSelect } = Query;
 const { Option } = Select;
 
-const searchItems = [
+const source = [
   [
     {
       label: '名称',
@@ -12,7 +13,10 @@ const searchItems = [
       render: () => (
         <Input style={ { width: '100%' } } placeholder="请输入名称" />
       ),
-      simple: true
+      simple: true,
+      options: {
+        rules: [{ required: true, message: '请选择配送日期' }]
+      }
     },
     {
       label: '远程搜索',
@@ -50,6 +54,4 @@ const searchItems = [
   ]
 ];
 
-const Search = CreateSearch(searchItems);
-
-export default Search;
+export default props => <Query data={source} {...props} />;

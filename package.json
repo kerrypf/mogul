@@ -1,6 +1,6 @@
 {
-  "name": "mogul-package",
-  "version": "0.0.5",
+  "name": "mogul",
+  "version": "0.0.1",
   "private": false,
   "license": "MIT",
   "dependencies": {

@@ -1,85 +1,15 @@
-import React, { Fragment } from 'react';
-import { inject, observer } from 'mobx-react';
-import { Form, Button, Card } from 'antd';
-import StandardTable from '../../components/StandardTable';
-import Search from './Search';
-import columns from './columns';
-import BasicTable from '../../utils/BasicTable';
-import styles from './index.module.less';
+import React from 'react';
+import { Route, Switch } from 'react-router';
+import Collection from './Collection.js';
+import Detail from './Detail.js';
 
-export const nameSpace = "{{name}}";
-
-// Form必须在业务顶层组件载入，因为在表格变化时，例如分页操作，会需要获取form的值
-@Form.create()
-@inject(nameSpace)
-@observer
-class {{pascal name}} extends BasicTable {
-  constructor(props) {
-    super(props);
-    this.state = {
-      formValues: {}
-    };
-    this.handleTableChange = this.createHandleTableChange(nameSpace).bind(this);
-    this.handleFormReset = this.createHandleFormReset(nameSpace).bind(this);
-    this.handleSearch = this.createHandleSearch(
-      nameSpace,
-      this.formatFormValues
-    ).bind(this);
-    this.componentDidMount = this.createComponentDidMount(nameSpace).bind(this);
-  }
-
-  formatFormValues(values) {
-    // 格式化表单查询的参数
-    return values;
-  }
-
-  bindHandlersForEachRow(list) {
-    // 给row绑定数据，可以在columns中调用
-    const store = this.props[nameSpace];
-    const { options } = store;
-    return list.map(item => ({
-      ...item,
-      options
-    }));
-  }
-
-  TableButtons = (
-    <Fragment>
-      <Button type="primary" size="small">
-        主按钮
-      </Button>
-    </Fragment>
+const Routes = ({ match: { url } }) => {
+  return (
+    <Switch>
+      <Route path={url} component={Collection} exact />
+      <Route path={`${url}/:id`} component={Detail} />
+    </Switch>
   );
+};
 
-  render() {
-    const store = this.props[nameSpace];
-    const { list, options, pagination, loading } = store;
-    const data = {
-      list: this.bindHandlersForEachRow(list),
-      pagination
-    };
-    return (
-      <Card bordered={false}>
-        <div className={styles.tableList}>
-          <div className={styles.tableListForm}>
-            <Search
-              options={options}
-              form={this.props.form}
-              handleSearch={this.handleSearch}
-              handleFormReset={this.handleFormReset}
-            />
-          </div>
-          <StandardTable
-            loading={loading}
-            data={data}
-            columns={columns}
-            onChange={this.handleTableChange}
-            buttons={this.TableButtons}
-          />
-        </div>
-      </Card>
-    );
-  }
-}
-
-export default {{pascal name}};
+export default Routes;

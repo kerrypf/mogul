@@ -1,4 +1,4 @@
 module.exports = {
-  plopfile: require('./plopfile'),
-  registerServiceWorker: require('./registerServiceWorker')
+  ...require('./utils'),
+  ...require('./components')
 };

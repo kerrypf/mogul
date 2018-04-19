@@ -1,9 +1,9 @@
 import { action, configure, runInAction } from 'mobx';
-import { listUsers } from '../services/randomuser';
-import BasicStore from './basic';
+import { listUsers } from './services/api';
+import BaseStore from '../../utils/BaseStore';
 
-const queryOptions = () => ({
-  {{name}}Option: [
+const queryTemplateOptions = () => ({
+  templateOptionA: [
     {
       label: 'label',
       value: 'value'
@@ -13,16 +13,17 @@ const queryOptions = () => ({
 
 configure({ enforceActions: true });
 
-class Store extends BasicStore {
+class Store extends BaseStore {
   @action
-  // 获取表格数据
   listTable = async params => {
     this.showLoading();
     const response = await listUsers(params);
     this.initList({
       list: response.results.map(item => {
         // 每一个row item , 必须有一个 unique 的 key
-        const { name: { first, last } } = item;
+        const {
+          name: { first, last }
+        } = item;
         return {
           ...item,
           key: `${first} ${last}`
@@ -39,18 +40,18 @@ class Store extends BasicStore {
     });
   };
   @action
-  // 获取选项
   listOptions = async params => {
-    const response = await queryOptions(params);
+    const response = await queryTemplateOptions(params);
     this.initOptions(response);
   };
 }
 
-const {{name}} = new Store({
+const template = new Store({
   // 给予 options 默认值
   options: {
-    {{name}}Option: []
+    templateOptionA: [],
+    templateOptionB: []
   }
 });
 
-export default {{name}};
+export default template;

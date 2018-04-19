@@ -1,0 +1,11 @@
+import axios from '../../../utils/axios';
+
+export const listUsers = ({ page, size }) => {
+  return axios('https://randomuser.me/api/', {
+    params: {
+      page,
+      results: size,
+      seed: 'abc'
+    }
+  });
+};
