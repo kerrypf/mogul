@@ -67,6 +67,13 @@ class _Sider extends Component {
           });
         }
       }
+    } else {
+      if (selectedKeys.length > 0) {
+        this.setState({
+          selectedKeys: [],
+          openKeys: []
+        });
+      }
     }
   }
 
