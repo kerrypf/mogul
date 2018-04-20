@@ -1,14 +1,9 @@
 import React, { Fragment } from 'react';
 import { Form, Button, Card, Divider } from 'antd';
 import { observer } from 'mobx-react';
-import {
-  StandardTable,
-  CreateList,
-  Modal,
-  BaseCollection
-} from 'mogul';
+import { StandardTable, CreateList, Modal, BaseCollection } from 'mogul';
 import Query from './Query';
-import Store from './Store';
+import store from './services/collection';
 
 const columns = [
   {
@@ -68,13 +63,13 @@ class Collection extends BaseCollection {
     this.state = {
       formValues: {}
     };
-    this.handleTableChange = this.createHandleTableChange(Store).bind(this);
-    this.handleFormReset = this.createHandleFormReset(Store).bind(this);
+    this.handleTableChange = this.createHandleTableChange(store).bind(this);
+    this.handleFormReset = this.createHandleFormReset(store).bind(this);
     this.handleSearch = this.createHandleSearch(
-      Store,
+      store,
       this.formatFormValues
     ).bind(this);
-    this.componentDidMount = this.createComponentDidMount(Store).bind(this);
+    this.componentDidMount = this.createComponentDidMount(store).bind(this);
   }
 
   formatFormValues(values) {
@@ -84,7 +79,7 @@ class Collection extends BaseCollection {
 
   bindHandlersForEachRow(list) {
     // 给row绑定数据，可以在columns中调用
-    const { options } = Store;
+    const { options } = store;
     return list.map(item => ({
       ...item,
       options
@@ -100,7 +95,7 @@ class Collection extends BaseCollection {
   );
 
   render() {
-    const { list, options, pagination, loading } = Store;
+    const { list, options, pagination, loading } = store;
     const data = {
       list: this.bindHandlersForEachRow(list),
       pagination
