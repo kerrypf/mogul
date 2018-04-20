@@ -37,16 +37,20 @@ const CreateList = (columns = [], options = {}) => {
         dataSource={data}
         renderItem={item => {
           const { title, value, render } = item;
+          const content =
+            render === undefined ? <span>{value}</span> : render(record);
           return (
             <List.Item className={styles.listItem}>
-              <Row gutter={4}>
-                <Col span={labelCol}>
-                  <label className={styles.label}>{title}:</label>
-                </Col>
-                <Col span={contentCol}>
-                  {render === undefined ? <span>{value}</span> : render(record)}
-                </Col>
-              </Row>
+              {title !== undefined ? (
+                <Row gutter={4}>
+                  <Col span={labelCol}>
+                    <label className={styles.label}>{title}:</label>
+                  </Col>
+                  <Col span={contentCol}>{content}</Col>
+                </Row>
+              ) : (
+                content
+              )}
             </List.Item>
           );
         }}
