@@ -23,6 +23,7 @@ class _Sider extends Component {
     };
     this.onCollapse = this.onCollapse.bind(this);
     this.handleExpand = this.handleExpand.bind(this);
+    this.goHomePage = this.goHomePage.bind(this);
   }
 
   onCollapse(collapsed) {
@@ -121,6 +122,11 @@ class _Sider extends Component {
     });
   }
 
+  goHomePage() {
+    const { push } = this.props;
+    push('/dashboard');
+  }
+
   render() {
     const { name, menu, logo } = this.props;
     const { collapsed, selectedKeys, openKeys } = this.state;
@@ -131,7 +137,7 @@ class _Sider extends Component {
         onCollapse={this.onCollapse}
         className={styles.sider}
       >
-        <div className={styles.title}>
+        <div className={styles.title} onClick={this.goHomePage}>
           {logo}
           {collapsed ? null : <div className={styles.name}>{name}</div>}
         </div>
