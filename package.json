@@ -1,6 +1,6 @@
 {
   "name": "mogul",
-  "version": "0.0.6",
+  "version": "0.0.15",
   "private": false,
   "license": "MIT",
   "dependencies": {
@@ -27,6 +27,11 @@
     "react-app-rewire-less-with-modules": "^0.0.1",
     "sass-loader": "^6.0.7",
     "webpack-bundle-analyzer": "^2.11.1",
-    "aws-sdk": "^2.224.1"
+    "aws-sdk": "^2.224.1",
+    "eslint": "4.19.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-config-react": "^1.1.7",
+    "eslint-plugin-babel": "^5.1.0",
+    "eslint-plugin-html": "^4.0.3"
   }
 }
