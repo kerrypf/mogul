@@ -1,4 +1,4 @@
-# mogul-cli
+# mogul
 
 ### Install
 
