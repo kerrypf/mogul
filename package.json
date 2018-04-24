@@ -24,7 +24,7 @@
     "prompts": "^0.1.8",
     "react-app-rewire-css-modules": "codebandits/react-app-rewire-css-modules",
     "react-app-rewire-less": "^2.1.1",
-    "react-app-rewire-less-with-modules": "^0.0.1",
+    "react-app-rewire-less-with-modules": "^0.0.2",
     "sass-loader": "^6.0.7",
     "webpack-bundle-analyzer": "^2.11.1",
     "aws-sdk": "^2.224.1",
