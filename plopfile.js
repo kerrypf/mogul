@@ -1,3 +1,6 @@
+const path = require('path');
+const pwd = path.resolve();
+
 module.exports = plop => {
   const templates = [
     'Collection',
@@ -20,23 +23,27 @@ module.exports = plop => {
       }
     ],
     actions: [
-      ...templates.map(file => ({
-        type: 'add',
-        templateFile: `./node_modules/mogul/plop-templates/${file}.js.hbs`,
-        path: `./src/pages/{{pascalCase name}}/${file}.js`
-      })),
+      ...templates.map(file => {
+        return {
+          type: 'add',
+          templateFile: path.normalize(
+            `${pwd}/node_modules/mogul/src/plop-templates/${file}.js.hbs`
+          ),
+          path: `${pwd}/src/pages/{{pascalCase name}}/${file}.js`
+        };
+      }),
       {
         type: 'append',
         pattern: '{/*insert:route*/}',
         template:
           '<Route path={`${url}/{{dashCase name}}`} component={ {{pascalCase name}} } />',
-        path: `./src/pages/Dashboard/index.js`
+        path: path.normalize(`${pwd}/src/pages/Dashboard/index.js`)
       },
       {
         type: 'append',
         pattern: 'insert:component',
         template: "import {{pascalCase name}} from '../{{pascalCase name}}';",
-        path: `./src/pages/Dashboard/index.js`
+        path: path.normalize(`${pwd}/src/pages/Dashboard/index.js`)
       }
     ]
   });

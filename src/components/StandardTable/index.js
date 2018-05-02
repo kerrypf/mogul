@@ -26,7 +26,10 @@ class StandardTable extends PureComponent {
       list: PropTypes.array,
       pagination: PropTypes.object
     }),
-    columns: PropTypes.array
+    loading: PropTypes.bool,
+    columns: PropTypes.array,
+    buttons: PropTypes.node,
+    expandedRowRender: PropTypes.func
   };
   constructor(props) {
     super(props);

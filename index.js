@@ -1,4 +1,4 @@
 module.exports = {
-  ...require('./utils'),
-  ...require('./components')
+  ...require('./src/utils'),
+  ...require('./src/components')
 };
