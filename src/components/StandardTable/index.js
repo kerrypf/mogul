@@ -108,10 +108,12 @@ class StandardTable extends PureComponent {
       loading,
       columns
     } = this.props;
-
+    const { current, pageSize } = pagination;
     const paginationProps = {
       showSizeChanger: true,
       showQuickJumper: true,
+      hideOnSinglePage: true,
+      showTotal: total => `共 ${total} 条记录 第 ${current} / ${pageSize} 条`,
       ...pagination
     };
     let rowSelection = undefined;

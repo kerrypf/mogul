@@ -5,8 +5,10 @@ import { Router } from 'react-router';
 import { LocaleProvider } from 'antd';
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 
-const App = ({ routing, children }) => {
-  const browserHistory = createBrowserHistory();
+const App = ({ routing, children, basename = '' }) => {
+  const browserHistory = createBrowserHistory({
+    basename
+  });
   const history = syncHistoryWithStore(browserHistory, routing);
   return (
     <Router history={history}>
