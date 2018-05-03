@@ -38,7 +38,7 @@ class BaseCollection extends Component {
       listOptions();
     };
   }
-  createHandleFormReset(store) {
+  createHandleFormReset(store, initPage = 1) {
     return () => {
       // 处理表单重置操作
       const { form } = this.props;
@@ -48,12 +48,12 @@ class BaseCollection extends Component {
       });
       const { pagination, listTable } = store;
       listTable({
-        page: 1,
+        page: initPage,
         size: pagination.pageSize
       });
     };
   }
-  createHandleSearch(store, formater) {
+  createHandleSearch(store, formater, initPage = 1) {
     return event => {
       // 处理表单查询操作
       event.preventDefault();
@@ -70,7 +70,7 @@ class BaseCollection extends Component {
         const { pagination, listTable } = store;
         listTable({
           ...values,
-          page: 1,
+          page: initPage,
           size: pagination.pageSize
         });
       });
