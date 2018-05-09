@@ -113,8 +113,13 @@ class StandardTable extends PureComponent {
       showSizeChanger: true,
       showQuickJumper: true,
       hideOnSinglePage: true,
-      showTotal: total =>
-        `共 ${total} 条记录 第 ${current} / ${parseInt(total / pageSize)} 页`,
+      showTotal: total => {
+        const totalPages =
+          parseInt(total / pageSize) === total / pageSize
+            ? total / pageSize
+            : parseInt(total / pageSize) + 1;
+        return `共 ${total} 条记录 第 ${current} / ${totalPages} 页`;
+      },
       ...pagination
     };
     let rowSelection = undefined;

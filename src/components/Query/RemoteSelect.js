@@ -36,6 +36,9 @@ class RemoteSelect extends Component {
       options: [],
       loading: false
     });
+    if (this.props.afterSelect !== undefined) {
+      this.props.afterSelect(currentOption.key, currentOption);
+    }
   }
   render() {
     const { placeholder } = this.props;
