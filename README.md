@@ -1,7 +1,5 @@
-# mogul
+# @mogul/components
 
-Mogul based React, MobX & AntDesign instead of Dva.
+List of components to enhance Ant Design
 
-```bash
-$ npx create-mogul
-```
+
