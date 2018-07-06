@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "private": false,
   "license": "MIT",
+  "main": "build/mogul.js",
+  "jsnext:main": "build/mogul.js",
   "scripts": {
     "precommit": "lint-staged",
     "storybook": "start-storybook -p 9001 -c .storybook",
