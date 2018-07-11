@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Dropdown, Icon, Menu, Button } from "antd";
+import { Observer } from "mobx-react";
 import { configuration } from "../../../src";
 const menu = (
   <Menu theme={"dark"}>
@@ -37,6 +38,19 @@ const page = ({ name }) => {
         }}>
         弹出消息
       </Button>
+
+      <Observer>
+        {() => (
+          <Button
+            onClick={() =>
+              configuration.fullScreen
+                ? configuration.exitFullScreen()
+                : configuration.enterFullScreen()
+            }>
+            {configuration.fullScreen ? "退出全屏" : "进入全屏"}
+          </Button>
+        )}
+      </Observer>
     </div>
   );
 };

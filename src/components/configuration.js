@@ -3,6 +3,8 @@ import { notification } from "antd";
 class Configuration {
   @observable fullPageLoading = false;
 
+  @observable fullScreen = false;
+
   @observable
   messageOptions = {
     placement: "topRight",
@@ -21,7 +23,7 @@ class Configuration {
   };
 
   @action.bound
-  config({ messageOptions = {}, sider = {} } = {}) {
+  config({ messageOptions = {}, sider = {}, fullScreen = this.fullScreen } = {}) {
     this.messageOptions = {
       ...this.messageOptions,
       ...messageOptions
@@ -31,6 +33,8 @@ class Configuration {
       ...this.sider,
       ...sider
     };
+
+    this.fullScreen = fullScreen;
   }
 
   /**
@@ -107,6 +111,16 @@ class Configuration {
   @action.bound
   hideFullPageLoading() {
     this.fullPageLoading = false;
+  }
+
+  @action.bound
+  enterFullScreen() {
+    this.fullScreen = true;
+  }
+
+  @action.bound
+  exitFullScreen() {
+    this.fullScreen = false;
   }
 }
 
