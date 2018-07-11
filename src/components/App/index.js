@@ -55,13 +55,8 @@ const Footer = styled.div`
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.func.isRequired,
-    loading: PropTypes.bool,
     footer: PropTypes.any,
     header: PropTypes.any
-  };
-
-  static defaultProps = {
-    loading: false
   };
 
   renderRoutes(routes) {

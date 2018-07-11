@@ -8,11 +8,17 @@ configuration.config({
     logo: Logo
   }
 });
-
+//
 export default class  extends Component{
+
+  componentDidCatch(error, info){
+    console.log(error , info);
+  }
+
   render(){
     return <div>
       <App
+        header={ <div>hhh</div> }
         footer={ <div><a>@Mogul/components</a></div> }
       >
         { () => routes }

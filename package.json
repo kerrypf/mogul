@@ -68,7 +68,7 @@
     "styled-tools": "^0.6.0"
   },
   "peerDependencies": {
-    "antd": "^3.0.0 | ^2.0.0",
+    "antd": "^3.0.0 || ^2.0.0",
     "mobx": "^5.0.0",
     "mobx-react": "^5.0.0",
     "moment": "*",

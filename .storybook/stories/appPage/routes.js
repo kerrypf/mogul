@@ -1,37 +1,53 @@
 import React, { Component } from "react";
-import { Dropdown, Icon, Menu } from "antd";
-
+import { Dropdown, Icon, Menu, Button } from "antd";
+import { configuration } from "../../../src";
 const menu = (
-  <Menu theme={ "dark" }>
+  <Menu theme={"dark"}>
     <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">1st menu item</a>
+      <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
+        1st menu item
+      </a>
     </Menu.Item>
     <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">2nd menu item</a>
+      <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">
+        2nd menu item
+      </a>
     </Menu.Item>
     <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">3rd menu item</a>
+      <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">
+        3rd menu item
+      </a>
     </Menu.Item>
   </Menu>
 );
 
 const page = ({ name }) => {
-  return <div style={ { minHeight: 300, backgroundColor: "#fff" } }>
-    { name }
-    <Dropdown overlay={menu}>
-      <a className="ant-dropdown-link">
-        Hover me <Icon type="down" />
-      </a>
-    </Dropdown>
+  return (
+    <div style={{ minHeight: 300, backgroundColor: "#fff" }}>
+      {name}
+      <Dropdown overlay={menu}>
+        <a className="ant-dropdown-link">
+          Hover me <Icon type="down" />
+        </a>
+      </Dropdown>
+
+      <Button
+        onClick={() => {
+          configuration.message("hello mogul");
+        }}>
+        弹出消息
+      </Button>
     </div>
+  );
 };
 
 export default [
   {
     path: "/page1",
-    render: () => page({
-      name: "页面1"
-    }),
+    render: () =>
+      page({
+        name: "页面1"
+      }),
     name: "页面1",
     icon: "gift"
   },
@@ -43,25 +59,28 @@ export default [
         path: "/page2",
         name: "页面2",
         icon: "gift",
-        render: () => page({
-          name: "页面2"
-        }),
+        render: () =>
+          page({
+            name: "页面2"
+          })
       },
       {
         path: "/page3",
         name: "页面3",
         icon: "gift",
-        render: () => page({
-          name: "页面3"
-        }),
+        render: () =>
+          page({
+            name: "页面3"
+          })
       }
     ]
   },
   {
     path: "/page4",
-    render: () => page({
-      name: "页面4"
-    }),
+    render: () =>
+      page({
+        name: "页面4"
+      }),
     name: "页面4",
     icon: "gift"
   },
@@ -70,4 +89,4 @@ export default [
     from: "/",
     to: "/page1"
   }
-]
+];
