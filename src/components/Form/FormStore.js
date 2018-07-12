@@ -1,5 +1,6 @@
 import { observable, action, computed, toJS } from "mobx";
-import Joi from "joi-browser";
+// 不能使用 import Joi from "joi-browser" 方式导入 Joi, 因为 Joi 不是标准的写法. 故只能做这种妥协
+const Joi = require("joi-browser");
 
 const randomStr = () =>
   Math.random()
