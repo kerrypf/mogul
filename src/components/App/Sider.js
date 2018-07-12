@@ -319,6 +319,7 @@ export default class extends Component {
 
     const { offsetX } = this.state;
 
+    if (!configuration.fullScreen) return null;
     return (
       <Spring
         from={{ width: 200, opacity: 1, iconSize: 14 }}
