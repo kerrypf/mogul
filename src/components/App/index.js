@@ -92,13 +92,6 @@ export default class App extends Component {
           <Provider mogul={configuration}>
             <RootContainer>
               <Sider routes={routes.filter(route => route.type !== "redirect")} />
-              {/*<Observer>*/}
-              {/*{() =>*/}
-              {/*configuration.fullScreen ? null : (*/}
-              {/*<Sider routes={routes.filter(route => route.type !== "redirect")} />*/}
-              {/*)*/}
-              {/*}*/}
-              {/*</Observer>*/}
 
               <AppContainer direction={"column"} flex={1}>
                 <Observer>
