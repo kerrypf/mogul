@@ -9,6 +9,7 @@ addDecorator(ThemeProviderWrap);
 function loadStories() {
   require("./stories/form/index");
   require("./stories/appPage/index");
+  require("./stories/table/index");
 }
 
 configure(loadStories, module);

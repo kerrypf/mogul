@@ -11,6 +11,8 @@ export { Item, item, Flex, flex, onlyOneReq, portal } from "./utils";
 export { default as App } from "./components/App";
 //export { default as CreateFormItem } from './components/CreateFormItem';
 
+export { default as Table } from "./components/Table";
+
 export { default as Form } from "./components/Form";
 
 export { default as configuration } from "./components/configuration";

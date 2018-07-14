@@ -33,6 +33,10 @@ class Form extends Component {
     this.state.form.tearDownForm();
   }
 
+  getForm() {
+    return this.state.form;
+  }
+
   render() {
     return (
       <Provider form={this.state.form}>

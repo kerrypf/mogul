@@ -24,10 +24,11 @@ export default class extends Component {
   render() {
     const {
       form: { value },
-      options
+      options,
+      ...rest
     } = this.props;
     return (
-      <Select onChange={this.handleOnChange} value={value} style={{ width: "100%" }}>
+      <Select {...rest} onChange={this.handleOnChange} value={value} style={{ width: "100%" }}>
         {options.map(option => (
           <Select.Option value={option.value} key={option.value} disabled={option.disabled}>
             {option.label}
