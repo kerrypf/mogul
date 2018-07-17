@@ -14,6 +14,7 @@ const TableContainer = styled.div`
   display: inline-block;
   position: relative;
   background-color: #fff;
+  max-width: 100%;
 `;
 
 const TableInner = styled.div`
@@ -148,6 +149,7 @@ class Table extends Component {
           ...draggable
         }
       : {};
+
     return (
       <Provider table={this.state.store}>
         <TableContainer style={style}>

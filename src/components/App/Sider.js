@@ -7,7 +7,7 @@ import { Spring } from "react-spring";
 import { withRouter, NavLink } from "react-router-dom";
 import { ifProp } from "styled-tools";
 import configuration from "../configuration";
-import { Flex, Item, flex } from "../../utils/grid";
+import { Flex, Item, flex, item } from "../../utils/grid";
 import variable from "../variable";
 
 injectGlobal`
@@ -20,6 +20,14 @@ injectGlobal`
             padding: 0 ;
         }
     }
+`;
+
+const SiderContainer = styled(Flex).attrs({
+  flex: "inline-flex"
+})`
+  ${item({
+    shrink: 0
+  })};
 `;
 
 const Container = styled(Flex).attrs({
@@ -330,7 +338,7 @@ export default class extends Component {
           iconSize: collapse ? 16 : 14
         }}>
         {({ width, paddingLeft, opacity, iconSize }) => (
-          <Flex flex={"inline-flex"} style={{ width: width }}>
+          <SiderContainer style={{ width: width }}>
             <Container style={{ width: width, left: -offsetX }}>
               <Title onClick={() => history.push(root)}>
                 {logo ? (
@@ -365,7 +373,7 @@ export default class extends Component {
                 <Icon type={collapse ? "right" : "left"} />
               </CollapseContainer>
             </Container>
-          </Flex>
+          </SiderContainer>
         )}
       </Spring>
     );

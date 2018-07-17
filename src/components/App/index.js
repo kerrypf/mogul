@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { Provider, Observer } from "mobx-react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import styled from "styled-components";
-import { Transition } from "react-spring";
 import configuration from "../configuration";
 import { Spin } from "../Indicator";
 import { Flex, Item, flex } from "../../utils/grid";
@@ -27,8 +26,10 @@ const RootContainer = styled(Flex).attrs({})`
 `;
 
 const AppContainer = styled(Item).attrs({
-  flex: 1
+  flex: 1,
+  shrink: 0
 })`
+  overflow: auto;
   ${flex({
     direction: "column"
   })};
@@ -113,22 +114,13 @@ export default class App extends Component {
         </BrowserRouter>
 
         <Observer>
-          {() => (
-            <Transition
-              from={{
-                opacity: 0
-              }}
-              enter={{ opacity: 1 }}
-              leave={{ opacity: 0 }}>
-              {configuration.fullPageLoading
-                ? ({ opacity }) => (
-                    <FullPageOverlay style={{ opacity }}>
-                      <Spin size={100} />
-                    </FullPageOverlay>
-                  )
-                : () => null}
-            </Transition>
-          )}
+          {() =>
+            configuration.fullPageLoading ? (
+              <FullPageOverlay style={{ opacity: 1 }}>
+                <Spin size={100} />
+              </FullPageOverlay>
+            ) : null
+          }
         </Observer>
       </Fragment>
     );
