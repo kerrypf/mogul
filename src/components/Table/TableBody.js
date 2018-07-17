@@ -1,19 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, Fragment, createElement } from "react";
 import styled, { css } from "styled-components";
 import { inject, observer } from "mobx-react";
-import { Flex, Item } from "../../utils";
+import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import { ifProp } from "styled-tools";
-const Body = styled.div`
-  position: relative;
-`;
-
-const Row = styled(Flex).attrs({
-  //  alignItems: "center"
-})`
-  //height: 40px;
-  color: #333;
-`;
-
+import { Flex, Item } from "../../utils";
 const RowCellOuter = styled(Item).attrs({
   shrink: 0
 })`
@@ -33,49 +23,158 @@ const RowCellOuter = styled(Item).attrs({
   )};
   border-bottom: 1px solid #e8e8e8;
   height: 100%;
+  overflow: auto;
+  transition: background-color 0.3s;
+  will-change: background-color;
+`;
+
+const Row = styled(Flex)`
+  color: #333;
+
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+
+  ${ifProp(
+    "selected",
+    css`
+      box-shadow: 0px 1px 1px 0px #a2a2a2, 0px -1px 1px 0px #a2a2a2;
+      & {
+        ${RowCellOuter} {
+          background-color: #e6f7ff;
+        }
+      }
+    `,
+    css`
+      ${RowCellOuter} {
+        background-color: #fff;
+      }
+    `
+  )};
+
+  &:hover {
+    ${RowCellOuter} {
+      background-color: #e6f7ff;
+    }
+  }
+`;
+
+const SortableRow = SortableElement(({ index, disabled, ...rowProps }) =>
+  createElement(Row, rowProps)
+);
+
+const EmptyRow = styled(Flex)`
+  color: #333;
 `;
 
 const RowCellInner = styled(Flex).attrs({
-  alignItems: "center"
+  direction: "column",
+  justifyContent: "center"
 })`
   height: 100%;
   width: 100%;
 `;
 
-const RowCell = styled.div`
+const RowCell = styled(Item)`
   padding: 4px 8px;
 `;
 
+const SubTableRowContainer = styled(Flex)`
+  background-color: #e8e8e8;
+  padding: 4px 8px;
+  transition: box-shadow 0.3s;
+  &:hover {
+    box-shadow: 0px 1px 1px 0px #a2a2a2;
+  }
+`;
+
 @inject("table")
+@SortableContainer
 @observer
 export default class extends Component {
-  renderCell(column, row) {
-    console.log(column.render(row));
+  warned = false;
 
-    return column.render(row);
+  getColumnWidth(column) {
+    const { scrollX } = this.props.table;
+    if (!this.warned && scrollX && scrollX !== "auto" && !column.width) {
+      this.warned = true;
+      console.warn(
+        `when scrollX set to ${scrollX}, column.width is required, check your column.key="${
+          column.key
+        }"`
+      );
+    }
+
+    return column.width;
+  }
+
+  getSubTableWidth() {
+    const { columns } = this.props.table;
+    let widths = columns.map(column => {
+      let width = this.getColumnWidth(column);
+      if (!width) return "0px";
+      if (Number(width)) return Number(width) + "px";
+      return width;
+    });
+
+    return `calc( ${widths.join(" + ")} )`;
   }
 
   render() {
-    const { viewData, rowKey, columns, bordered } = this.props.table;
+    const {
+      table: {
+        viewData,
+        rowKey,
+        columns,
+        bordered,
+        rowHeight,
+        subTableKey,
+        rowSelectKey,
+        draggable
+      },
+      noDataRender,
+      subTableRender
+    } = this.props;
 
     return (
-      <Body>
-        {viewData.map(row => (
-          <Row key={row[rowKey]}>
-            {columns.map((column, index) => (
-              <RowCellOuter
-                key={column.key}
-                bordered={bordered}
-                style={{ width: column.width, height: index === 0 ? 100 : "auto" }}
-                index={index}>
-                <RowCellInner>
-                  <RowCell>{this.renderCell(column, row)}</RowCell>
-                </RowCellInner>
-              </RowCellOuter>
-            ))}
-          </Row>
+      <div style={{ position: "relative" }}>
+        {viewData.map((row, rowIndex) => (
+          <Fragment key={row[rowKey]}>
+            <SortableRow
+              index={rowIndex}
+              selected={!!row[rowSelectKey]}
+              disabled={!draggable}
+              style={{ height: rowHeight }}>
+              {columns.map((column, index) => {
+                let cellContainerProps = column.cellContainerProps || {};
+                return (
+                  <RowCellOuter
+                    key={column.key}
+                    bordered={bordered}
+                    flex={column.width ? undefined : 1}
+                    style={{ width: this.getColumnWidth(column), height: rowHeight }}
+                    index={index}>
+                    <RowCellInner>
+                      <RowCell {...cellContainerProps}>{column.render(row, column)}</RowCell>
+                    </RowCellInner>
+                  </RowCellOuter>
+                );
+              })}
+            </SortableRow>
+
+            {subTableRender && typeof row[subTableKey] === "boolean" && row[subTableKey] ? (
+              <SubTableRowContainer style={{ width: this.getSubTableWidth() }}>
+                {subTableRender(row)}
+              </SubTableRowContainer>
+            ) : null}
+          </Fragment>
         ))}
-      </Body>
+
+        {viewData.length === 0 ? (
+          <EmptyRow justifyContent={"center"} style={{ height: rowHeight }}>
+            {noDataRender()}
+          </EmptyRow>
+        ) : null}
+      </div>
     );
   }
 }

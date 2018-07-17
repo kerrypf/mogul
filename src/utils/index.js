@@ -5,3 +5,5 @@
 export { flex, Flex, Item, item } from "./grid";
 
 export { onlyOneReq, portal } from "./decorators";
+
+export { deepEqual } from "./deepEqual";

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { configuration, Table, Flex, Item } from "../../../src/index";
 import axios from "axios"
 import faker from "faker";
-
+import { SortableElement,SortableContainer, arrayMove } from "react-sortable-hoc"
 const Languages = ["javascript","java","c#","c++","prolog","nodejs"];
 
 const schema = function() {
@@ -35,30 +35,21 @@ for ( let i=0 ; i<= 30; i++){
 
 export default class  extends Component{
 
-  componentDidCatch(error, info){
-    console.log(error , info);
-  }
-
-  getData(){
-
-  }
-
-//  componentDidMount(){
-//    axios("http://localhost:3004/reps");
-//  }
-
   render(){
     return <div style={ { padding: 10 } }>
-
       <Table
         data={ result }
         bordered={ true }
         rowKey={ "id" }
-//        rowHeight={ 50 }
+        //        rowHeight={ 50 }
         headerHeight={ 80 }
         fixHeader={ true }
         scrollY={ 500 }
-//        scrollX={ 800 }
+        draggable={ {
+          onSortEnd({oldIndex, newIndex}){
+            console.log(oldIndex, newIndex);
+          }
+        } }
         columns={ [
           {
             title: <div>id</div>,
@@ -115,7 +106,8 @@ export default class  extends Component{
             key: "url",
             render(row){
               return <a href={ row.url }>地址</a>
-            }
+            },
+            width: 200
           }
         ] }
       />

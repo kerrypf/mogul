@@ -1,8 +1,7 @@
 import React from "react";
 import { configure, addDecorator } from "@storybook/react";
-import { withConsole } from '@storybook/addon-console';
 
-const ThemeProviderWrap = (storyFn, context) => <div>{withConsole()(storyFn)(context)}</div>;
+const ThemeProviderWrap = (storyFn, context) => <div>{storyFn(context)}</div>;
 
 addDecorator(ThemeProviderWrap);
 

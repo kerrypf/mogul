@@ -6885,6 +6885,14 @@ react-slick@~0.23.1:
     lodash.debounce "^4.0.8"
     resize-observer-polyfill "^1.5.0"
 
+react-sortable-hoc@^0.8.3:
+  version "0.8.3"
+  resolved "https://registry.npmjs.org/react-sortable-hoc/-/react-sortable-hoc-0.8.3.tgz#8537e8ab8d6bad6829885755a0f847817ed78648"
+  dependencies:
+    babel-runtime "^6.11.6"
+    invariant "^2.2.1"
+    prop-types "^15.5.7"
+
 react-split-pane@^0.1.77:
   version "0.1.77"
   resolved "http://registry.npm.taobao.org/react-split-pane/download/react-split-pane-0.1.77.tgz#f0c8cd18d076bbac900248dcf6dbcec02d5340db"

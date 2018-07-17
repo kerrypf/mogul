@@ -22,8 +22,17 @@ class Configuration {
     root: "/"
   };
 
+  @observable
+  pagination = {
+    pageSize: 10,
+    pageSizeOptions: ["10", "20", "30"],
+    size: "small",
+    showQuickJumper: true,
+    showSizeChanger: true
+  };
+
   @action.bound
-  config({ messageOptions = {}, sider = {}, fullScreen = this.fullScreen } = {}) {
+  config({ messageOptions = {}, sider = {}, pagination = {}, fullScreen = this.fullScreen } = {}) {
     this.messageOptions = {
       ...this.messageOptions,
       ...messageOptions
@@ -32,6 +41,11 @@ class Configuration {
     this.sider = {
       ...this.sider,
       ...sider
+    };
+
+    this.pagination = {
+      ...this.pagination,
+      ...pagination
     };
 
     this.fullScreen = fullScreen;
