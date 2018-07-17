@@ -154,7 +154,9 @@ export default class extends Component {
                     style={{ width: this.getColumnWidth(column), height: rowHeight }}
                     index={index}>
                     <RowCellInner>
-                      <RowCell {...cellContainerProps}>{column.render(row, column)}</RowCell>
+                      <RowCell {...cellContainerProps}>
+                        {column.render ? column.render(row, column) : row[column.key]}
+                      </RowCell>
                     </RowCellInner>
                   </RowCellOuter>
                 );
