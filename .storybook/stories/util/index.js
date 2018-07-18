@@ -19,8 +19,9 @@ class Test {
   }
 
   @action.bound
-  @onlyOneReq("loading")
+//  @onlyOneReq("loading")
   test() {
+    console.log(111);
     return new Promise(res => {
       setTimeout(
         action("get-total", () => {
@@ -33,14 +34,15 @@ class Test {
     });
   }
 }
-let t1 = new Test().test();
+//let t1 = new Test();
 
+//t1.test();
 //let t2 = new Test();
 
 //t1.test()
 setTimeout(() => {
   //  t.test();
-  new Test().test();
+//  new Test().test();
 }, 2000);
 
 // sandbox https://codesandbox.io/s/l96rjj4z07

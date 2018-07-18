@@ -1,6 +1,6 @@
 {
   "name": "@mogul/components",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "private": false,
   "license": "MIT",
   "main": "build/mogul.js",
@@ -72,7 +72,7 @@
   },
   "peerDependencies": {
     "antd": "^3.0.0 || ^2.0.0",
-    "mobx": "^5.0.0",
+    "mobx": "^4.0.0",
     "mobx-react": "^5.0.0",
     "moment": "*",
     "prop-types": "^15.0.0",
