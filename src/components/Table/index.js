@@ -53,13 +53,16 @@ class Table extends Component {
     data: MobxPropTypes.arrayOrObservableArray.isRequired,
     columns: PropTypes.arrayOf(
       PropTypes.shape({
-        title: PropTypes.any.isRequired,
+        title: PropTypes.any,
         key: PropTypes.string.isRequired,
         render: PropTypes.func,
         width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         sort: PropTypes.bool,
         cellContainerProps: PropTypes.object,
-        headerContainerProps: PropTypes.object
+        headerContainerProps: PropTypes.object,
+        headerMode: PropTypes.shape({
+          type: PropTypes.oneOf(["sort"])
+        })
       })
     ),
     bordered: PropTypes.bool,
@@ -80,7 +83,8 @@ class Table extends Component {
       PropTypes.shape({
         onSortEnd: PropTypes.func.isRequired
       })
-    ])
+    ]),
+    showHeader: PropTypes.bool
   };
 
   static defaultProps = {
@@ -93,6 +97,7 @@ class Table extends Component {
     pagination: true,
     loading: false,
     draggable: false,
+    showHeader: true,
     noDataRender: () => (
       <span style={{ textAlign: "center", lineHeight: "30px", color: "#efefef" }}>暂无数据</span>
     )
@@ -125,7 +130,7 @@ class Table extends Component {
   };
 
   onScroll = () => {
-    if (this.headerDom) {
+    if (this.headerDom && this.props.showHeader) {
       this.headerDom.scrollLeft = this.container.scrollLeft;
     }
   };
@@ -140,7 +145,8 @@ class Table extends Component {
       loading,
       noDataRender,
       subTableRender,
-      draggable
+      draggable,
+      showHeader
     } = this.props;
 
     const draggableProps = draggable
@@ -153,12 +159,14 @@ class Table extends Component {
     return (
       <Provider table={this.state.store}>
         <TableContainer style={style}>
-          {fixHeader ? <TableHeader fixHeader={true} ref={this.bindHeaderComponent} /> : null}
+          {fixHeader && showHeader ? (
+            <TableHeader fixHeader={true} ref={this.bindHeaderComponent} />
+          ) : null}
           <TableInner
             innerRef={contianer => (this.container = contianer)}
             needScrollY={scrollY && scrollY !== "auto"}
             style={{ height: scrollY, width: scrollX }}>
-            {fixHeader ? null : <TableHeader />}
+            {showHeader ? fixHeader ? null : <TableHeader /> : null}
             <TableBody
               {...draggableProps}
               noDataRender={noDataRender}

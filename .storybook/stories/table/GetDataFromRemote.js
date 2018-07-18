@@ -49,12 +49,16 @@ const fetchData = ({ page = 1, size = 10 })=>{
 };
 
 let columns = [{
-  title: <div>id</div>,
+  title: "id",
   key: "id",
-  render(row) {
-    return <span>{row.id}</span>;
-  },
-  width: 200
+  width: 200,
+  headerMode: {
+    type: "sort",
+    value: "desc",
+    onChange:(type)=>{
+      console.log(type)
+    }
+  }
 }
 ,
   {
