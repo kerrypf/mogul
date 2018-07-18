@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
 import styled, { css } from "styled-components";
 import { Icon } from "antd";
-import { Flex, Item } from "../../utils";
 import { ifProp } from "styled-tools";
+import { Flex, Item } from "../../utils";
 import variable from "../variable";
 
 const HeaderRow = styled(Flex)`

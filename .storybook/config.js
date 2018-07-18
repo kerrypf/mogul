@@ -9,6 +9,7 @@ function loadStories() {
   require("./stories/form/index");
   require("./stories/appPage/index");
   require("./stories/table/index");
+  require("./stories/util/index");
 }
 
 configure(loadStories, module);

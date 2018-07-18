@@ -1,5 +1,6 @@
 export { Item, item, Flex, flex, onlyOneReq, portal } from "./utils";
 
+export { Spin, ContentLoader } from "./components/Indicator";
 //export { default as Modal } from './components/Modal';
 //
 //export { default as Query } from './components/Query';
