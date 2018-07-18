@@ -1,6 +1,5 @@
 import { decorate, invokedWithArgs } from "./util";
 import { action, extendObservable } from "mobx";
-
 function getDecorator(withArgs, lockName) {
   return (target, key, descriptor) => {
     if (!withArgs) {
@@ -10,7 +9,7 @@ function getDecorator(withArgs, lockName) {
     }
     const fn = descriptor.value;
 
-    if (withArgs && typeof target[lockName] !== "boolean") {
+    if (withArgs && !target.hasOwnProperty(lockName)) {
       extendObservable(target, {
         [lockName]: false
       });
