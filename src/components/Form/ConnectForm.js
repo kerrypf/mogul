@@ -37,7 +37,11 @@ export default class extends Component {
   render() {
     const { label, children } = this.props;
     const { labelStyle, isRequired, errorMessage, containerStyle } = this.state.form;
-
+    const component = children(this.state.form);
+    //如果不存在, 那么不渲染任何组件
+    if (!component) {
+      return null;
+    }
     return (
       <Provider form={this.state.form}>
         <FormFieldContainer style={containerStyle}>
@@ -46,7 +50,7 @@ export default class extends Component {
             {label}
           </LabelItem>
           <FormField hasError={!!errorMessage} message={errorMessage}>
-            {children(this.state.form)}
+            {component}
           </FormField>
         </FormFieldContainer>
       </Provider>
