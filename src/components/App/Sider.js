@@ -188,7 +188,7 @@ class RouteMenu extends Component {
   };
 
   state = {
-    showChildren: false
+    showChildren: true
   };
 
   toggleShowChildren = () => {
