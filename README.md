@@ -1,4 +1,4 @@
-# @mogul/components
+# [@mogul/components](https://freshesx.github.io/mogul-website/) 
 
 详见: [文档](https://freshesx.github.io/mogul-website/)
 

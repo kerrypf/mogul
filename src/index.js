@@ -1,4 +1,4 @@
-export { Item, item, Flex, flex, onlyOneReq, portal } from "./utils";
+export { Item, item, Flex, flex, onlyOneReq, portal, Memorize } from "./utils";
 
 export { Spin, ContentLoader } from "./components/Indicator";
 

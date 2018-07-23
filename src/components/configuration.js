@@ -31,6 +31,8 @@ class Configuration {
     showSizeChanger: true
   };
 
+  @observable localStorageKeyPrefix = "_MOGUL_";
+
   @action.bound
   config({ messageOptions = {}, sider = {}, pagination = {}, fullScreen = this.fullScreen } = {}) {
     this.messageOptions = {
@@ -135,6 +137,11 @@ class Configuration {
   @action.bound
   exitFullScreen() {
     this.fullScreen = false;
+  }
+
+  @action.bound
+  setLocalStorageKeyPrefix(prefix) {
+    this.localStorageKeyPrefix = prefix;
   }
 }
 
