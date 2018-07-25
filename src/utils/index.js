@@ -11,3 +11,5 @@ export { deepEqual } from "./deepEqual";
 export { default as Memorize } from "./Memorize";
 
 export { createModal } from "./createModal";
+
+export { confirmCompose } from "./confirmCompose";

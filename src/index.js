@@ -1,4 +1,14 @@
-export { Item, item, Flex, flex, onlyOneReq, portal, Memorize, createModal } from "./utils";
+export {
+  Item,
+  item,
+  Flex,
+  flex,
+  onlyOneReq,
+  portal,
+  Memorize,
+  createModal,
+  confirmCompose
+} from "./utils";
 
 export { Spin, ContentLoader } from "./components/Indicator";
 
