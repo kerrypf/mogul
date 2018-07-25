@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { storiesOf } from "@storybook/react";
 import { Spin, ContentLoader, Card, onlyOneReq } from "../../../src";
 import MemorizeDemo from "./memorize";
+import CreateModal from "./createModal";
+
 storiesOf("工具", module).add("加载", () => (
   <div>
     <Spin size={ 50 }/><Spin size={ 40 }/><Spin size={ 30 }/><Spin size={ 20 }/>
@@ -17,5 +19,6 @@ storiesOf("工具", module).add("加载", () => (
   </div>
 ))
   .add("memorize", () => <MemorizeDemo/>)
+  .add("createModal", () => <CreateModal/>);
 //  .add("子表", () => <WithSubTable/>)
 //  .add("拖拽表格行", () => <DraggableTable/>)
