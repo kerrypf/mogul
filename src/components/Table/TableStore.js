@@ -79,7 +79,7 @@ export default class TableStore {
 
   @computed
   get useControlPagination() {
-    return typeof this.props.pagination !== "boolean";
+    return this.props.pagination === true;
   }
 
   @computed

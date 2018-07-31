@@ -5,7 +5,7 @@ export default class  extends Component{
 
   state = {
     count: 0
-  }
+  };
 
   render(){
     return <div>
