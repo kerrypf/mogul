@@ -64,6 +64,8 @@ const SortableRow = SortableElement(({ index, disabled, ...rowProps }) =>
 
 const EmptyRow = styled(Flex)`
   color: #333;
+  border-bottom: 1px solid #efefef;
+  border-left: 1px solid #efefef;
 `;
 
 const RowCellInner = styled(Flex).attrs({
@@ -172,7 +174,7 @@ export default class extends Component {
         ))}
 
         {viewData.length === 0 ? (
-          <EmptyRow justifyContent={"center"} style={{ height: rowHeight }}>
+          <EmptyRow justifyContent={"center"} alignItems={ "center" } style={{ height: rowHeight }}>
             {noDataRender()}
           </EmptyRow>
         ) : null}

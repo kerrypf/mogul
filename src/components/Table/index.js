@@ -99,7 +99,7 @@ class Table extends Component {
     draggable: false,
     showHeader: true,
     noDataRender: () => (
-      <span style={{ textAlign: "center", lineHeight: "30px", color: "#efefef" }}>暂无数据</span>
+      <span style={{ textAlign: "center", lineHeight: "30px", color: "rgb(189, 189, 189)" }}>暂无数据</span>
     )
   };
 
