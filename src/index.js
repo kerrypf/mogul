@@ -7,7 +7,8 @@ export {
   portal,
   Memorize,
   createModal,
-  confirmCompose
+  confirmCompose,
+  randomStr
 } from "./utils";
 
 export { Spin, ContentLoader } from "./components/Indicator";

@@ -13,3 +13,5 @@ export { default as Memorize } from "./Memorize";
 export { createModal } from "./createModal";
 
 export { confirmCompose } from "./confirmCompose";
+
+export { randomStr } from "./randomStr";
