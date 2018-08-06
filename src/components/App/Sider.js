@@ -2,7 +2,7 @@ import React, { Component, Fragment, cloneElement } from "react";
 import PropTypes from "prop-types";
 import styled, { css, injectGlobal } from "styled-components";
 import { observer } from "mobx-react";
-import { Icon, Tooltip, Popover, Menu } from "antd";
+import { Icon, Tooltip, Popover } from "antd";
 import { Spring } from "react-spring";
 import { withRouter, NavLink } from "react-router-dom";
 import { ifProp } from "styled-tools";
@@ -160,9 +160,34 @@ const CollapseContainer = styled(Flex).attrs({
   background-color: #002140;
 `;
 
+const MenuContainer = styled(Flex).attrs({
+  direction: "column"
+})`
+    border-radius: 5px;
+    overflow:hidden;
+    position: relative;
+    background-color: #001529;
+    margin-bottom: -1px;
+`;
+
 const SubRouteChild = styled(NavLink)`
-  margin: 0 -16px;
-  padding: 0 16px;
+    margin-bottom: 1px;
+  background-color: #001529;
+  padding: 0 8px;
+  height: 38px;
+  line-height: 38px;
+  min-width: 160px;
+  ${ item({}) };
+  text-decoration: none;
+  transition: all .3s;
+  color: #fff;
+  
+  &:hover,
+  &.active{
+    color: #fff;
+    background-color: ${ variable.primary };
+    text-decoration: none;
+  }
 `;
 
 class RouteMenu extends Component {
@@ -210,15 +235,14 @@ class RouteMenu extends Component {
           <Popover
             overlayClassName={"__fixOverlay__"}
             content={
-              collapse ? (
-                <Menu theme={"dark"} style={{ width: 120, borderRadius: 5 }}>
-                  {children.map(route => (
-                    <Menu.Item key={route.name}>
-                      <SubRouteChild to={route.path}> {route.name} </SubRouteChild>
-                    </Menu.Item>
-                  ))}
-                </Menu>
-              ) : null
+              <MenuContainer>
+                {children.map(route => (
+                  <SubRouteChild key={route.name} to={route.path}>
+                    {" "}
+                    {route.name}{" "}
+                  </SubRouteChild>
+                ))}
+              </MenuContainer>
             }
             placement={"rightTop"}>
             <RouteItem onClick={collapse ? null : this.toggleShowChildren}>
