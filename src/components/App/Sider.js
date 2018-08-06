@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component, Fragment, cloneElement } from "react";
 import PropTypes from "prop-types";
 import styled, { css, injectGlobal } from "styled-components";
 import { observer } from "mobx-react";
@@ -227,7 +227,11 @@ class RouteMenu extends Component {
                   typeof icon === "string" ? (
                     <Icon type={icon} style={{ fontSize: iconSize }} />
                   ) : (
-                    icon
+                    cloneElement(icon, {
+                      style: {
+                        fontSize: iconSize
+                      }
+                    })
                   )
                 ) : (
                   <Icon type={"antd"} style={{ fontSize: iconSize }} />

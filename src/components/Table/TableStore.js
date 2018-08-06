@@ -1,4 +1,4 @@
-import { observable, action, computed } from "mobx";
+import { observable, action, computed, toJS } from "mobx";
 
 export default class TableStore {
   @observable props = null;
@@ -92,7 +92,7 @@ export default class TableStore {
         onShowSizeChange: this.unControlPageSizeChange
       };
     // 用户设置了 pagination, 故所有参数 按照 antd 设置
-    return this.props.pagination;
+    return toJS(this.props.pagination);
   }
 
   @computed
