@@ -10,6 +10,14 @@ class Demo extends Component {
     console.log(form.validate(), form.errors, form.findFormByFieldName("simpleDemo").getResult());
   };
 
+
+  reset = () => {
+    const form = this.form.state.form;
+
+    form.resetValue(true);
+
+  };
+
   render() {
     return (
       <div>
@@ -164,6 +172,8 @@ class Demo extends Component {
           </Form.Box>
         </Form>
         <Button onClick={this.validate}>验证</Button>
+
+        <Button onClick={this.reset}>重置</Button>
       </div>
     );
   }

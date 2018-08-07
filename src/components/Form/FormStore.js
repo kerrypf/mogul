@@ -58,6 +58,15 @@ export default class FormStore {
   }
 
   @computed
+  get top(){
+    if (!this.root){
+      return this;
+    }
+
+    return this.root.top;
+  }
+
+  @computed
   get isEmpty() {
     return this.forms.length === 0;
   }
@@ -182,9 +191,15 @@ export default class FormStore {
   }
 
   @action.bound
-  resetValue() {
+  resetValue(resetChildren) {
     if (this.component) {
       this._value = this.component.props.initialValue;
+
+      if (typeof resetChildren === "boolean" && resetChildren){
+        this.forms.forEach( form => form.resetValue(true) );
+      }
+
+      this.validate();
     }
   }
 
