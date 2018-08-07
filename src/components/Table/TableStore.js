@@ -13,7 +13,7 @@ export default class TableStore {
 
   @computed.struct
   get columns() {
-    return this.props.columns;
+    return this.props.columns.filter( column => column );
   }
 
   @computed

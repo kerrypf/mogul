@@ -66,6 +66,7 @@ const EmptyRow = styled(Flex)`
   color: #333;
   border-bottom: 1px solid #efefef;
   border-left: 1px solid #efefef;
+  border-right: 1px solid #efefef;
 `;
 
 const RowCellInner = styled(Flex).attrs({

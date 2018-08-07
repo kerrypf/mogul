@@ -62,7 +62,8 @@ class Table extends Component {
         headerContainerProps: PropTypes.object,
         headerMode: PropTypes.shape({
           type: PropTypes.oneOf(["sort"])
-        })
+        }),
+        visible: PropTypes.bool
       })
     ),
     bordered: PropTypes.bool,
