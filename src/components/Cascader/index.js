@@ -198,7 +198,6 @@ export default class extends Component {
 
   @action.bound
   setSelectedKey(level, key) {
-
     let keepKeys = this.expandKeys.slice(0, level);
 
     this.props.onChange([...keepKeys, key]);
@@ -207,7 +206,7 @@ export default class extends Component {
   }
 
   render() {
-    const { value, options, disabled, placeholder } = this.props;
+    const { value, options, disabled, placeholder, style } = this.props;
     let currentOptions = options;
     let displayLabelArr = value.map(val => {
       let selectOption = currentOptions.find(option => {
@@ -236,9 +235,13 @@ export default class extends Component {
         disabled={disabled}
         overlay={this.renderOptions}
         offset={4}>
-        <Container innerRef={container => (this.container = container)}>
+        <Container innerRef={container => (this.container = container)} style={style}>
           <InnerLabel>{displayLabelArr.join(" > ")}</InnerLabel>
-          <StyledInput autoComplete={"off"} readOnly placeholder={placeholder} />
+          <StyledInput
+            autoComplete={"off"}
+            readOnly
+            placeholder={value.length === 0 ? placeholder : null}
+          />
         </Container>
       </Overlay>
     );
