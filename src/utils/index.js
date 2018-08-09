@@ -2,6 +2,7 @@
 
 //export { default as filter } from './filter';
 
+
 export { flex, Flex, Item, item } from "./grid";
 
 export { onlyOneReq, portal } from "./decorators";
@@ -15,3 +16,5 @@ export { createModal } from "./createModal";
 export { confirmCompose } from "./confirmCompose";
 
 export { randomStr } from "./randomStr";
+
+export { Overlay } from "./overlay"

@@ -10,6 +10,7 @@ function loadStories() {
   require("./stories/appPage/index");
   require("./stories/table/index");
   require("./stories/util/index");
+  require("./stories/cascader/index")
 }
 
 configure(loadStories, module);

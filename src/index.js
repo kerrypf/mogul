@@ -8,7 +8,8 @@ export {
   Memorize,
   createModal,
   confirmCompose,
-  randomStr
+  randomStr,
+  Overlay
 } from "./utils";
 
 export { Spin, ContentLoader } from "./components/Indicator";
@@ -23,7 +24,8 @@ export { default as Card } from "./components/Card";
 //export { default as CreateList } from './components/CreateList';
 //
 export { default as App } from "./components/App";
-//export { default as CreateFormItem } from './components/CreateFormItem';
+
+export { default as Cascader } from './components/Cascader';
 
 export { default as Table } from "./components/Table";
 
