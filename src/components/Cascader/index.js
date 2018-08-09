@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { observable, computed, action } from "mobx";
 import { Observer } from "mobx-react";
 import { Input, Icon } from "antd";
-import { Overlay, Flex,Item } from "../../utils";
+import { Overlay, Flex, Item } from "../../utils";
 
 const Container = styled.div`
   font-size: 14px;
@@ -22,6 +22,12 @@ const Container = styled.div`
   border-radius: 4px;
   outline: 0;
   transition: color 0.3s;
+
+  &.disabled {
+    background: #f5f5f5;
+    cursor: not-allowed;
+    color: rgba(0, 0, 0, 0.25);
+  }
 `;
 
 const InnerLabel = styled.span`
@@ -75,7 +81,7 @@ const OptionItem = styled(Item).attrs({
     background: #f5f5f5;
     font-weight: 600;
   }
-  
+
   &:hover {
     background: #e6f7ff;
   }
@@ -102,7 +108,8 @@ export default class extends Component {
     value: PropTypes.array,
     onChange: PropTypes.func.isRequired,
     style: PropTypes.object,
-    placeholder: PropTypes.string
+    placeholder: PropTypes.string,
+    disabled: PropTypes.bool
   };
 
   static defaultProps = {
@@ -183,8 +190,7 @@ export default class extends Component {
                       !option.disabled ? this.setSelectedKey(group.level, option.value) : null
                     }
                     onMouseEnter={() => this.setExpandKey(group.level, option.value)}
-                    title={ option.label }
-                  >
+                    title={option.label}>
                     <span>{option.label}</span>
 
                     {option.children && option.children.length > 0 ? <ArrowIcon /> : null}
@@ -245,9 +251,13 @@ export default class extends Component {
         overlay={this.renderOptions}
         placementVariation={"start"}
         offset={4}>
-        <Container innerRef={container => (this.container = container)} style={style}>
+        <Container
+          className={disabled ? "disabled" : ""}
+          innerRef={container => (this.container = container)}
+          style={style}>
           <InnerLabel>{displayLabelArr.join(" > ")}</InnerLabel>
           <StyledInput
+            disabled={disabled}
             autoComplete={"off"}
             readOnly
             placeholder={value.length === 0 ? placeholder : null}
