@@ -35,11 +35,11 @@ export default class extends Component {
 
   componentDidMount() {
     const {
-      overlay: { node, placement, allowArrow, flip }
+      overlay: { node, placement, allowArrow, flip, placementVariation }
     } = this.props;
 
     this.popper = new Popper(node, this.container, {
-      placement: placement,
+      placement: placementVariation ? `${placement}-${placementVariation}` : placement,
       eventsEnabled: true,
       positionFixed: false,
       modifiers: {
@@ -86,7 +86,13 @@ export default class extends Component {
       scaleOrient = "",
       offsetX = 0,
       offsetY = 0;
-    switch (popperProps.placement) {
+
+    let placement = popperProps.placement;
+
+    if (popperProps.placement.indexOf("-") !== -1) {
+      placement = popperProps.placement.substr(0, popperProps.placement.indexOf("-"));
+    }
+    switch (placement) {
       case "top":
         transformOrigin = "bottom center";
         offsetY = -offset;
@@ -125,6 +131,7 @@ export default class extends Component {
     const { popperProps } = this.state;
     if (!popperProps) return arrowStyleProps;
     let { left, top } = popperProps.arrowStyles;
+
     return {
       ...arrowStyleProps,
       placement: popperProps.placement,

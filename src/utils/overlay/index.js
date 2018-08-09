@@ -10,6 +10,7 @@ export class Overlay extends Component {
     trigger: PropTypes.oneOf(["click", "hover"]),
     overlay: PropTypes.oneOfType([PropTypes.element, PropTypes.func]).isRequired,
     placement: PropTypes.oneOf(["bottom", "top", "left", "right"]),
+    placementVariation: PropTypes.oneOf(["start","end"]),
     offset: PropTypes.number,
     arrow: PropTypes.bool,
     arrowSize: PropTypes.number,

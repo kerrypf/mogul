@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { observable, computed, action } from "mobx";
 import { Observer } from "mobx-react";
 import { Input, Icon } from "antd";
-import { Overlay, Flex } from "../../utils";
+import { Overlay, Flex,Item } from "../../utils";
 
 const Container = styled.div`
   font-size: 14px;
@@ -60,7 +60,9 @@ const OptionSubContainer = styled.div`
   overflow-x: hidden;
 `;
 
-const OptionItem = styled.div`
+const OptionItem = styled(Item).attrs({
+  overflow: "auto"
+})`
   position: relative;
   padding-right: 24px;
   padding: 5px 12px;
@@ -69,13 +71,13 @@ const OptionItem = styled.div`
   white-space: nowrap;
   transition: all 0.3s;
 
-  &:hover {
-    background: #e6f7ff;
-  }
-
-  &.acitve {
+  &.active {
     background: #f5f5f5;
     font-weight: 600;
+  }
+  
+  &:hover {
+    background: #e6f7ff;
   }
 `;
 
@@ -171,12 +173,19 @@ export default class extends Component {
               <OptionSubContainer key={group.level}>
                 {group.data.map(option => (
                   <OptionItem
+                    className={
+                      option.children && option.children.length > 0 && option.__expand__
+                        ? "active"
+                        : ""
+                    }
                     key={option.value}
                     onClick={() =>
                       !option.disabled ? this.setSelectedKey(group.level, option.value) : null
                     }
-                    onMouseEnter={() => this.setExpandKey(group.level, option.value)}>
-                    {option.label}
+                    onMouseEnter={() => this.setExpandKey(group.level, option.value)}
+                    title={ option.label }
+                  >
+                    <span>{option.label}</span>
 
                     {option.children && option.children.length > 0 ? <ArrowIcon /> : null}
                   </OptionItem>
@@ -234,6 +243,7 @@ export default class extends Component {
         trigger={"click"}
         disabled={disabled}
         overlay={this.renderOptions}
+        placementVariation={"start"}
         offset={4}>
         <Container innerRef={container => (this.container = container)} style={style}>
           <InnerLabel>{displayLabelArr.join(" > ")}</InnerLabel>

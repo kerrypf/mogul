@@ -14,6 +14,9 @@ class Demo extends Component {
       <div>
         Cascader
         <Cascader
+          style={ {
+            width: 400
+          } }
           value={ this.state.val }
           onChange={ (val) => {
             this.setState({

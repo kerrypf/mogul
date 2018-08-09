@@ -33,6 +33,11 @@ export default class OverlayStore {
   }
 
   @computed
+  get placementVariation(){
+    return this.overlayProps.placementVariation;
+  }
+
+  @computed
   get allowArrow() {
     return this.overlayProps.arrow;
   }
