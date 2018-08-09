@@ -23,8 +23,8 @@ export default class extends Component {
     super(props);
 
     const { defaultValue, id, version } = this.props;
-    const key = configuration.localStorageKeyPrefix + this.props.id + version;
-    let result = localStorage.getItem(configuration.localStorageKeyPrefix + this.props.id);
+    const key = configuration.localStorageKeyPrefix + this.props.id + "_"  + version;
+    let result = localStorage.getItem(key);
 
     if (result) {
       try {
