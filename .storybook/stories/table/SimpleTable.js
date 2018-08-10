@@ -31,6 +31,8 @@ let result = [];
 
 for ( let i=0 ; i<= 30; i++){
   result.push(schema());
+
+  result[0].name = "estcommodivoluptatem1111111111111111111111111111111"
 }
 
 export default class  extends Component{
@@ -59,6 +61,7 @@ export default class  extends Component{
         fixHeader={ true }
         scrollY={ 500 }
 //        scrollX={ 800 }
+        fluid={ true }
         columns={ [
           {
             title: <div>id</div>,
@@ -67,8 +70,7 @@ export default class  extends Component{
               return <span>{
                 row.id
               }</span>
-            },
-            width: 200
+            }
           },
           {
             title: "名称",
@@ -76,7 +78,7 @@ export default class  extends Component{
             render(row){
               return <span>{ row.name }</span>
             },
-            width: 200
+//            width: 200
           },
           {
             title: "描述",
@@ -84,7 +86,8 @@ export default class  extends Component{
             render(row){
               return <span>{ row.description }</span>
             },
-            width: 300
+            flex:2
+//            width: 300
           },
           {
             title: "创建于",
@@ -92,7 +95,7 @@ export default class  extends Component{
             render(row){
               return <span>{ row.created_at.toString() }</span>
             },
-            width: 150
+//            width: 150
           },
           {
             title: "stars",
@@ -100,7 +103,7 @@ export default class  extends Component{
             render(row){
               return <span>{ row.stargazers_count }</span>
             },
-            width: 100
+//            width: 100
           },
           {
             title: "当前是否有issue",
@@ -108,14 +111,15 @@ export default class  extends Component{
             render(row){
               return <span>{ row.has_issues ? "是" : "五" }</span>
             },
-            width: 100
+//            width: 100
           },
           {
             title: "地址",
             key: "url",
             render(row){
               return <a href={ row.url }>地址</a>
-            }
+            },
+//            width: 50
           }
         ] }
       />

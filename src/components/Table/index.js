@@ -14,7 +14,16 @@ const TableContainer = styled.div`
   display: inline-block;
   position: relative;
   background-color: #fff;
-  max-width: 100%;
+
+  ${ifProp(
+    "fluid",
+    css`
+      width: 100%;
+    `,
+    css`
+      max-width: 100%;
+    `
+  )};
 `;
 
 const TableInner = styled.div`
@@ -51,6 +60,7 @@ class Table extends Component {
   static propTypes = {
     style: PropTypes.object,
     data: MobxPropTypes.arrayOrObservableArray.isRequired,
+    fluid: PropTypes.bool,
     columns: PropTypes.arrayOf(
       PropTypes.shape({
         title: PropTypes.any,
@@ -89,6 +99,7 @@ class Table extends Component {
   };
 
   static defaultProps = {
+    fluid: false,
     bordered: true,
     scrollY: "auto",
     scrollX: "auto",
@@ -100,7 +111,9 @@ class Table extends Component {
     draggable: false,
     showHeader: true,
     noDataRender: () => (
-      <span style={{ textAlign: "center", lineHeight: "30px", color: "rgb(189, 189, 189)" }}>暂无数据</span>
+      <span style={{ textAlign: "center", lineHeight: "30px", color: "rgb(189, 189, 189)" }}>
+        暂无数据
+      </span>
     )
   };
 
@@ -147,7 +160,8 @@ class Table extends Component {
       noDataRender,
       subTableRender,
       draggable,
-      showHeader
+      showHeader,
+      fluid
     } = this.props;
 
     const draggableProps = draggable
@@ -159,14 +173,14 @@ class Table extends Component {
 
     return (
       <Provider table={this.state.store}>
-        <TableContainer style={style}>
+        <TableContainer fluid={fluid} style={style}>
           {fixHeader && showHeader ? (
             <TableHeader fixHeader={true} ref={this.bindHeaderComponent} />
           ) : null}
           <TableInner
             innerRef={contianer => (this.container = contianer)}
             needScrollY={scrollY && scrollY !== "auto"}
-            style={{ height: scrollY, width: scrollX }}>
+            style={{ maxHeight: scrollY, width: scrollX }}>
             {showHeader ? fixHeader ? null : <TableHeader /> : null}
             <TableBody
               {...draggableProps}

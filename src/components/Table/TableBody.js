@@ -153,7 +153,7 @@ export default class extends Component {
                   <RowCellOuter
                     key={column.key}
                     bordered={bordered}
-                    flex={column.width ? undefined : 1}
+                    flex={column.width ? undefined : column.flex ? column.flex : 1}
                     style={{ width: this.getColumnWidth(column), height: rowHeight }}
                     index={index}>
                     <RowCellInner>
