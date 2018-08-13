@@ -18,11 +18,6 @@ export default class OverlayStore {
   }
 
   @computed
-  get children() {
-    return this.overlayProps.children;
-  }
-
-  @computed
   get offset() {
     return this.overlayProps.offset;
   }
@@ -98,9 +93,11 @@ export default class OverlayStore {
   @action.bound
   setupOverlay() {
     this.node = findDOMNode(this.reference);
-    this.node.addEventListener("click", this.showPopperByClick);
-    this.node.addEventListener("mouseenter", this.showPopperByMouseEnter);
-    this.node.addEventListener("mouseleave", this.hidePopperByMouseEnter);
+    if (this.node){
+      this.node.addEventListener("click", this.showPopperByClick);
+      this.node.addEventListener("mouseenter", this.showPopperByMouseEnter);
+      this.node.addEventListener("mouseleave", this.hidePopperByMouseEnter);
+    }
   }
 
   @action.bound

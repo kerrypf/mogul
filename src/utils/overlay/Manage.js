@@ -14,10 +14,11 @@ export default class extends Component {
   }
 
   render() {
-    const { children, bindReference, disabled } = this.props.overlay;
+    const { bindReference, disabled } = this.props.overlay;
+
     return (
       <Fragment>
-        {cloneElement(Children.only(children), {
+        {cloneElement(Children.only(this.props.children), {
           ref: bindReference
         })}
         {disabled ? null : <PopperAnimateWrapper />}

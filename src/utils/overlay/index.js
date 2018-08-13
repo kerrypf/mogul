@@ -70,10 +70,11 @@ export class Overlay extends Component {
   }
 
   render() {
-
     return (
       <Provider overlay={this.state.overlay}>
-        <Manage />
+        <Manage >
+          { this.props.children }
+        </Manage>
       </Provider>
     );
   }
