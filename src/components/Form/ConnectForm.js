@@ -39,7 +39,7 @@ export default class extends Component {
     const { label, children, hint } = this.props;
     const { labelStyle, isRequired, errorMessage, containerStyle } = this.state.form;
     const component = children(this.state.form);
-    console.log(hint);
+
     //如果不存在, 那么不渲染任何组件
     if (!component) {
       return null;
