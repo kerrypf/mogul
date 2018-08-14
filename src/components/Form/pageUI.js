@@ -47,19 +47,27 @@ export const FormField = styled(Item).attrs({
   ${props =>
     props.hasError
       ? css`
-.ant-input {
-    border-color: red !important;
-}
-&::after {
-    content: '${props => props.message}';
-    color: red;
-    font-size: 12px;
-    position: absolute;
-    bottom: -20px;
-    left: 0;
-    z-index: 2;
-    animation: ${fadeIn} .3s;
-  }
-`
+          .ant-input {
+            border-color: red !important;
+          }
+        `
       : ""};
+`;
+
+export const FormMessage = styled.span`
+  font-size: 12px;
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  z-index: 2;
+
+  ${props =>
+    props.hasError
+      ? css`
+          color: red;
+          animation: ${fadeIn} 0.3s;
+        `
+      : css`
+          color: #cacaca;
+        `};
 `;

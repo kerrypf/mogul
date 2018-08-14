@@ -161,6 +161,7 @@ class Demo extends Component {
               containerStyle={ {
                 width: "100%"
               } }
+              hint={ "1ddd" }
             >
               { (form) => {
                 return <DatePicker.RangePicker

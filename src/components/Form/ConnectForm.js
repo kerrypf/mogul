@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { inject, observer, Provider } from "mobx-react";
 import PropTypes from "prop-types";
 import FormStore from "./FormStore";
-import { FormField, FormFieldContainer, LabelItem } from "./pageUI";
+import { FormField, FormFieldContainer, LabelItem, FormMessage } from "./pageUI";
 
 @inject("form")
 @observer
@@ -15,7 +15,8 @@ export default class extends Component {
     labelStyle: PropTypes.object,
     containerStyle: PropTypes.object,
     children: PropTypes.func.isRequired,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    hint: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.element])
   };
 
   static defaultProps = {
@@ -35,9 +36,10 @@ export default class extends Component {
   }
 
   render() {
-    const { label, children } = this.props;
+    const { label, children, hint } = this.props;
     const { labelStyle, isRequired, errorMessage, containerStyle } = this.state.form;
     const component = children(this.state.form);
+    console.log(hint);
     //如果不存在, 那么不渲染任何组件
     if (!component) {
       return null;
@@ -49,8 +51,11 @@ export default class extends Component {
             {" "}
             {label}
           </LabelItem>
-          <FormField hasError={!!errorMessage} message={errorMessage}>
+          <FormField hasError={!!errorMessage}>
             {component}
+            <FormMessage hasError={!!errorMessage}>
+              {errorMessage ? errorMessage : hint}
+            </FormMessage>
           </FormField>
         </FormFieldContainer>
       </Provider>

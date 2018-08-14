@@ -3,7 +3,7 @@ import { inject, observer, Provider } from "mobx-react";
 import PropTypes from "prop-types";
 import { decorate } from "../../utils/decorators/util";
 import FormStore from "./FormStore";
-import { FormField, FormFieldContainer, LabelItem } from "./pageUI";
+import { FormField, FormFieldContainer, LabelItem, FormMessage } from "./pageUI";
 
 function getDecorator(withArgs, defaultProps) {
   return Comp => {
@@ -17,7 +17,8 @@ function getDecorator(withArgs, defaultProps) {
             label: PropTypes.string,
             labelStyle: PropTypes.object,
             containerStyle: PropTypes.object,
-            onChange: PropTypes.func
+            onChange: PropTypes.func,
+            hint: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.element])
           };
 
           static defaultProps = {
@@ -60,7 +61,8 @@ function getDecorator(withArgs, defaultProps) {
               "rules",
               "labelStyle",
               "containerStyle",
-              "onChange"
+              "onChange",
+              "hint"
             ];
             let newProps = {};
 
@@ -73,7 +75,7 @@ function getDecorator(withArgs, defaultProps) {
           }
 
           render() {
-            const { label } = this.props;
+            const { label, hint } = this.props;
             const { labelStyle, isRequired, errorMessage, containerStyle } = this.state.form;
 
             return (
@@ -83,8 +85,11 @@ function getDecorator(withArgs, defaultProps) {
                     {" "}
                     {label}
                   </LabelItem>
-                  <FormField hasError={!!errorMessage} message={errorMessage}>
+                  <FormField hasError={!!errorMessage}>
                     <Comp {...this.removeBlackListProps()} form={this.state.form} />
+                    <FormMessage hasError={!!errorMessage}>
+                      {errorMessage ? errorMessage : hint}
+                    </FormMessage>
                   </FormField>
                 </FormFieldContainer>
               </Provider>
