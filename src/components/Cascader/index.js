@@ -250,6 +250,7 @@ export default class extends Component {
         disabled={disabled}
         overlay={this.renderOptions}
         placementVariation={"start"}
+        zIndex={ 9999 }
         offset={4}>
         <Container
           className={disabled ? "disabled" : ""}
