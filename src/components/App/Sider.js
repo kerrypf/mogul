@@ -235,14 +235,14 @@ class RouteMenu extends Component {
           <Popover
             overlayClassName={"__fixOverlay__"}
             content={
-              <MenuContainer>
+              collapse ? <MenuContainer>
                 {children.map(route => (
                   <SubRouteChild key={route.name} to={route.path}>
                     {" "}
                     {route.name}{" "}
                   </SubRouteChild>
                 ))}
-              </MenuContainer>
+              </MenuContainer> : null
             }
             placement={"rightTop"}>
             <RouteItem onClick={collapse ? null : this.toggleShowChildren}>

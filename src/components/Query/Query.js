@@ -1,13 +1,45 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Form, Row, Col, Button, Icon } from 'antd';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Form, Row, Col, Button, Icon } from "antd";
 import styled from "styled-components";
-import styles from './index.module.less';
 
 const SubmitBtn = styled.span`
-    white-space: nowrap;
-    margin-bottom: 24px;
-`
+  white-space: nowrap;
+  margin-bottom: 24px;
+`;
+
+const TableListForm = styled.div`
+  & .ant-form-item {
+    margin-bottom: 24px !important;
+    margin-right: 0;
+    display: flex !important;
+  }
+
+  & .ant-form-item-label {
+    line-height: 32px;
+    padding-right: 8px;
+  }
+
+  & .ant-form-item-control {
+    line-height: 32px;
+  }
+
+  & .ant-form-item-control-wrapper {
+    flex: 1;
+  }
+
+  @media screen and (max-width: 768px) {
+    & .ant-form-item {
+      margin-right: 24px;
+    }
+  }
+
+  @media screen and (max-width: 992px) {
+    & .ant-form-item {
+      margin-right: 8px;
+    }
+  }
+`;
 
 const FormItem = Form.Item;
 
@@ -15,8 +47,14 @@ class Query extends Component {
   static propTypes = {
     handleSearch: PropTypes.func.isRequired,
     handleFormReset: PropTypes.func.isRequired,
-    data: PropTypes.array.isRequired
+    data: PropTypes.array.isRequired,
+    enableCollapse: PropTypes.oneOfType([PropTypes.bool, PropTypes.func])
   };
+
+  static defaultProps = {
+    enableCollapse: false
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -131,10 +169,7 @@ class Query extends Component {
           {simpleItems.map(({ label, dataIndex, render, options }, index) => {
             return (
               <Col {...this.handleRowCol(simpleItems.length + 1)} key={index}>
-                <FormItem
-                  label={label}
-                  {...this.handleFormItemCol(simpleItems.length + 1)}
-                >
+                <FormItem label={label} {...this.handleFormItemCol(simpleItems.length + 1)}>
                   {getFieldDecorator(dataIndex, options)(render(this.props))}
                 </FormItem>
               </Col>
@@ -158,8 +193,10 @@ class Query extends Component {
     );
   }
   renderAdvancedForm() {
-    const { form, data } = this.props;
+    const { form, data, enableCollapse } = this.props;
     const { getFieldDecorator } = form;
+
+    let showCollapseBtn = typeof enableCollapse === "function" ? enableCollapse() : enableCollapse;
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         {data.map((row, rowIndex) => (
@@ -169,13 +206,8 @@ class Query extends Component {
               if (label !== undefined) {
                 return (
                   <Col {...this.handleRowCol(row.length)} key={itemIndex}>
-                    <FormItem
-                      label={label}
-                      {...this.handleFormItemCol(row.length)}
-                    >
-                      {getFieldDecorator(dataIndex, options)(
-                        render(this.props)
-                      )}
+                    <FormItem label={label} {...this.handleFormItemCol(row.length)}>
+                      {getFieldDecorator(dataIndex, options)(render(this.props))}
                     </FormItem>
                   </Col>
                 );
@@ -185,30 +217,41 @@ class Query extends Component {
             })}
           </Row>
         ))}
-        <div style={{ overflow: 'hidden' }}>
-          <span style={{ float: 'right', marginBottom: 24 }}>
+        <div style={{ overflow: "hidden" }}>
+          <span style={{ float: "right", marginBottom: 24 }}>
             <Button type="primary" htmlType="submit">
               查询
             </Button>
             <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
               重置
             </Button>
-            <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
-              收起 <Icon type="up" />
-            </a>
+            {showCollapseBtn ? (
+              <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
+                收起 <Icon type="up" />
+              </a>
+            ) : null}
           </span>
         </div>
       </Form>
     );
   }
   render() {
-    return (
-      <div className={styles.tableListForm}>
-        {this.state.expandForm
-          ? this.renderAdvancedForm()
-          : this.renderSimpleForm()}
-      </div>
-    );
+    const { enableCollapse } = this.props;
+    let component = null;
+    if (enableCollapse) {
+      if (typeof enableCollapse === "function") {
+        enableCollapse()
+          ? this.state.expandForm
+            ? this.renderAdvancedForm()
+            : this.renderSimpleForm()
+          : this.renderAdvancedForm();
+      } else {
+        component = this.state.expandForm ? this.renderAdvancedForm() : this.renderSimpleForm();
+      }
+    } else {
+      component = this.renderAdvancedForm();
+    }
+    return <TableListForm>{component}</TableListForm>;
   }
 }
 

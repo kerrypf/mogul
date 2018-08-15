@@ -16,7 +16,7 @@ export { Spin, ContentLoader } from "./components/Indicator";
 
 export { default as Card } from "./components/Card";
 
-//export { default as Query } from './components/Query';
+export { default as Query } from './components/Query';
 //
 //export { default as StandardTable } from "./components/StandardTable";
 //

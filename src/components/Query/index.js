@@ -1,8 +1,8 @@
 import Query from './Query';
-import RemoteSelect from './RemoteSelect';
+import _RemoteSelect from './RemoteSelect';
 
-Query.RemoteSelect = RemoteSelect;
+Query.RemoteSelect = _RemoteSelect;
 
-export { RemoteSelect } from './RemoteSelect';
+export const RemoteSelect = _RemoteSelect;
 
 export default Query;
