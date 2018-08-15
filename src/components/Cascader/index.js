@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { observable, computed, action } from "mobx";
 import { Observer } from "mobx-react";
 import { Input, Icon } from "antd";
+import { ifProp } from "styled-tools";
 import { Overlay, Flex, Item } from "../../utils";
 
 const Container = styled.div`
@@ -81,10 +82,19 @@ const OptionItem = styled(Item).attrs({
     background: #f5f5f5;
     font-weight: 600;
   }
-
-  &:hover {
-    background: #e6f7ff;
-  }
+  ${ifProp(
+    "disabled",
+    css`
+      background-color: #efefef;
+      opacity: 0.6;
+      cursor: not-allowed;
+    `,
+    css`
+      &:hover {
+        background: #e6f7ff;
+      }
+    `
+  )};
 `;
 
 const ArrowIcon = styled(Icon).attrs({
@@ -190,6 +200,7 @@ export default class extends Component {
                       !option.disabled ? this.setSelectedKey(group.level, option.value) : null
                     }
                     onMouseEnter={() => this.setExpandKey(group.level, option.value)}
+                    disabled={option.disabled}
                     title={option.label}>
                     <span>{option.label}</span>
 
@@ -250,7 +261,7 @@ export default class extends Component {
         disabled={disabled}
         overlay={this.renderOptions}
         placementVariation={"start"}
-        zIndex={ 9999 }
+        zIndex={9999}
         offset={4}>
         <Container
           className={disabled ? "disabled" : ""}
