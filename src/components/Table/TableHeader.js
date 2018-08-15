@@ -8,7 +8,7 @@ import variable from "../variable";
 
 const HeaderRow = styled(Flex)`
   color: #333;
-  background-color: #fff;
+  background-color: #fafafa;
   ${ifProp(
     "fixHeader",
     css`
