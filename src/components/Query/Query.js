@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Row, Col, Button, Icon } from 'antd';
+import styled from "styled-components";
 import styles from './index.module.less';
+
+const SubmitBtn = styled.span`
+    white-space: nowrap;
+    margin-bottom: 24px;
+`
 
 const FormItem = Form.Item;
 
@@ -135,7 +141,7 @@ class Query extends Component {
             );
           })}
           <Col {...this.handleRowCol(simpleItems.length + 1)}>
-            <span className={styles.submitButtons}>
+            <SubmitBtn>
               <Button type="primary" htmlType="submit">
                 查询
               </Button>
@@ -145,7 +151,7 @@ class Query extends Component {
               <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
                 展开 <Icon type="down" />
               </a>
-            </span>
+            </SubmitBtn>
           </Col>
         </Row>
       </Form>

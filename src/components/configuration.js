@@ -33,8 +33,10 @@ class Configuration {
 
   @observable localStorageKeyPrefix = "_MOGUL_";
 
+  popupContext = null;
+
   @action.bound
-  config({ messageOptions = {}, sider = {}, pagination = {}, fullScreen = this.fullScreen } = {}) {
+  config({ messageOptions = {}, sider = {}, pagination = {}, fullScreen = this.fullScreen, popContext } = {}) {
     this.messageOptions = {
       ...this.messageOptions,
       ...messageOptions
@@ -51,6 +53,8 @@ class Configuration {
     };
 
     this.fullScreen = fullScreen;
+
+    this.popContext = popContext;
   }
 
   /**
@@ -142,6 +146,11 @@ class Configuration {
   @action.bound
   setLocalStorageKeyPrefix(prefix) {
     this.localStorageKeyPrefix = prefix;
+  }
+
+  @action.bound
+  setPopupContext(context){
+    this.popupContext = context;
   }
 }
 

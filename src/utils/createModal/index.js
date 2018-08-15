@@ -1,6 +1,7 @@
 import React, { isValidElement } from "react";
 import { render, unmountComponentAtNode } from "react-dom";
 import { Modal } from "antd";
+import configuration from "../../components/configuration";
 
 export const createModal = ({
   id = null,
@@ -52,12 +53,27 @@ export const createModal = ({
     }
   };
 
-  render(
-    <Modal {...modalProps} visible={true} onOk={tryResolveModal} onCancel={tryRejectModal}>
-      <div>{children}</div>
-    </Modal>,
-    div
-  );
+  if(configuration.popupContext){
+    let Context = configuration.popupContext;
+
+    render(
+      <Context>
+        <Modal {...modalProps} visible={true} onOk={tryResolveModal} onCancel={tryRejectModal}>
+          <div>{children}</div>
+        </Modal>
+      </Context>,
+      div
+    )
+
+  } else{
+    render(
+      <Modal {...modalProps} visible={true} onOk={tryResolveModal} onCancel={tryRejectModal}>
+        <div>{children}</div>
+      </Modal>,
+      div
+    );
+  }
+
 
   return unmountModal;
 };
