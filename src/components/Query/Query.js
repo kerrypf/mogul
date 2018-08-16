@@ -165,7 +165,7 @@ class Query extends Component {
     });
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
-        <Row gutter={this.handleGutter(simpleItems.length)}>
+        <Row type={ "flex" } gutter={this.handleGutter(simpleItems.length)}>
           {simpleItems.map(({ label, dataIndex, render, options }, index) => {
             return (
               <Col {...this.handleRowCol(simpleItems.length + 1)} key={index}>
@@ -200,7 +200,7 @@ class Query extends Component {
     return (
       <Form onSubmit={this.handleSearch} layout="inline">
         {data.map((row, rowIndex) => (
-          <Row gutter={this.handleGutter(row.length)} key={rowIndex}>
+          <Row type={ "flex" } gutter={this.handleGutter(row.length)} key={rowIndex}>
             {row.map((item, itemIndex) => {
               const { label, dataIndex, render, options } = item;
               if (label !== undefined) {

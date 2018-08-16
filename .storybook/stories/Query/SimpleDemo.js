@@ -1,14 +1,9 @@
 import React, { Component } from "react";
-import { Button, Input, Select, Form } from "antd";
+import { Input, Select, Form } from "antd";
 import { Query } from "../../../src";
-import moment from "moment";
 
 @Form.create()
 class Demo extends Component {
-
-  state = {
-
-  }
 
   render() {
     return (
@@ -17,7 +12,7 @@ class Demo extends Component {
           form={ this.props.form }
           handleSearch={ () => {} }
           handleFormReset={ () => {} }
-          enableCollapse={ true }
+          enableCollapse={ true } // 是否包含展开/收起按钮
           data={ [
             [
               {
