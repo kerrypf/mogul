@@ -191,6 +191,11 @@ export default class FormStore {
   }
 
   @action.bound
+  $(name){
+    return this.findFormByFieldName(name);
+  }
+
+  @action.bound
   resetValue(resetChildren) {
     if (this.component) {
       this._value = this.component.props.initialValue;
