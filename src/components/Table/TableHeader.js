@@ -136,7 +136,7 @@ export default class extends Component {
             bordered={bordered}
             key={column.key}
             flex={column.width ? undefined : column.flex ? column.flex : 1}
-            style={{ width: column.width }}
+            style={{ width: column.width, minWidth: column.minWidth }}
             index={index}>
             <HeaderCellInner>{this.renderTitle(column, index)}</HeaderCellInner>
           </HeaderCellOuter>

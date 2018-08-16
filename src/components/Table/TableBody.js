@@ -154,7 +154,11 @@ export default class extends Component {
                     key={column.key}
                     bordered={bordered}
                     flex={column.width ? undefined : column.flex ? column.flex : 1}
-                    style={{ width: this.getColumnWidth(column), height: rowHeight }}
+                    style={{
+                      width: this.getColumnWidth(column),
+                      minWidth: column.minWidth,
+                      height: rowHeight
+                    }}
                     index={index}>
                     <RowCellInner>
                       <RowCell {...cellContainerProps}>
@@ -175,7 +179,7 @@ export default class extends Component {
         ))}
 
         {viewData.length === 0 ? (
-          <EmptyRow justifyContent={"center"} alignItems={ "center" } style={{ height: rowHeight }}>
+          <EmptyRow justifyContent={"center"} alignItems={"center"} style={{ height: rowHeight }}>
             {noDataRender()}
           </EmptyRow>
         ) : null}

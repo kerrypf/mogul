@@ -67,6 +67,7 @@ class Table extends Component {
         key: PropTypes.string.isRequired,
         render: PropTypes.func,
         width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        minWidth: PropTypes.number,
         sort: PropTypes.bool,
         cellContainerProps: PropTypes.object,
         headerContainerProps: PropTypes.object,
