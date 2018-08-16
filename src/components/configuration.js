@@ -36,7 +36,13 @@ class Configuration {
   popupContext = null;
 
   @action.bound
-  config({ messageOptions = {}, sider = {}, pagination = {}, fullScreen = this.fullScreen, popContext } = {}) {
+  config({
+    messageOptions = {},
+    sider = {},
+    pagination = {},
+    fullScreen = this.fullScreen,
+    popContext = this.popupContext
+  } = {}) {
     this.messageOptions = {
       ...this.messageOptions,
       ...messageOptions
@@ -54,7 +60,7 @@ class Configuration {
 
     this.fullScreen = fullScreen;
 
-    this.popContext = popContext;
+    this.popupContext = popContext;
   }
 
   /**
@@ -149,7 +155,7 @@ class Configuration {
   }
 
   @action.bound
-  setPopupContext(context){
+  setPopupContext(context) {
     this.popupContext = context;
   }
 }
