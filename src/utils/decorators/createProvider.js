@@ -7,7 +7,6 @@ function getDecorator(getProviderStore) {
     return class extends Component {
       constructor(props) {
         super(props);
-        console.log(getProviderStore);
         this.state = getProviderStore(this.props) || {};
       }
 
