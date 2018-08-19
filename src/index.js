@@ -9,7 +9,8 @@ export {
   createModal,
   confirmCompose,
   randomStr,
-  Overlay
+  Overlay,
+  createProvider
 } from "./utils";
 
 export { Spin, ContentLoader } from "./components/Indicator";
