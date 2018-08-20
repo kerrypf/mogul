@@ -11,7 +11,7 @@ export default class extends Component {
     fieldName: PropTypes.string,
     initialValue: PropTypes.any,
     rules: PropTypes.array.isRequired,
-    label: PropTypes.string,
+    label: PropTypes.any,
     labelStyle: PropTypes.object,
     containerStyle: PropTypes.object,
     children: PropTypes.func.isRequired,

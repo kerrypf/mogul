@@ -14,7 +14,7 @@ function getDecorator(withArgs, defaultProps) {
             fieldName: PropTypes.string,
             initialValue: PropTypes.any,
             rules: PropTypes.array.isRequired,
-            label: PropTypes.string,
+            label: PropTypes.any,
             labelStyle: PropTypes.object,
             containerStyle: PropTypes.object,
             onChange: PropTypes.func,
