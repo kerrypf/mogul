@@ -23,12 +23,12 @@ const minLength = length => {
   return value => !schema.validate(convertNumToStr(value)).error;
 };
 
-const validCheck = (value, rule) => {
+const validCheck = (value, rule, form) => {
   if (!Array.isArray(rule)) throw new Error(`rule expect to be array`);
 
   switch (rule[0]) {
     case "required":
-      return isFn(rule[1]) ? rule[1](value) : requiredCheck(value) ? true : rule[1];
+      return isFn(rule[1]) ? rule[1](value,form) : requiredCheck(value) ? true : rule[1];
     case "maxLength":
       let maxLengthNumber = Joi.number()
         .min(1)
@@ -40,7 +40,7 @@ const validCheck = (value, rule) => {
         .validate(rule[1]).value;
       return minLengthNumber ? (minLength(minLengthNumber)(value) ? true : rule[2]) : null;
     default:
-      return isFn(rule[0]) ? rule[0](value) : true;
+      return isFn(rule[0]) ? rule[0](value, form) : true;
   }
 };
 
@@ -64,6 +64,11 @@ export default class FormStore {
     }
 
     return this.root.top;
+  }
+
+  @computed
+  get parent(){
+    return this.root;
   }
 
   @computed
@@ -222,7 +227,7 @@ export default class FormStore {
     if (rules && Array.isArray(rules)) {
       for (let i = 0; i < rules.length; i++) {
         let rule = rules[i];
-        let result = validCheck(this.value, rule);
+        let result = validCheck(this.value, rule, this);
         if (result !== true) {
           this.errorMessage = result ? result : "规则不合法";
           valid = false;
