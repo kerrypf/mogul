@@ -18,9 +18,8 @@ export { Spin, ContentLoader } from "./components/Indicator";
 export { default as Card } from "./components/Card";
 
 export { default as Query } from './components/Query';
-//
-//export { default as StandardTable } from "./components/StandardTable";
-//
+
+export { default as TagSelect } from "./components/TagSelect";
 //export { default as CreateList } from './components/CreateList';
 //
 export { default as App } from "./components/App";
