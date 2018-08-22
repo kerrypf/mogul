@@ -80,6 +80,7 @@ class Table extends Component {
     bordered: PropTypes.bool,
     rowKey: PropTypes.string.isRequired,
     fixHeader: PropTypes.bool,
+    headerMinHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     headerHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf(["auto"])]),
     rowHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf(["auto"])]),
     scrollY: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf(["auto"])]),
@@ -96,11 +97,16 @@ class Table extends Component {
         onSortEnd: PropTypes.func.isRequired
       })
     ]),
-    showHeader: PropTypes.bool
+    showHeader: PropTypes.bool,
+    size: PropTypes.oneOf([
+      "small",
+      "middle",
+      "large"
+    ])
   };
 
   static defaultProps = {
-    fluid: false,
+    fluid: true,
     bordered: true,
     scrollY: "auto",
     scrollX: "auto",

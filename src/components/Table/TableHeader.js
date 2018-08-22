@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
 import styled, { css } from "styled-components";
 import { Icon } from "antd";
-import { ifProp } from "styled-tools";
+import { ifProp, switchProp, prop } from "styled-tools";
 import { Flex, Item } from "../../utils";
 import variable from "../variable";
 
@@ -50,7 +50,17 @@ const HeaderCellInner = styled(Flex).attrs({
 `;
 
 const HeaderCell = styled(Item)`
-  padding: 4px 8px;
+  ${switchProp(prop("size", "small"), {
+    small: css`
+      padding: 4px 8px;
+    `,
+    middle: css`
+      padding: 6px 12px;
+    `,
+    large: css`
+      padding: 8px 16px;
+    `
+  })};
   ${prop =>
     prop.paddingRight
       ? css`
@@ -85,8 +95,16 @@ const SortIcon = styled(Icon)`
 @observer
 export default class extends Component {
   renderTitle({ title, headerMode, headerContainerProps = {} }, index) {
+    const {
+      table: { size }
+    } = this.props;
+
     if (!headerMode) {
-      return <HeaderCell {...headerContainerProps}>{title}</HeaderCell>;
+      return (
+        <HeaderCell size={size} {...headerContainerProps}>
+          {title}
+        </HeaderCell>
+      );
     }
 
     switch (headerMode.type) {
@@ -94,7 +112,7 @@ export default class extends Component {
         let sortByAsc = headerMode.value === "asc";
         let sortByDesc = headerMode.value === "desc";
         return (
-          <HeaderCell paddingRight={26} {...headerContainerProps}>
+          <HeaderCell size={size} paddingRight={26} {...headerContainerProps}>
             {title}
             <SortIcon
               highlight={sortByAsc ? "true" : undefined}
@@ -121,7 +139,7 @@ export default class extends Component {
 
   render() {
     const {
-      table: { columns, bordered, headerHeight, scrollX, scrollY },
+      table: { columns, bordered, headerHeight, scrollX, scrollY, headerMinHeight },
       fixHeader
     } = this.props;
 
@@ -136,7 +154,7 @@ export default class extends Component {
             bordered={bordered}
             key={column.key}
             flex={column.width ? undefined : column.flex ? column.flex : 1}
-            style={{ width: column.width, minWidth: column.minWidth }}
+            style={{ width: column.width, minWidth: column.minWidth, minHeight: headerMinHeight }}
             index={index}>
             <HeaderCellInner>{this.renderTitle(column, index)}</HeaderCellInner>
           </HeaderCellOuter>

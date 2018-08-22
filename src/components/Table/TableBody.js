@@ -2,7 +2,7 @@ import React, { Component, Fragment, createElement } from "react";
 import styled, { css } from "styled-components";
 import { inject, observer } from "mobx-react";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
-import { ifProp } from "styled-tools";
+import { ifProp, switchProp, prop } from "styled-tools";
 import { Flex, Item } from "../../utils";
 const RowCellOuter = styled(Item).attrs({
   shrink: 0
@@ -78,7 +78,17 @@ const RowCellInner = styled(Flex).attrs({
 `;
 
 const RowCell = styled(Item)`
-  padding: 4px 8px;
+  ${switchProp(prop("size","small"),{
+    small: css`
+      padding: 4px 8px;
+    `,
+    middle: css`
+      padding: 6px 12px;
+    `,
+    large: css`
+      padding: 8px 16px;
+    `
+  })};
 `;
 
 const SubTableRowContainer = styled(Flex)`
@@ -132,7 +142,8 @@ export default class extends Component {
         rowHeight,
         subTableKey,
         rowSelectKey,
-        draggable
+        draggable,
+        size
       },
       noDataRender,
       subTableRender
@@ -161,7 +172,7 @@ export default class extends Component {
                     }}
                     index={index}>
                     <RowCellInner>
-                      <RowCell {...cellContainerProps}>
+                      <RowCell size={size} {...cellContainerProps}>
                         {column.render ? column.render(row, column) : row[column.key]}
                       </RowCell>
                     </RowCellInner>

@@ -1,9 +1,9 @@
-import React, { Component, Fragment, cloneElement } from "react";
+import React, { Component, Fragment, PureComponent, cloneElement } from "react";
 import PropTypes from "prop-types";
 import styled, { css, injectGlobal } from "styled-components";
 import { observer } from "mobx-react";
 import { Icon, Tooltip, Popover } from "antd";
-import { Spring } from "react-spring";
+import { Spring, animated } from "react-spring";
 import { withRouter, NavLink } from "react-router-dom";
 import { ifProp } from "styled-tools";
 import configuration from "../configuration";
@@ -163,34 +163,34 @@ const CollapseContainer = styled(Flex).attrs({
 const MenuContainer = styled(Flex).attrs({
   direction: "column"
 })`
-    border-radius: 5px;
-    overflow:hidden;
-    position: relative;
-    background-color: #001529;
-    margin-bottom: -1px;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+  background-color: #001529;
+  margin-bottom: -1px;
 `;
 
 const SubRouteChild = styled(NavLink)`
-    margin-bottom: 1px;
+  margin-bottom: 1px;
   background-color: #001529;
   padding: 0 8px;
   height: 38px;
   line-height: 38px;
   min-width: 160px;
-  ${ item({}) };
+  ${item({})};
   text-decoration: none;
-  transition: all .3s;
+  transition: all 0.3s;
   color: #fff;
-  
+
   &:hover,
-  &.active{
+  &.active {
     color: #fff;
-    background-color: ${ variable.primary };
+    background-color: ${variable.primary};
     text-decoration: none;
   }
 `;
 
-class RouteMenu extends Component {
+class RouteMenu extends PureComponent {
   static propTypes = {
     name: PropTypes.string,
     icon: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
@@ -235,14 +235,16 @@ class RouteMenu extends Component {
           <Popover
             overlayClassName={"__fixOverlay__"}
             content={
-              collapse ? <MenuContainer>
-                {children.map(route => (
-                  <SubRouteChild key={route.name} to={route.path}>
-                    {" "}
-                    {route.name}{" "}
-                  </SubRouteChild>
-                ))}
-              </MenuContainer> : null
+              collapse ? (
+                <MenuContainer>
+                  {children.map(route => (
+                    <SubRouteChild key={route.name} to={route.path}>
+                      {" "}
+                      {route.name}{" "}
+                    </SubRouteChild>
+                  ))}
+                </MenuContainer>
+              ) : null
             }
             placement={"rightTop"}>
             <RouteItem onClick={collapse ? null : this.toggleShowChildren}>
@@ -266,21 +268,32 @@ class RouteMenu extends Component {
               {collapse ? null : <ArrowIcon selected={showChildren} />}
             </RouteItem>
           </Popover>
-          {showChildren && !collapse
-            ? children.map(route => (
-                <RouteMenu
-                  key={route.name}
-                  name={route.name}
-                  path={route.path}
-                  icon={route.icon}
-                  children={route.children}
-                  iconSize={14}
-                  paddingLeft={4}
-                  opacity={1}
-                  indent={20 + indent}
-                />
-              ))
-            : null}
+
+          <Spring
+            native
+            to={{
+              height: showChildren && !collapse ? "auto" : 0,
+              opacity: showChildren && !collapse ? 1 : 0
+            }}
+            from={{ height: "auto", opacity: 1 }}>
+            {({ height, opacity }) => (
+              <animated.div style={{ height: height, opacity, overflow: "hidden" }}>
+                {children.map(route => (
+                  <RouteMenu
+                    key={route.name}
+                    name={route.name}
+                    path={route.path}
+                    icon={route.icon}
+                    children={[]}
+                    iconSize={14}
+                    paddingLeft={4}
+                    opacity={1}
+                    indent={20 + indent}
+                  />
+                ))}
+              </animated.div>
+            )}
+          </Spring>
         </Fragment>
       );
     }

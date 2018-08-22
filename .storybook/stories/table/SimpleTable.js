@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { configuration, Table, Flex, Item } from "../../../src/index";
-import axios from "axios";
 import faker from "faker";
+import { Radio } from "antd";
+import { Observer } from "mobx-react";
 
 const Languages = ["javascript", "java", "c#", "c++", "prolog", "nodejs"];
 
@@ -47,6 +48,24 @@ export default class extends Component {
   render() {
     return (
       <div style={{ padding: 10 }}>
+        表格大小:
+        <Observer>
+          {() => (
+            <Radio.Group
+              value={configuration.tableProps.size}
+              onChange={({ target: { value } }) => {
+                configuration.config({
+                  tableProps: {
+                    size: value
+                  }
+                });
+              }}>
+              <Radio value={"small"}>小</Radio>
+              <Radio value={"middle"}>中</Radio>
+              <Radio value={"large"}>大</Radio>
+            </Radio.Group>
+          )}
+        </Observer>
         <Table
           data={result}
           rowKey={"id"}
@@ -63,13 +82,9 @@ export default class extends Component {
         />
         <Table
           data={result}
-          //        bordered={ true }
           rowKey={"id"}
-          //        rowHeight={ 50 }
-          headerHeight={80}
           fixHeader={true}
           scrollY={500}
-          //        scrollX={ 800 }
           fluid={true}
           columns={[
             {
@@ -90,11 +105,11 @@ export default class extends Component {
             {
               title: "描述",
               key: "description",
-//              minWidth: 300,
+              //              minWidth: 300,
               render(row) {
                 return <span>{row.description}</span>;
-              },
-//              flex: 2
+              }
+              //              flex: 2
               //            width: 300
             },
             {

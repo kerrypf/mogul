@@ -31,6 +31,11 @@ class Configuration {
     showSizeChanger: true
   };
 
+  @observable
+  tableProps = {
+    size: "small"
+  };
+
   @observable localStorageKeyPrefix = "_MOGUL_";
 
   popupContext = null;
@@ -41,7 +46,8 @@ class Configuration {
     sider = {},
     pagination = {},
     fullScreen = this.fullScreen,
-    popContext = this.popupContext
+    popContext = this.popupContext,
+    tableProps = this.tableProps
   } = {}) {
     this.messageOptions = {
       ...this.messageOptions,
@@ -61,6 +67,11 @@ class Configuration {
     this.fullScreen = fullScreen;
 
     this.popupContext = popContext;
+
+    this.tableProps = {
+      ...this.tableProps,
+      ...tableProps
+    }
   }
 
   /**

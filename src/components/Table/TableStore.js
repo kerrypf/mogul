@@ -1,5 +1,5 @@
 import { observable, action, computed, toJS } from "mobx";
-
+import configuration from "../configuration";
 export default class TableStore {
   @observable props = null;
 
@@ -13,7 +13,7 @@ export default class TableStore {
 
   @computed.struct
   get columns() {
-    return this.props.columns.filter( column => column );
+    return this.props.columns.filter(column => column);
   }
 
   @computed
@@ -65,6 +65,20 @@ export default class TableStore {
   @computed
   get fixHeader() {
     return this.props.fixHeader;
+  }
+
+  @computed
+  get headerMinHeight() {
+    return this.props.headerMinHeight;
+  }
+
+  @computed
+  get size() {
+    if (this.props.size) {
+      return this.props.size;
+    }
+
+    return configuration.tableProps.size;
   }
 
   @computed.struct
