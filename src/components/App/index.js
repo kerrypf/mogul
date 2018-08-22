@@ -55,9 +55,18 @@ const Footer = styled.div`
 
 export default class App extends Component {
   static propTypes = {
-    children: PropTypes.func.isRequired,
+    children: PropTypes.oneOfType([PropTypes.func]).isRequired,
     footer: PropTypes.any,
-    header: PropTypes.any
+    header: PropTypes.any,
+    routes: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string,
+        children: PropTypes.array,
+        path: PropTypes.string,
+        render: PropTypes.func,
+        icon: PropTypes.any
+      })
+    )
   };
 
   renderRoutes(routes) {
@@ -85,21 +94,21 @@ export default class App extends Component {
   }
 
   render() {
-    const { children, footer, header } = this.props;
-    const routes = children();
+    const { routes, children, footer, header } = this.props;
+    const renderRoutes = routes ? routes : children();
     return (
       <Fragment>
         <BrowserRouter>
           <Provider mogul={configuration}>
             <RootContainer>
-              <Sider routes={routes.filter(route => route.type !== "redirect")} />
+              <Sider routes={renderRoutes.filter(route => route.type !== "redirect")} />
 
               <AppContainer direction={"column"} flex={1}>
                 <Observer>
                   {() => (header && !configuration.fullScreen ? <Header>{header}</Header> : null)}
                 </Observer>
                 <Content>
-                  <Switch>{this.renderRoutes(routes)}</Switch>
+                  <Switch>{this.renderRoutes(renderRoutes)}</Switch>
                 </Content>
                 <Observer>
                   {() =>
