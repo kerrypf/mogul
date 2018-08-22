@@ -55,7 +55,7 @@ const Footer = styled.div`
 
 export default class App extends Component {
   static propTypes = {
-    children: PropTypes.oneOfType([PropTypes.func]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.func]),
     footer: PropTypes.any,
     header: PropTypes.any,
     routes: PropTypes.arrayOf(
