@@ -7,6 +7,8 @@ import configuration from "../configuration";
 import { Spin } from "../Indicator";
 import { Flex, Item, flex } from "../../utils/grid";
 import Sider from "./Sider";
+import MogulHistory from "./MogulHistory";
+
 const FullPageOverlay = styled(Flex).attrs({
   alignItems: "center",
   justifyContent: "center"
@@ -101,6 +103,7 @@ export default class App extends Component {
         <BrowserRouter>
           <Provider mogul={configuration}>
             <RootContainer>
+              <MogulHistory/>
               <Sider routes={renderRoutes.filter(route => route.type !== "redirect")} />
 
               <AppContainer direction={"column"} flex={1}>

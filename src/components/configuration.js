@@ -71,7 +71,7 @@ class Configuration {
     this.tableProps = {
       ...this.tableProps,
       ...tableProps
-    }
+    };
   }
 
   /**
@@ -168,6 +168,19 @@ class Configuration {
   @action.bound
   setPopupContext(context) {
     this.popupContext = context;
+  }
+
+  @action.bound
+  __connectHistory(__historyComp) {
+    this.__historyComp = __historyComp;
+  }
+
+  @action.bound
+  getHistory() {
+    if (!this.__historyComp) {
+      return null;
+    }
+    return this.__historyComp.props.history;
   }
 }
 
