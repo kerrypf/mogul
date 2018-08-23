@@ -60,6 +60,7 @@ const TitleLabel = styled.div`
   text-overflow: clip;
   word-wrap: normal;
   width: auto;
+  will-change: opacity, paddingLeft;
 `;
 
 const LogoContainer = styled.div`
@@ -119,7 +120,9 @@ const RouteWithNoChild = styled(NavLink)`
 const RouteName = styled(Item).attrs({
   flex: 1,
   overflow: "auto"
-})``;
+})`
+    will-change: opacity, paddingLeft;
+`;
 
 const IconContainer = styled.div`
   width: 20px;
@@ -190,7 +193,7 @@ const SubRouteChild = styled(NavLink)`
   }
 `;
 
-class RouteMenu extends PureComponent {
+class RouteMenu extends Component {
   static propTypes = {
     name: PropTypes.string,
     icon: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
@@ -270,7 +273,7 @@ class RouteMenu extends PureComponent {
           </Popover>
 
           <Spring
-            native
+            native={ true }
             to={{
               height: showChildren && !collapse ? "auto" : 0,
               opacity: showChildren && !collapse ? 1 : 0

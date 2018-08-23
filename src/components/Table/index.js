@@ -106,7 +106,7 @@ class Table extends Component {
   };
 
   static defaultProps = {
-    fluid: true,
+    fluid: false,
     bordered: true,
     scrollY: "auto",
     scrollX: "auto",
