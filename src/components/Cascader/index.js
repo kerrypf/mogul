@@ -6,6 +6,7 @@ import { Observer } from "mobx-react";
 import { Input, Icon } from "antd";
 import { ifProp } from "styled-tools";
 import { Overlay, Flex, Item } from "../../utils";
+import { Spin } from "../Indicator";
 
 const Container = styled.div`
   font-size: 14px;
@@ -106,6 +107,14 @@ const ArrowIcon = styled(Icon).attrs({
   right: 8px;
 `;
 
+const LoadingSpin = styled(Spin).attrs({
+  size: 14
+})`
+  position: absolute;
+  right: 7px;
+  top: 9px;
+  z-index: 2;
+`;
 export default class extends Component {
   static propTypes = {
     options: PropTypes.arrayOf(
@@ -119,12 +128,14 @@ export default class extends Component {
     onChange: PropTypes.func.isRequired,
     style: PropTypes.object,
     placeholder: PropTypes.string,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    loading: PropTypes.bool
   };
 
   static defaultProps = {
     style: {},
-    value: []
+    value: [],
+    loading: false
   };
 
   state = {
@@ -232,7 +243,7 @@ export default class extends Component {
   }
 
   render() {
-    const { value, options, disabled, placeholder, style } = this.props;
+    const { value, options, disabled, placeholder, style, loading } = this.props;
     let currentOptions = options;
     let displayLabelArr = value.map(val => {
       let selectOption = currentOptions.find(option => {
@@ -274,6 +285,7 @@ export default class extends Component {
             readOnly
             placeholder={value.length === 0 ? placeholder : null}
           />
+          {loading ? <LoadingSpin /> : null}
         </Container>
       </Overlay>
     );

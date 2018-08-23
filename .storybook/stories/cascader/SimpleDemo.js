@@ -14,6 +14,7 @@ class Demo extends Component {
       <div>
         Cascader
         <Cascader
+          loading={ true }
           style={ {
             width: 400
           } }
