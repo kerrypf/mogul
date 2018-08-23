@@ -1,4 +1,4 @@
-import React, { Component, Fragment, PureComponent, cloneElement } from "react";
+import React, { Component, Fragment, cloneElement } from "react";
 import PropTypes from "prop-types";
 import styled, { css, injectGlobal } from "styled-components";
 import { observer } from "mobx-react";
