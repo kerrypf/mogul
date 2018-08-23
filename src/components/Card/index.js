@@ -1,18 +1,25 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { config, Transition } from "react-spring";
+import { ifProp } from "styled-tools";
 import { Spin, ContentLoader } from "../Indicator";
 const Container = styled.div`
-  background-color: #fff;
-  border-radius: 2px;
-  transition: all 0.3s;
-  box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.12);
   position: relative;
-  padding: 30px 18px;
-  &:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  }
+  ${ifProp(
+    "noCss",
+    css``,
+    css`
+      background-color: #fff;
+      border-radius: 2px;
+      transition: all 0.3s;
+      box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.12);
+      padding: 30px 18px;
+      &:hover {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      }
+    `
+  )};
 `;
 
 const CenterEl = styled.div`
@@ -32,14 +39,16 @@ export default class extends Component {
     loading: PropTypes.bool,
     loadingTemplate: PropTypes.oneOf(["spin", "list"]),
     renderLoading: PropTypes.func,
-    keepContent: PropTypes.bool
+    keepContent: PropTypes.bool,
+    noCss: PropTypes.bool
   };
 
   static defaultProps = {
     style: {},
     loading: false,
     loadingTemplate: "spin",
-    keepContent: false
+    keepContent: false,
+    noCss: false
   };
 
   renderLoadingContent = () => {
@@ -61,10 +70,11 @@ export default class extends Component {
   };
 
   render() {
-    const { className, style, children, loading, keepContent } = this.props;
+    const { className, style, children, loading, keepContent, noCss } = this.props;
 
     return (
       <Container
+        noCss={ noCss }
         innerRef={container => (this.container = container)}
         className={className}
         style={style}>
