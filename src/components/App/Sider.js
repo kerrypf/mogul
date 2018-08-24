@@ -240,7 +240,7 @@ class RouteMenu extends Component {
             content={
               collapse ? (
                 <MenuContainer>
-                  {children.map(route => (
+                  {children.filter( child => child.visible !== false ).map(route => (
                     <SubRouteChild key={route.name} to={route.path}>
                       {" "}
                       {route.name}{" "}
@@ -281,7 +281,7 @@ class RouteMenu extends Component {
             from={{ height: "auto", opacity: 1 }}>
             {({ height, opacity }) => (
               <animated.div style={{ height: height, opacity, overflow: "hidden" }}>
-                {children.map(route => (
+                {children.filter( child => child.visible !== false ).map(route => (
                   <RouteMenu
                     key={route.name}
                     name={route.name}
