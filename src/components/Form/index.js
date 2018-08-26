@@ -9,7 +9,7 @@ import FormRadioGroup from "./FormRadioGroup";
 import FormSelect from "./FormSelect";
 import FormCascader from "./FormCascader";
 import ConnectForm from "./ConnectForm";
-
+import { FormClear } from "./pageUI"
 class Form extends Component {
   static propTypes = {
     labelStyle: PropTypes.object
@@ -53,6 +53,7 @@ Form.CheckGroup = FormCheckGroup;
 Form.Input = FormInput;
 Form.Box = FormBox;
 Form.Connect = ConnectForm;
+Form.Clear = FormClear;
 
 export default Form;
 export { default as withForm } from "./withForm";

@@ -1,4 +1,7 @@
 import styled, { css, keyframes } from "styled-components";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Spring } from "react-spring";
 import { Item, Flex } from "../../utils";
 
 const fadeIn = keyframes`
@@ -71,3 +74,64 @@ export const FormMessage = styled.span`
           color: #cacaca;
         `};
 `;
+
+const StyledPath = styled.path`
+  fill: #333;
+  transition: fill 0.3s;
+`;
+
+const Container = styled.svg`
+  line-height: 1;
+  position: absolute;
+  z-index: 2;
+  right: 3px;
+  cursor: pointer;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  
+  transform-origin: center;
+  &:hover {
+    ${StyledPath} {
+      transition: fill 0.3s;
+      fill: red;
+    }
+  }
+`;
+
+export class FormClear extends Component {
+  static propTypes = {
+    visible: PropTypes.bool
+  };
+
+  static defaultProps = {
+    size: 14,
+    visible: true,
+    title: "清除"
+  };
+
+  render() {
+    const { size, style, className, visible, ...rest } = this.props;
+
+    return (
+      <Spring
+        from={{ opacity: 0, scale: 0 }}
+        to={{ opacity: visible ? 1 : 0, scale: visible ? 1 : 0 }}>
+        {({ opacity, scale }) => (
+          <Container
+            {...rest}
+            viewBox={"0 0 44 44"}
+            className={className}
+            style={{
+              style,
+              opacity,
+              width: size,
+              height: size,
+              transform: `translate(-50%,-50%)scale(${scale})`
+            }}>
+            <StyledPath d="m22,0c-12.2,0-22,9.8-22,22s9.8,22 22,22 22-9.8 22-22-9.8-22-22-22zm3.2,22.4l7.5,7.5c0.2,0.2 0.3,0.5 0.3,0.7s-0.1,0.5-0.3,0.7l-1.4,1.4c-0.2,0.2-0.5,0.3-0.7,0.3-0.3,0-0.5-0.1-0.7-0.3l-7.5-7.5c-0.2-0.2-0.5-0.2-0.7,0l-7.5,7.5c-0.2,0.2-0.5,0.3-0.7,0.3-0.3,0-0.5-0.1-0.7-0.3l-1.4-1.4c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l7.5-7.5c0.2-0.2 0.2-0.5 0-0.7l-7.5-7.5c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.2-0.2 0.5-0.3 0.7-0.3s0.5,0.1 0.7,0.3l7.5,7.5c0.2,0.2 0.5,0.2 0.7,0l7.5-7.5c0.2-0.2 0.5-0.3 0.7-0.3 0.3,0 0.5,0.1 0.7,0.3l1.4,1.4c0.2,0.2 0.3,0.5 0.3,0.7s-0.1,0.5-0.3,0.7l-7.5,7.5c-0.2,0.1-0.2,0.5 3.55271e-15,0.7z" />
+          </Container>
+        )}
+      </Spring>
+    );
+  }
+}
