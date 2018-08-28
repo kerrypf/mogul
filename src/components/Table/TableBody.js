@@ -78,7 +78,8 @@ const RowCellInner = styled(Flex).attrs({
 `;
 
 const RowCell = styled(Item)`
-  ${switchProp(prop("size","small"),{
+  font-weight: bold;
+  ${switchProp(prop("size", "small"), {
     small: css`
       padding: 4px 8px;
     `,
