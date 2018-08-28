@@ -8,6 +8,7 @@ import { withRouter, NavLink } from "react-router-dom";
 import { ifProp } from "styled-tools";
 import configuration from "../configuration";
 import { Flex, Item, flex, item } from "../../utils/grid";
+import { getScrollbarWidth } from "../../utils/getScrollbarWidth";
 import variable from "../variable";
 
 injectGlobal`
@@ -71,7 +72,7 @@ const LogoContainer = styled.div`
 const RoutesContainer = styled.div`
   overflow-x: hidden;
   overflow-y: scroll;
-  width: calc(100% + 17px);
+  width: calc(100% + ${ getScrollbarWidth() }px);
   height: calc(100% - 108px);
 `;
 
