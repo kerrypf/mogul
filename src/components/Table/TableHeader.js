@@ -50,6 +50,7 @@ const HeaderCellInner = styled(Flex).attrs({
 `;
 
 const HeaderCell = styled(Item)`
+  font-weight: bold;
   ${switchProp(prop("size", "small"), {
     small: css`
       padding: 4px 8px;
