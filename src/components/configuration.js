@@ -1,4 +1,4 @@
-import { observable, action } from "mobx";
+import { observable, action, computed, toJS } from "mobx";
 import { notification } from "antd";
 class Configuration {
   @observable fullPageLoading = false;
@@ -36,11 +36,16 @@ class Configuration {
     size: "small"
   };
 
-  @observable confirmComposeProps = {};
+  @observable _confirmComposeProps = {};
 
   @observable localStorageKeyPrefix = "_MOGUL_";
 
   popupContext = null;
+
+  @computed
+  get confirmComposeProps() {
+    return toJS(this._confirmComposeProps);
+  }
 
   @action.bound
   config({
@@ -50,7 +55,7 @@ class Configuration {
     fullScreen = this.fullScreen,
     popContext = this.popupContext,
     tableProps = this.tableProps,
-    confirmComposeProps = this.confirmComposeProps
+    confirmComposeProps = this._confirmComposeProps
   } = {}) {
     this.messageOptions = {
       ...this.messageOptions,
@@ -76,10 +81,10 @@ class Configuration {
       ...tableProps
     };
 
-    this.confirmComposeProps = {
-      ...this.confirmComposeProps,
+    this._confirmComposeProps = {
+      ...this._confirmComposeProps,
       ...confirmComposeProps
-    }
+    };
   }
 
   /**
