@@ -28,8 +28,7 @@ class Configuration {
     pageSizeOptions: ["10", "20", "30"],
     size: "small",
     showQuickJumper: true,
-    showSizeChanger: true,
-    showTotal: () => total => `共 ${total} 个`
+    showSizeChanger: true
   };
 
   @observable
