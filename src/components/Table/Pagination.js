@@ -15,16 +15,15 @@ const Container = styled(Flex).attrs({
 @observer
 export default class extends Component {
   render() {
-    const { size, showSizeChanger, showQuickJumper } = configuration.pagination;
+    const globalPaginationProps = configuration.pagination;
+//    const { size, showSizeChanger, showQuickJumper, showTotal } = configuration.pagination;
     const {
       table: { unControlTotal, pagination }
     } = this.props;
     return (
       <Container>
         <Pagination
-          size={size}
-          showQuickJumper={showQuickJumper}
-          showSizeChanger={showSizeChanger}
+          { ...globalPaginationProps }
           total={unControlTotal}
           {...pagination}
         />
