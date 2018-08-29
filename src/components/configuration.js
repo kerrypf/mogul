@@ -28,13 +28,16 @@ class Configuration {
     pageSizeOptions: ["10", "20", "30"],
     size: "small",
     showQuickJumper: true,
-    showSizeChanger: true
+    showSizeChanger: true,
+    showTotal: () => total => `共 ${total} 个`
   };
 
   @observable
   tableProps = {
     size: "small"
   };
+
+  @observable confirmComposeProps = {};
 
   @observable localStorageKeyPrefix = "_MOGUL_";
 
@@ -47,7 +50,8 @@ class Configuration {
     pagination = {},
     fullScreen = this.fullScreen,
     popContext = this.popupContext,
-    tableProps = this.tableProps
+    tableProps = this.tableProps,
+    confirmComposeProps = this.confirmComposeProps
   } = {}) {
     this.messageOptions = {
       ...this.messageOptions,
@@ -72,6 +76,11 @@ class Configuration {
       ...this.tableProps,
       ...tableProps
     };
+
+    this.confirmComposeProps = {
+      ...this.confirmComposeProps,
+      ...confirmComposeProps
+    }
   }
 
   /**

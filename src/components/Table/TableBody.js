@@ -80,13 +80,13 @@ const RowCellInner = styled(Flex).attrs({
 const RowCell = styled(Item)`
   ${switchProp(prop("size", "small"), {
     small: css`
-      padding: 4px 8px;
-    `,
-    middle: css`
       padding: 6px 12px;
     `,
-    large: css`
+    middle: css`
       padding: 8px 16px;
+    `,
+    large: css`
+      padding: 12px 18px;
     `
   })};
 `;
