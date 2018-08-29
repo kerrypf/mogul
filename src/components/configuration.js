@@ -23,7 +23,7 @@ class Configuration {
   };
 
   @observable
-  pagination = {
+  _pagination = {
     pageSize: 10,
     pageSizeOptions: ["10", "20", "30"],
     size: "small",
@@ -47,6 +47,11 @@ class Configuration {
     return toJS(this._confirmComposeProps);
   }
 
+  @computed
+  get pagination(){
+    return toJS(this._pagination)
+  }
+
   @action.bound
   config({
     messageOptions = {},
@@ -54,8 +59,8 @@ class Configuration {
     pagination = {},
     fullScreen = this.fullScreen,
     popContext = this.popupContext,
-    tableProps = this.tableProps,
-    confirmComposeProps = this._confirmComposeProps
+    tableProps = {},
+    confirmComposeProps = {}
   } = {}) {
     this.messageOptions = {
       ...this.messageOptions,
@@ -67,8 +72,8 @@ class Configuration {
       ...sider
     };
 
-    this.pagination = {
-      ...this.pagination,
+    this._pagination = {
+      ...this._pagination,
       ...pagination
     };
 
