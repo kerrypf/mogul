@@ -122,7 +122,7 @@ export class FormClear extends Component {
             viewBox={"0 0 44 44"}
             className={className}
             style={{
-              style,
+              ...style,
               opacity,
               width: size,
               height: size,
