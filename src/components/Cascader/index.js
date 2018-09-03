@@ -178,7 +178,6 @@ export default class extends Component {
 
   @observable searchOptions = [];
 
-  @observable searchMode = false;
   @computed
   get viewOptions() {
     const { options } = this.props;
@@ -247,16 +246,9 @@ export default class extends Component {
   }
 
   @action.bound
-  showSearchMode(e) {
-    this.searchMode = true;
-    this.onSearchChange(e);
-  }
-
-  @action.bound
   hideSearchMode() {
     setTimeout(
       action("hide-search-mode", () => {
-        this.searchMode = false;
         this.searchStr = "";
         this.searchOptions = [];
       }),
@@ -278,12 +270,11 @@ export default class extends Component {
                     onChange={this.onSearchChange}
                     value={this.searchStr}
                     style={{ width: "100%" }}
-                    onFocus={this.showSearchMode}
                   />
                 )}
               </Observer>
             </SearchContainer>
-            {this.searchMode ? (
+            {this.searchStr ? (
               <SearchOptionsContainer style={{ maxWidth: this.getContainerWidth() }}>
                 <div
                   style={{
@@ -313,7 +304,7 @@ export default class extends Component {
             ) : null}
           </Fragment>
         ) : null}
-        {showSearch && this.searchMode ? null : (
+        {showSearch && this.searchStr ? null : (
           <OptionsContainer>
             <Observer>
               {() =>
@@ -379,7 +370,6 @@ export default class extends Component {
     if (!visible && this.props.showSearch) {
       this.searchOptions = [];
       this.searchStr = "";
-      this.searchMode = false;
     }
   }
 

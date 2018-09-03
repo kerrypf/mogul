@@ -5,6 +5,7 @@ export {
   flex,
   onlyOneReq,
   portal,
+  lastReq,
   Memorize,
   createModal,
   confirmCompose,

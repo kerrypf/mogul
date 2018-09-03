@@ -1,13 +1,50 @@
 import React, { Component } from "react";
-import { Button, DatePicker } from "antd";
-import { Form, Flex, Item, Cascader } from "../../../src";
-import moment from "moment";
+import { Cascader, lastReq } from "../../../src";
+
+const mock = delay => {
+  return new Promise(res => {
+    setTimeout(() => {
+      res({
+        data: 222
+      });
+    }, delay);
+  });
+};
 
 class Demo extends Component {
   state = {
     val: [10, 12],
     searchOptions: []
   };
+
+  query(name) {
+    return this.getData(name).then(data => {
+      if (data.outOfDate){
+        return Promise.reject(null)
+      } else{
+        return Promise.resolve([
+          {
+            label: name,
+            value: 100
+          },
+          {
+            label: name + 1,
+            value: 101
+          },
+          {
+            label: name + 2,
+            value: 102
+          }
+        ]);
+      }
+
+    });
+  }
+
+  @lastReq("loading")
+  getData() {
+    return mock(Math.random() * 1000 + 200);
+  }
 
   render() {
     return (
@@ -88,24 +125,11 @@ class Demo extends Component {
             });
           }}
           onSearch={val => {
-            return [
-              {
-                label: val,
-                value: 100
-              },
-              {
-                label: val+1,
-                value: 101
-              },
-              {
-                label: val+2,
-                value: 102
-              }
-            ];
+            return this.query(val);
           }}
-          onSearchSet={ (val) => {
+          onSearchSet={val => {
             console.log(val);
-          } }
+          }}
           options={[
             {
               value: 1,
