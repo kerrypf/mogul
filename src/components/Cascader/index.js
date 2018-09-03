@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 import { observable, computed, action } from "mobx";
@@ -54,10 +54,17 @@ const StyledInput = styled(Input)`
 `;
 
 const OptionsContainer = styled(Flex)`
+  overflow: auto;
+`;
+
+const OverlayContainer = styled.div`
   background-color: #fff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   border-radius: 5px;
-  overflow: auto;
+`;
+
+const SearchContainer = styled.div`
+  padding: 10px 5px;
 `;
 
 const OptionSubContainer = styled.div`
@@ -75,6 +82,7 @@ const OptionItem = styled(Item).attrs({
   padding-right: 24px;
   padding: 5px 12px;
   line-height: 22px;
+  height: 33px;
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.3s;
@@ -96,6 +104,16 @@ const OptionItem = styled(Item).attrs({
       }
     `
   )};
+`;
+
+const SearchOptionsContainer = styled.div`
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  ${OptionItem} {
+    border-top: 1px solid #efefef;
+  }
 `;
 
 const ArrowIcon = styled(Icon).attrs({
@@ -124,26 +142,43 @@ export default class extends Component {
         children: PropTypes.array
       })
     ).isRequired,
+    searchOptions: PropTypes.arrayOf(
+      PropTypes.shape({
+        label: PropTypes.string.isRequired,
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      })
+    ),
     value: PropTypes.array,
     onChange: PropTypes.func.isRequired,
     style: PropTypes.object,
     placeholder: PropTypes.string,
     disabled: PropTypes.bool,
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
+    showSearch: PropTypes.bool,
+    onSearch: PropTypes.func,
+    onSearchSet: PropTypes.func
   };
 
   static defaultProps = {
     style: {},
     value: [],
-    loading: false
+    loading: false,
+    showSearch: false,
+    searchOptions: []
   };
 
   state = {
-    expandKeys: []
+    expandKeys: [],
+    searchStr: ""
   };
 
   @observable expandKeys = [];
 
+  @observable searchStr = "";
+
+  @observable searchOptions = [];
+
+  @observable searchMode = false;
   @computed
   get viewOptions() {
     const { options } = this.props;
@@ -192,37 +227,124 @@ export default class extends Component {
     return result;
   }
 
-  renderOptions = () => {
-    return (
-      <OptionsContainer>
-        <Observer>
-          {() =>
-            this.viewOptions.map(group => (
-              <OptionSubContainer key={group.level}>
-                {group.data.map(option => (
-                  <OptionItem
-                    className={
-                      option.children && option.children.length > 0 && option.__expand__
-                        ? "active"
-                        : ""
-                    }
-                    key={option.value}
-                    onClick={() =>
-                      !option.disabled ? this.setSelectedKey(group.level, option.value) : null
-                    }
-                    onMouseEnter={() => this.setExpandKey(group.level, option.value)}
-                    disabled={option.disabled}
-                    title={option.label}>
-                    <span>{option.label}</span>
+  @action.bound
+  onSearchChange({ target: { value } }) {
+    this.searchStr = value;
+    let result = this.props.onSearch(value);
+    if (result instanceof Promise) {
+      result.then(
+        action("get-options", options => {
+          this.searchOptions = options;
+        })
+      );
+    } else {
+      this.searchOptions = result;
+    }
+  }
 
-                    {option.children && option.children.length > 0 ? <ArrowIcon /> : null}
+  getContainerWidth() {
+    return this.container.getBoundingClientRect().width;
+  }
+
+  @action.bound
+  showSearchMode(e) {
+    this.searchMode = true;
+    this.onSearchChange(e);
+  }
+
+  @action.bound
+  hideSearchMode() {
+    setTimeout(
+      action("hide-search-mode", () => {
+        this.searchMode = false;
+        this.searchStr = "";
+        this.searchOptions = [];
+      }),
+      100
+    );
+  }
+
+  renderOptions = () => {
+    const { showSearch } = this.props;
+
+    return (
+      <OverlayContainer>
+        {showSearch ? (
+          <Fragment>
+            <SearchContainer style={{ minWidth: this.getContainerWidth() }}>
+              <Observer>
+                {() => (
+                  <Input.Search
+                    onChange={this.onSearchChange}
+                    value={this.searchStr}
+                    style={{ width: "100%" }}
+                    onFocus={this.showSearchMode}
+                  />
+                )}
+              </Observer>
+            </SearchContainer>
+            {this.searchMode ? (
+              <SearchOptionsContainer style={{ maxWidth: this.getContainerWidth() }}>
+                <div
+                  style={{
+                    color: "#333",
+                    position: "relative",
+                    height: 30,
+                    padding: 5
+                  }}>
+                  搜索结果: 共{this.searchOptions.length}个
+                  <Icon
+                    type="close-circle"
+                    onClick={this.hideSearchMode}
+                    style={{ position: "absolute", right: 10, cursor: "pointer", top: 9 }}
+                  />
+                </div>
+                {this.searchOptions.map(option => (
+                  <OptionItem
+                    onClick={ () => {
+                      this.setSearchResult(option.value, option)
+                    } }
+                    key={option.value}
+                    title={option.label}>
+                    {option.label}
                   </OptionItem>
                 ))}
-              </OptionSubContainer>
-            ))
-          }
-        </Observer>
-      </OptionsContainer>
+              </SearchOptionsContainer>
+            ) : null}
+          </Fragment>
+        ) : null}
+        {showSearch && this.searchMode ? null : (
+          <OptionsContainer>
+            <Observer>
+              {() =>
+                this.viewOptions.map(group => (
+                  <OptionSubContainer key={group.level}>
+                    {group.data.map(option => (
+                      <OptionItem
+                        className={
+                          option.children && option.children.length > 0 && option.__expand__
+                            ? "active"
+                            : ""
+                        }
+                        key={option.value}
+                        onClick={() =>
+                          !option.disabled ? this.setSelectedKey(group.level, option.value) : null
+                        }
+                        onMouseEnter={() => this.setExpandKey(group.level, option.value)}
+                        disabled={option.disabled}
+                        title={option.label}>
+                        <span>{option.label}</span>
+
+                        {option.children && option.children.length > 0 ? <ArrowIcon /> : null}
+                      </OptionItem>
+                    ))}
+                  </OptionSubContainer>
+                ))
+              }
+            </Observer>
+          </OptionsContainer>
+        )}
+      </OverlayContainer>
     );
   };
 
@@ -240,6 +362,25 @@ export default class extends Component {
     this.props.onChange([...keepKeys, key]);
 
     this.overlay.getOverlayApi().closeOverlay();
+  }
+
+
+  @action.bound
+  setSearchResult(key, option) {
+
+    this.props.onSearchSet(key, option);
+
+    this.overlay.getOverlayApi().closeOverlay();
+  }
+
+
+  @action.bound
+  onOverlayVisible(visible) {
+    if (!visible && this.props.showSearch) {
+      this.searchOptions = [];
+      this.searchStr = "";
+      this.searchMode = false;
+    }
   }
 
   render() {
@@ -273,6 +414,7 @@ export default class extends Component {
         overlay={this.renderOptions}
         placementVariation={"start"}
         zIndex={9999}
+        onVisibleChange={this.onOverlayVisible}
         offset={4}>
         <Container
           className={disabled ? "disabled" : ""}

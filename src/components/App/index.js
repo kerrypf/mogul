@@ -107,7 +107,7 @@ export default class App extends Component {
               <Sider routes={renderRoutes.filter(route => route.type !== "redirect")} />
 
               <AppContainer direction={"column"} flex={1}>
-                <Header>{header}</Header>
+                { header ? <Header>{header}</Header> : null }
                 {/*<Observer>*/}
                   {/*{() => (header && !configuration.fullScreen ? <Header>{header}</Header> : null)}*/}
                 {/*</Observer>*/}
