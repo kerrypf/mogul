@@ -20,7 +20,8 @@ export default class extends Component {
               id: "demo-test",
               title: "创建弹窗",
               children: <Test />,
-              onOk: () => {}
+              onOk: () => {},
+              onCancel: () => { console.log(111) }
             });
           }}>
           createModal

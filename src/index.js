@@ -21,8 +21,9 @@ export { default as Card } from "./components/Card";
 export { default as Query } from './components/Query';
 
 export { default as TagSelect } from "./components/TagSelect";
-//export { default as CreateList } from './components/CreateList';
-//
+
+export { default as Tag } from "./components/Tag";
+
 export { default as App } from "./components/App";
 
 export { default as Cascader } from './components/Cascader';
