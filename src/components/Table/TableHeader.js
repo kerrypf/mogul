@@ -84,9 +84,8 @@ const SortIcon = styled(Icon)`
   )};
   transition: color 0.3s;
   position: absolute;
-  right: 10px;
   top: 0;
-  transform: scale(0.8);
+  margin-left: 5px;
   &:hover {
     color: ${variable.primary};
   }

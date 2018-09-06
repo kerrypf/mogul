@@ -108,7 +108,7 @@ export default class extends Component {
   };
 
   render() {
-    const { children, size, className, onClick, closable, onClose, ...rest } = this.props;
+    const { children, size, className, onClick, closable, onClose, overflow, ...rest } = this.props;
     return (
       <Container
         size={size}
@@ -116,7 +116,9 @@ export default class extends Component {
         hasCursor={!!onClick}
         hasCloseIcon={closable}
         {...rest}>
-        <Item onClick={onClick}>{children}</Item>
+        <Item overflow={overflow} onClick={onClick}>
+          {children}
+        </Item>
         {closable ? <CloseIcon onClick={onClose} /> : null}
       </Container>
     );
