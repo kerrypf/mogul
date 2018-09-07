@@ -58,7 +58,7 @@ class RootNode extends Component {
         rowRenderer={({ key, index, isScrolling, isVisible, style }) => {
           let option = flattenOptions[index];
           let selected = selectedKeys.includes(option.value);
-          let disabled = false;
+          let disabled = !!option.disabled;
           let expand = expandKeys.includes(option.value);
           if (option.__level__) {
             //            disabled = selectedKeys.includes(option.parent.value);
@@ -87,6 +87,7 @@ class RootNode extends Component {
               <Item>
                 {checked ? (
                   <Checkbox
+                    disabled={ disabled }
                     onChange={({ target: { checked } }) => {
                       onChecked(checked, option);
                     }}
