@@ -13,6 +13,7 @@ function loadStories() {
   require("./stories/cascader/index");
   require("./stories/Query/index");
   require("./stories/tagSelect");
+  require("./stories/tree");
 }
 
 configure(loadStories, module);

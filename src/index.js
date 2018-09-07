@@ -33,3 +33,5 @@ export { default as Table } from "./components/Table";
 export { default as Form } from "./components/Form";
 
 export { default as configuration } from "./components/configuration";
+
+export { default as Tree } from "./components/Tree";
