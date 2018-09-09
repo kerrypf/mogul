@@ -35,3 +35,5 @@ export { default as Form } from "./components/Form";
 export { default as configuration } from "./components/configuration";
 
 export { default as Tree } from "./components/Tree";
+
+export { default as Image } from "./components/Image"

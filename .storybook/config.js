@@ -14,6 +14,7 @@ function loadStories() {
   require("./stories/Query/index");
   require("./stories/tagSelect");
   require("./stories/tree");
+  require("./stories/Img");
 }
 
 configure(loadStories, module);

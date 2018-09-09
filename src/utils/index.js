@@ -17,4 +17,6 @@ export { confirmCompose } from "./confirmCompose";
 
 export { randomStr } from "./randomStr";
 
-export { Overlay } from "./overlay"
+export { Overlay } from "./overlay";
+
+export { fullScreen } from "./fullScreen"
