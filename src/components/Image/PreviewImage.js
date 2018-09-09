@@ -147,6 +147,7 @@ export default class PreviewImage extends Component {
         case 189:
           this.zoomIn();
           break;
+        default:
       }
     }
     e.stopPropagation();
@@ -240,6 +241,7 @@ export default class PreviewImage extends Component {
               transform: `translate(-50%,-50%)rotate(${(loaded ? rotate : 0) * 90}deg)`
             }}>
             <img
+              alt={ "预览图片" }
               draggable={false}
               ref={img => (this.img = img)}
               src={this.props.src}

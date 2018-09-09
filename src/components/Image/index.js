@@ -109,6 +109,7 @@ export default class extends Component {
     return (
       <Wrap innerRef={container => (this.container = container)}>
         <img
+          alt={ "图片" }
           src={src}
           {...imgProps}
           style={{ cursor: hasCursor ? "pointer" : null, ...style }}

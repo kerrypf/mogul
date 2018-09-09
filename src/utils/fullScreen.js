@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 export const fullScreen = () => {
   const el = document,
     domEl = document.documentElement,
