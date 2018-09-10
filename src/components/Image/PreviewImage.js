@@ -141,15 +141,15 @@ export default class PreviewImage extends Component {
     } else if (e.keyCode === 122) {
       fullScreen();
     } else if (e.ctrlKey) {
-      switch (e.keyCode) {
-        case 187:
-          this.zoomOut();
-          break;
-        case 189:
-          this.zoomIn();
-          break;
-        default:
-      }
+//      switch (e.keyCode) {
+//        case 187:
+//          this.zoomOut();
+//          break;
+//        case 189:
+//          this.zoomIn();
+//          break;
+//        default:
+//      }
     }
     e.stopPropagation();
     e.preventDefault();
@@ -211,7 +211,7 @@ export default class PreviewImage extends Component {
   zoomOut = () => {
     if (this.checkImgAvaiable()) {
       this.setState({
-        scale: Math.min(20, this.state.scale * 1.2)
+        scale: Math.min(5, this.state.scale * 1.2)
       });
     }
   };

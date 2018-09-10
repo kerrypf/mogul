@@ -60,12 +60,6 @@ class RootNode extends Component {
           let selected = selectedKeys.includes(option.value);
           let disabled = !!option.disabled;
           let expand = expandKeys.includes(option.value);
-          if (option.__level__) {
-            //            disabled = selectedKeys.includes(option.parent.value);
-            expand = false;
-          } else {
-            expand = expandKeys.includes(option.value);
-          }
           return (
             <Flex
               key={key}
