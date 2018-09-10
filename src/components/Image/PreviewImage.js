@@ -3,7 +3,7 @@ import styled, { keyframes } from "styled-components";
 import PropTypes from "prop-types";
 import { Tooltip } from "antd";
 import { Spring, animated } from "react-spring";
-import { fullScreen, portal } from "../../utils";
+import { fullScreen, portal, Flex } from "../../utils";
 import variable from "../variable";
 import { Spin } from "../Indicator"
 import { Close, Small, Big, RotateIcon, FitScreen, PresentMode } from "./Icons";
@@ -56,7 +56,10 @@ export const fadeOut = keyframes`
         opacity: 0;
     }
 `;
-const Wrap = styled.div`
+const Wrap = styled(Flex).attrs({
+  alignItems: "center",
+  justifyContent: "center"
+})`
   position: fixed;
   top: 0;
   right: 0;
@@ -67,9 +70,6 @@ const Wrap = styled.div`
 `;
 
 const ImgWrap = styled.div`
-  position: absolute;
-  left: 50%;
-  top: 50%;
   transition: transform, height, width 0.3s, 0.3s, 0.3s;
   text-align: center;
   user-select: none;
@@ -115,7 +115,8 @@ export const ScaleNumber = styled.div`
 export default class PreviewImage extends Component {
   static propTypes = {
     src: PropTypes.string,
-    onClose: PropTypes.func.isRequired
+    onClose: PropTypes.func.isRequired,
+    zIndex: PropTypes.number
   };
 
   state = {
@@ -227,18 +228,19 @@ export default class PreviewImage extends Component {
   render() {
     const { scale, loaded, rotate, error } = this.state;
     const imgAvaiable = this.checkImgAvaiable();
+    const { zIndex } = this.props;
     const width = imgAvaiable ? this.img.naturalWidth : 600,
       height = imgAvaiable ? this.img.naturalHeight : 300;
 
     return (
       <div>
-        <Mask />
-        <Wrap>
+        <Mask style={ { zIndex } }/>
+        <Wrap style={ { zIndex } }>
           <ImgWrap
             style={{
               width: scale * width,
               height: scale * height,
-              transform: `translate(-50%,-50%)rotate(${(loaded ? rotate : 0) * 90}deg)`
+              transform: `rotate(${(loaded ? rotate : 0) * 90}deg)`
             }}>
             <img
               alt={ "预览图片" }

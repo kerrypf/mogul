@@ -36,17 +36,19 @@ const Mask = styled(Flex).attrs({ alignItems: "center", justifyContent: "center"
 export default class extends Component {
   state = {
     avai: false,
-    inPreview: false
+    inPreview: false,
   };
 
   static propTypes = {
     src: PropTypes.string.isRequired,
     preview: PropTypes.bool,
-    previewSrc: PropTypes.string
+    previewSrc: PropTypes.string,
+    zIndex: PropTypes.number
   };
 
   static defaultProps = {
-    preview: false
+    preview: false,
+    zIndex: 1000
   };
 
   handleOnLoad = () => {
@@ -101,7 +103,7 @@ export default class extends Component {
   };
 
   render() {
-    const { src, onClick, preview, previewSrc, onError, onLoad, style, ...imgProps } = this.props;
+    const { src, onClick, preview,zIndex, previewSrc, onError, onLoad, style, ...imgProps } = this.props;
     const { avai, inPreview } = this.state;
     const hasCursor = preview || !!onClick;
     const showPreview = preview && avai && src && inPreview;
@@ -124,7 +126,7 @@ export default class extends Component {
         ) : null}
 
         {showPreview ? (
-          <PreviewImage src={previewSrc ? previewSrc : src} onClose={this.hidePreview} />
+          <PreviewImage zIndex={ zIndex } src={previewSrc ? previewSrc : src} onClose={this.hidePreview} />
         ) : null}
       </Wrap>
     );
