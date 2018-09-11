@@ -10,7 +10,7 @@ import NodeLabel from "./NodeLabel";
 @inject("tree")
 @observer
 class RootNode extends Component {
-  renderHighlightSpan = (text, regExp) => {
+  renderHighlightSpan = (text = "", regExp) => {
     const { searchString } = this.props.tree;
 
     let arr = text.split(regExp);
@@ -37,12 +37,11 @@ class RootNode extends Component {
       selectedKeys,
       expandKeys,
       toggleExpandTree,
-      selectNode,
       searchRegExp,
       inSearchMode,
       checkedKeys,
       checked,
-      props: { onChecked, isChecked }
+      props: { onChecked, isChecked,onSelect }
     } = this.props.tree;
 
     if (inSearchMode && flattenOptions.length === 0)
@@ -94,7 +93,7 @@ class RootNode extends Component {
               </Item>
               <NodeLabel
                 disabled={disabled}
-                onClick={disabled ? null : () => selectNode(option, !selected)}
+                onClick={disabled ? null : () => onSelect(option, !selected)}
                 selected={selected}>
                 {inSearchMode ? this.renderHighlightSpan(option.label, searchRegExp) : option.label}
               </NodeLabel>

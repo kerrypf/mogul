@@ -191,7 +191,7 @@ export default class extends Component {
 
         {viewData.length === 0 ? (
           <EmptyRow justifyContent={"center"} alignItems={"center"} style={{ height: rowHeight }}>
-            {noDataRender()}
+            {noDataRender({ size })}
           </EmptyRow>
         ) : null}
       </div>

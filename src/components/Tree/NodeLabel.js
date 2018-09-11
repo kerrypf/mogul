@@ -5,7 +5,7 @@ export default styled(Item)`
   cursor: ${props => (props.disabled ? "not-allowed" : "pointer")};
   padding: 0 8px;
   transition: background-color 0.3s;
-
+    margin-left: 4px;
   ${props =>
     props.selected
       ? css`

@@ -59,19 +59,18 @@ export default class TreeStore {
   get flattenOptions() {
     let options = [];
     const getFlattenOptions = (option, level, parent) => {
-      const formatterOption = this.props.formatter(option);
       options.push({
-        ...formatterOption,
+        ...option,
         __level__: level,
         __parent__: parent
       });
 
       if (
-        this.expandKeys.includes(formatterOption.value) &&
+        this.expandKeys.includes(option.value) &&
         option.children &&
         option.children.length > 0
       ) {
-        option.children.map(opt => getFlattenOptions(opt, level + 1, formatterOption));
+        option.children.map(opt => getFlattenOptions(opt, level + 1, option));
       }
     };
 
@@ -79,53 +78,6 @@ export default class TreeStore {
 
     return options;
   }
-
-  //  @computed
-  //  get flattenOptions() {
-  //    let flatOptionArr = [];
-  //
-  //    this.options.forEach(option => {
-  //      let expand = this.expandKeys.includes(option.value);
-  //      let hasChild = option.children && option.children.length > 0;
-  //
-  //      let moreOptions = [];
-  //      if (expand && hasChild) {
-  //        moreOptions = option.children;
-  //        if (this.inSearchMode) {
-  //          moreOptions = moreOptions.filter(opt =>
-  //            this.searchRegExp.test(opt.label)
-  //          );
-  //        }
-  //      }
-  //
-  //      // 如果没有一个子集满足条件, 那么父标签也不显示
-  //      if (this.inSearchMode) {
-  //        if (moreOptions.length > 0 || this.searchRegExp.test(option.label)) {
-  //          flatOptionArr.push({
-  //            ...option,
-  //            expand,
-  //            hasChild
-  //          });
-  //        }
-  //      } else {
-  //        flatOptionArr.push({
-  //          ...option,
-  //          expand,
-  //          hasChild
-  //        });
-  //      }
-  //
-  //      flatOptionArr = [
-  //        ...flatOptionArr,
-  //        ...moreOptions.map(opt => ({
-  //          ...opt,
-  //          __level__: 1,
-  //          parent: option
-  //        }))
-  //      ];
-  //    });
-  //    return flatOptionArr;
-  //  }
 
   @action.bound
   updateProps(nextProps) {
@@ -148,6 +100,19 @@ export default class TreeStore {
 
   @action.bound
   expandAllNodes() {
-    this.expandKeys = this.options.map(opt => opt.value);
+    let expandKeys = [];
+
+    const addKeyToExpand = (options)=>{
+      options.forEach( option => {
+        if (option.children && option.children.length > 0){
+          expandKeys.push(option.value);
+          addKeyToExpand(option.children);
+        }
+      } )
+    };
+
+    addKeyToExpand(this.options);
+
+    this.expandKeys = expandKeys;
   }
 }

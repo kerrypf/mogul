@@ -3,13 +3,14 @@ import { findDOMNode } from "react-dom";
 import { Provider, PropTypes as MobxPropTypes } from "mobx-react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
-import { ifProp } from "styled-tools";
+import { ifProp, prop, switchProp } from "styled-tools";
 import TableStore from "./TableStore";
 import TableHeader from "./TableHeader";
 import TableBody from "./TableBody";
 import Pagination from "./Pagination";
 import { Spin } from "../Indicator";
-import { Flex } from "../../utils";
+import { Flex, Item } from "../../utils";
+
 const TableContainer = styled.div`
   display: inline-block;
   position: relative;
@@ -56,6 +57,22 @@ const LoadingOverlay = styled(Flex).attrs({
   background-color: rgba(255, 255, 255, 0.6);
 `;
 
+const NoDataSpan = styled.span`
+  text-align: center;
+  color: rgb(189, 189, 189);
+  ${switchProp(prop("size", "small"), {
+    small: css`
+      line-height: 30px;
+    `,
+    middle: css`
+      line-height: 40px;
+    `,
+    large: css`
+      line-height: 50px;
+    `
+  })};
+`;
+
 class Table extends Component {
   static propTypes = {
     style: PropTypes.object,
@@ -98,11 +115,7 @@ class Table extends Component {
       })
     ]),
     showHeader: PropTypes.bool,
-    size: PropTypes.oneOf([
-      "small",
-      "middle",
-      "large"
-    ])
+    size: PropTypes.oneOf(["small", "middle", "large"])
   };
 
   static defaultProps = {
@@ -117,10 +130,10 @@ class Table extends Component {
     loading: false,
     draggable: false,
     showHeader: true,
-    noDataRender: () => (
-      <span style={{ textAlign: "center", lineHeight: "30px", color: "rgb(189, 189, 189)" }}>
+    noDataRender: ({ size }) => (
+      <NoDataSpan size={ size }>
         暂无数据
-      </span>
+      </NoDataSpan>
     )
   };
 

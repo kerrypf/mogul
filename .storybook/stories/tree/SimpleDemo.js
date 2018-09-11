@@ -18,27 +18,48 @@ const flattenNode = node => {
   return nodes;
 };
 
+const makeNodeData = node => ({
+  label: node.name,
+  value: node.id,
+  children: node.leaf ? null : node.children ? node.children.map(n => makeNodeData(n)) : []
+});
+
+const nodeData = data.map(node => makeNodeData(node));
+
+console.log(nodeData);
+
 class Demo extends Component {
   state = {
-    checkedKeys: []
+    checkedKeys: [],
+    selected: [],
+    search: "菜"
   };
 
   render() {
-    const { checkedKeys } = this.state;
+    const { checkedKeys, search } = this.state;
     return (
       <div>
+        <input
+          value={search}
+          onChange={({ target: { value } }) =>
+            this.setState({
+              search: value
+            })
+          }
+        />
         <Tree
-          options={data}
-          value={[]}
-          onSelect={val => console.log(val)}
+          search={search}
+          options={nodeData}
+          value={this.state.selected}
+          onSelect={(val, selected) => {
+            this.setState({
+              selected: selected
+                ? [...this.state.selected, val.value]
+                : this.state.selected.filter(key => key !== val.value)
+            });
+          }}
           height={600}
           width={400}
-          formatter={option => ({
-            ...option,
-            label: option.name,
-            value: option.id,
-            children: option.leaf ? null : option.children ? option.children : []
-          })}
           checkedKeys={checkedKeys}
           checked={true}
           isChecked={(checkedKeys, option) => {
@@ -51,7 +72,7 @@ class Demo extends Component {
             let nodes = flattenNode(option);
 
             if (nodes.length > 0) {
-              return !nodes.find(node => !checkedKeys.includes(node.id));
+              return !nodes.find(node => !checkedKeys.includes(node.value));
             }
 
             return flag;
@@ -61,10 +82,9 @@ class Demo extends Component {
               let newAddKeys = [option.value];
 
               let nodes = flattenNode(option);
-
               nodes.forEach(node => {
-                if (!checkedKeys.includes(node.id)) {
-                  newAddKeys.push(node.id);
+                if (!checkedKeys.includes(node.value)) {
+                  newAddKeys.push(node.value);
                 }
               });
 
@@ -72,7 +92,7 @@ class Demo extends Component {
                 checkedKeys: [...checkedKeys, ...newAddKeys]
               });
             } else {
-              let removeKeys = [option.value, ...flattenNode(option).map(node => node.id)];
+              let removeKeys = [option.value, ...flattenNode(option).map(node => node.value)];
               this.setState({
                 checkedKeys: checkedKeys.filter(key => !removeKeys.includes(key))
               });
