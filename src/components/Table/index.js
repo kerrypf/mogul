@@ -9,7 +9,7 @@ import TableHeader from "./TableHeader";
 import TableBody from "./TableBody";
 import Pagination from "./Pagination";
 import { Spin } from "../Indicator";
-import { Flex, Item } from "../../utils";
+import { Flex } from "../../utils";
 
 const TableContainer = styled.div`
   display: inline-block;
