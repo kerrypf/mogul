@@ -8,7 +8,8 @@ import withForm from "./withForm";
 @observer
 export default class FormInput extends Component {
   static propTypes = {
-    placeholder: PropTypes.string
+    placeholder: PropTypes.string,
+    disabled: PropTypes.bool
   };
 
   handleOnChange = e => {
@@ -22,14 +23,14 @@ export default class FormInput extends Component {
   render() {
     const {
       form: { value },
-      placeholder
+      ...rest
     } = this.props;
     return (
       <Input
         value={value}
         onChange={this.handleOnChange}
         onBlur={this.handleBlur}
-        placeholder={placeholder}
+        { ...rest }
       />
     );
   }
