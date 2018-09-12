@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { storiesOf } from "@storybook/react";
-import { Spin, ContentLoader, Card, onlyOneReq } from "../../../src";
+import { Spin, Flex, Item, Card, onlyOneReq } from "../../../src";
 import MemorizeDemo from "./memorize";
 import CreateModal from "./createModal";
 import CreateProvider from "./createProvider";
@@ -20,10 +20,14 @@ storiesOf("工具", module)
       <Card
         noCss={false}
         loadingTemplate={"list"}
-        loading={true}
+//        loading={true}
         style={{ height: 300, margin: 15 }}>
         <div style={{ height: 300, width: 600 }}>2222</div>
       </Card>
+
+      <Flex style={{ width: 400, height: 400 }} alignItems={"center"} justifyContent={"center"}>
+        <Item shrink={ 0 } style={{ backgroundColor: "#efefef", width: 1000, height: 600 }} />
+      </Flex>
     </div>
   ))
   .add("memorize", () => <MemorizeDemo />)

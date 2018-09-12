@@ -1,4 +1,4 @@
-import React , { Component, Fragment } from "react";
+import { Component } from "react";
 import { withRouter } from "react-router-dom";
 import configuration from "../configuration"
 
@@ -14,6 +14,6 @@ export default class extends Component{
   }
 
   render(){
-    return <Fragment/>
+    return null
   }
 }

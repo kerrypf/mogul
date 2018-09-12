@@ -72,7 +72,7 @@ const LogoContainer = styled.div`
 const RoutesContainer = styled.div`
   overflow-x: hidden;
   overflow-y: scroll;
-  width: calc(100% + ${ getScrollbarWidth() }px);
+  width: calc(100% + ${getScrollbarWidth()}px);
   height: calc(100% - 108px);
 `;
 
@@ -83,15 +83,43 @@ const RouteContainer = styled(Flex).attrs({
   margin: 4px 0;
 `;
 
+const ArrowIcon = styled(Icon).attrs({
+  type: "down"
+})`
+  position: absolute;
+  right: 10px;
+  top: 15px;
+  font-size: 12px;
+  display: inline-block;
+  transition: transform ease-in-out 0.3s;
+  will-change: transform;
+
+  ${ifProp(
+    "selected",
+    css`
+      transform: rotate(180deg);
+    `,
+    css`
+      transform: rotate(0);
+    `
+  )};
+`;
+
 const RouteItem = styled(Flex)`
   height: 40px;
   line-height: 40px;
   font-size: 14px;
-  color: #ffffff;
+  color: ${variable.text.third};
   padding: 0 30px;
   position: relative;
   cursor: pointer;
   width: 100%;
+
+  &:hover {
+    ${ArrowIcon} {
+      color: #fff !important;
+    }
+  }
 `;
 
 const RouteWithNoChild = styled(NavLink)`
@@ -122,35 +150,13 @@ const RouteName = styled(Item).attrs({
   flex: 1,
   overflow: "auto"
 })`
-    will-change: opacity, paddingLeft;
+  will-change: opacity, paddingLeft;
 `;
 
 const IconContainer = styled.div`
   width: 20px;
   text-align: center;
   display: inline-block;
-`;
-
-const ArrowIcon = styled(Icon).attrs({
-  type: "down"
-})`
-  position: absolute;
-  right: 10px;
-  top: 15px;
-  font-size: 12px;
-  display: inline-block;
-  transition: transform ease-in-out 0.3s;
-  will-change: transform;
-
-  ${ifProp(
-    "selected",
-    css`
-      transform: rotate(180deg);
-    `,
-    css`
-      transform: rotate(0);
-    `
-  )};
 `;
 
 const CollapseContainer = styled(Flex).attrs({
@@ -241,7 +247,7 @@ class RouteMenu extends Component {
             content={
               collapse ? (
                 <MenuContainer>
-                  {children.filter( child => child.visible !== false ).map(route => (
+                  {children.filter(child => child.visible !== false).map(route => (
                     <SubRouteChild key={route.name} to={route.path}>
                       {" "}
                       {route.name}{" "}
@@ -274,7 +280,7 @@ class RouteMenu extends Component {
           </Popover>
 
           <Spring
-            native={ true }
+            native={true}
             to={{
               height: showChildren && !collapse ? "auto" : 0,
               opacity: showChildren && !collapse ? 1 : 0
@@ -282,26 +288,27 @@ class RouteMenu extends Component {
             from={{ height: "auto", opacity: 1 }}>
             {({ height, opacity }) => (
               <animated.div style={{ height: height, opacity, overflow: "hidden" }}>
-                {children.filter( child => child.visible !== false ).map(route => (
-                  <RouteMenu
-                    key={route.name}
-                    name={route.name}
-                    path={route.path}
-                    icon={route.icon}
-                    children={[]}
-                    iconSize={14}
-                    paddingLeft={4}
-                    opacity={1}
-                    indent={20 + indent}
-                  />
-                ))}
+                {children
+                  .filter(child => child.visible !== false)
+                  .map(route => (
+                    <RouteMenu
+                      key={route.name}
+                      name={route.name}
+                      path={route.path}
+                      icon={route.icon}
+                      children={[]}
+                      iconSize={14}
+                      paddingLeft={4}
+                      opacity={1}
+                      indent={20 + indent}
+                    />
+                  ))}
               </animated.div>
             )}
           </Spring>
         </Fragment>
       );
     }
-
     return (
       <Tooltip title={collapse ? name : null} placement={"right"}>
         <RouteWithNoChild to={path} style={{ paddingLeft: indent + 30 }}>

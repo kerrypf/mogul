@@ -20,9 +20,8 @@ export default class  extends Component{
       <App
         header={ <div>hhh</div> }
         footer={ <div><a>@Mogul/components</a></div> }
-      >
-        { () => routes }
-      </App>
+        routes={ routes }
+      />
     </div>
   }
 }

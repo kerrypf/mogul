@@ -3,9 +3,9 @@ import styled, { keyframes } from "styled-components";
 import PropTypes from "prop-types";
 import { Tooltip } from "antd";
 import { Spring, animated } from "react-spring";
-import { fullScreen, portal, Flex } from "../../utils";
+import { fullScreen, portal, Flex, Item } from "../../utils";
 import variable from "../variable";
-import { Spin } from "../Indicator"
+import { Spin } from "../Indicator";
 import { Close, Small, Big, RotateIcon, FitScreen, PresentMode } from "./Icons";
 const PreviewActionWrap = styled.div`
   position: fixed;
@@ -28,7 +28,7 @@ const PreviewActionBtn = styled.button`
   background-color: transparent;
   cursor: pointer;
   transition: color 0.3s;
-  
+
   &:hover {
     color: ${variable.primary};
     fill: ${variable.primary};
@@ -56,10 +56,7 @@ export const fadeOut = keyframes`
         opacity: 0;
     }
 `;
-const Wrap = styled(Flex).attrs({
-  alignItems: "center",
-  justifyContent: "center"
-})`
+const Wrap = styled(Flex)`
   position: fixed;
   top: 0;
   right: 0;
@@ -69,10 +66,19 @@ const Wrap = styled(Flex).attrs({
   overflow: auto;
 `;
 
-const ImgWrap = styled.div`
+const ImgWrap = styled(Item).attrs({
+  shrink: 0
+})`
   transition: transform, height, width 0.3s, 0.3s, 0.3s;
   text-align: center;
   user-select: none;
+  position: relative;
+`;
+
+const StyledImg = styled.img`
+  width: 100%;
+  height: 100%;
+  cursor: -webkit-grab;
 `;
 
 export const ImgUnavaible = styled.div`
@@ -141,15 +147,15 @@ export default class PreviewImage extends Component {
     } else if (e.keyCode === 122) {
       fullScreen();
     } else if (e.ctrlKey) {
-//      switch (e.keyCode) {
-//        case 187:
-//          this.zoomOut();
-//          break;
-//        case 189:
-//          this.zoomIn();
-//          break;
-//        default:
-//      }
+      //      switch (e.keyCode) {
+      //        case 187:
+      //          this.zoomOut();
+      //          break;
+      //        case 189:
+      //          this.zoomIn();
+      //          break;
+      //        default:
+      //      }
     }
     e.stopPropagation();
     e.preventDefault();
@@ -157,8 +163,8 @@ export default class PreviewImage extends Component {
   };
 
   handleZoomWheel = e => {
-    const isZoomout = e.wheelDelta ? e.wheelDelta > 0 : e.detail > 0;
-    isZoomout ? this.zoomOut() : this.zoomIn();
+    //    const isZoomout = e.wheelDelta ? e.wheelDelta > 0 : e.detail > 0;
+    //    isZoomout ? this.zoomOut() : this.zoomIn();
   };
 
   checkImgAvaiable() {
@@ -225,6 +231,40 @@ export default class PreviewImage extends Component {
     }
   };
 
+  getImageAlignProps({ width, height, scale, imgAvaiable, rotate }) {
+    if (!imgAvaiable)
+      return {
+        justifyContent: "center",
+        alignItems: "center"
+      };
+
+    let alignItems = "center";
+    let justifyContent = "center";
+
+    if (rotate % 2 === 0) {
+      if (window.innerHeight < height * scale) {
+        alignItems = "flex-start";
+      }
+
+      if (window.innerWidth < width * scale) {
+        justifyContent = "flex-start";
+      }
+    } else {
+      if (window.innerHeight < width * scale) {
+        alignItems = "flex-start";
+      }
+
+      if (window.innerWidth < height * scale) {
+        justifyContent = "flex-start";
+      }
+    }
+
+    return {
+      justifyContent,
+      alignItems
+    };
+  }
+
   render() {
     const { scale, loaded, rotate, error } = this.state;
     const imgAvaiable = this.checkImgAvaiable();
@@ -234,22 +274,23 @@ export default class PreviewImage extends Component {
 
     return (
       <div>
-        <Mask style={ { zIndex } }/>
-        <Wrap style={ { zIndex } }>
+        <Mask style={{ zIndex }} />
+        <Wrap
+          style={{ zIndex }}
+          {...this.getImageAlignProps({ width, height, scale, imgAvaiable, rotate })}>
           <ImgWrap
             style={{
               width: scale * width,
               height: scale * height,
-              transform: `rotate(${(loaded ? rotate : 0) * 90}deg)`
+              transform: `rotate(${(loaded ? rotate : 0) * 90}deg)`,
+              transformOrigin: "left top"
             }}>
-            <img
-              alt={ "预览图片" }
+            <StyledImg
+              alt={"预览图片"}
               draggable={false}
-              ref={img => (this.img = img)}
+              innerRef={img => (this.img = img)}
               src={this.props.src}
               style={{
-                width: "100%",
-                height: "100%",
                 display: imgAvaiable ? "inline-block" : "none"
               }}
               onLoad={this.imgLoaded}
@@ -281,14 +322,12 @@ export default class PreviewImage extends Component {
               ) : loaded ? (
                 ""
               ) : (
-                <Spin size={ 30 }/>
+                <Spin size={30} />
               )}
             </ImgUnavaible>
           )}
 
-          <Close
-            onClick={this.props.onClose}
-          />
+          <Close onClick={this.props.onClose} />
 
           <Spring form={{ opacity: 0 }} to={{ opacity: imgAvaiable ? 1 : 0 }}>
             {style => (
@@ -296,29 +335,29 @@ export default class PreviewImage extends Component {
                 <PreviewActionWrap>
                   <Tooltip title={"缩小"}>
                     <PreviewActionBtn onClick={this.zoomIn}>
-                      <Small/>
+                      <Small />
                     </PreviewActionBtn>
                   </Tooltip>
                   <Tooltip title={"放大"}>
                     <PreviewActionBtn onClick={this.zoomOut}>
-                      <Big/>
+                      <Big />
                     </PreviewActionBtn>
                   </Tooltip>
                   <Tooltip title={"适配屏幕"}>
                     <PreviewActionBtn onClick={this.fixImgToScreen}>
-                      <FitScreen/>
+                      <FitScreen />
                     </PreviewActionBtn>
                   </Tooltip>
 
                   <Tooltip title={"旋转"}>
                     <PreviewActionBtn onClick={this.rotate}>
-                      <RotateIcon/>
+                      <RotateIcon />
                     </PreviewActionBtn>
                   </Tooltip>
 
                   <Tooltip title={"演示"}>
                     <PreviewActionBtn onClick={fullScreen}>
-                      <PresentMode/>
+                      <PresentMode />
                     </PreviewActionBtn>
                   </Tooltip>
                 </PreviewActionWrap>

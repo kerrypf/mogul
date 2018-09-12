@@ -98,6 +98,7 @@ export default class App extends Component {
   render() {
     const { routes, children, footer, header } = this.props;
     const renderRoutes = routes ? routes : children();
+
     return (
       <Fragment>
         <BrowserRouter>
