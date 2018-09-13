@@ -35,6 +35,20 @@ export default class extends Component {
     this.state.form.tearDownForm();
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.fieldName !== this.props.fieldName) {
+      console.error("不支持动态改变 fieldName", prevProps.fieldName);
+    }
+
+    if (
+      prevProps.rules !== this.props.rules ||
+      prevProps.labelStyle !== this.props.labelStyle ||
+      prevProps.containerStyle !== this.props.containerStyle
+    ) {
+      this.state.form.updateFormConfig();
+    }
+  }
+
   render() {
     const { label, children, hint } = this.props;
     const { labelStyle, isRequired, errorMessage, containerStyle } = this.state.form;

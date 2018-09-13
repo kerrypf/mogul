@@ -44,6 +44,7 @@ class Demo extends Component {
                 ["minLength", 3, "名称最少为3位"]
               ]}
               placeholder={"名称字段"}
+              fieldName={ "inputName" }
             />
             <Form.Input
               label={"密码"}

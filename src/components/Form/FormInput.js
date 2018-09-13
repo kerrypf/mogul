@@ -25,6 +25,7 @@ export default class FormInput extends Component {
       form: { value },
       ...rest
     } = this.props;
+
     return (
       <Input
         value={value}

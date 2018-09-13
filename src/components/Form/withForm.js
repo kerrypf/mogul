@@ -62,7 +62,10 @@ function getDecorator(withArgs, defaultProps) {
               "labelStyle",
               "containerStyle",
               "onChange",
-              "hint"
+              "hint",
+              "fieldName",
+              "isMobXReactObserver",
+              "propTypes"
             ];
             let newProps = {};
 
