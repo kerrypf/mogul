@@ -24,7 +24,7 @@ export default class extends Component {
     return (
       <div>
         动态表单
-        <Form ref={form => (this.form = form)}>
+        <Form ref={form => (this.form = form)} onPressEnter={target => this.validate()}>
           <Flex direction={"column"} style={{ width: 800 }}>
             <Form.Input
               fieldName={"enterpriseName"}

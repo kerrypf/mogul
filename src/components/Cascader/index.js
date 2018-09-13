@@ -353,6 +353,8 @@ export default class extends Component {
     this.props.onChange([...keepKeys, key]);
 
     this.overlay.getOverlayApi().closeOverlay();
+
+    this.container.focus();
   }
 
 
@@ -362,6 +364,8 @@ export default class extends Component {
     this.props.onSearchSet(key, option);
 
     this.overlay.getOverlayApi().closeOverlay();
+
+    this.container.focus();
   }
 
 
@@ -407,6 +411,7 @@ export default class extends Component {
         onVisibleChange={this.onOverlayVisible}
         offset={4}>
         <Container
+          tabIndex={ -1 }
           className={disabled ? "disabled" : ""}
           innerRef={container => (this.container = container)}
           style={style}>

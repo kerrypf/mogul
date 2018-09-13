@@ -47,6 +47,7 @@ export const FormField = styled(Item).attrs({
   hasError: props => !!props.hasError
 })`
   position: relative;
+  outline: none;
   ${props =>
     props.hasError
       ? css`

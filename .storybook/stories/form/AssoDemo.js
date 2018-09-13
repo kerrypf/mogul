@@ -53,8 +53,7 @@ class Demo extends Component {
     return (
       <div>
         hello<Button>Btn</Button>
-        <Form ref={form => form ? this.form = form.getForm() : null }>
-          <div>111</div>
+        <Form onPressEnter={target => this.validate()} ref={form => form ? this.form = form.getForm() : null }>
           <Form.Box
             fieldName={ "simpleDemo" }
             style={{ width: 800 }}

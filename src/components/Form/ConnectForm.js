@@ -65,7 +65,7 @@ export default class extends Component {
             {" "}
             {label}
           </LabelItem>
-          <FormField hasError={!!errorMessage}>
+          <FormField tabIndex={ 0 }  hasError={!!errorMessage}>
             {component}
             <FormMessage hasError={!!errorMessage}>
               {errorMessage ? errorMessage : hint}

@@ -88,7 +88,7 @@ function getDecorator(withArgs, defaultProps) {
                     {" "}
                     {label}
                   </LabelItem>
-                  <FormField hasError={!!errorMessage}>
+                  <FormField tabIndex={ 0 } hasError={!!errorMessage}>
                     <Comp {...this.removeBlackListProps()} form={this.state.form} />
                     <FormMessage hasError={!!errorMessage}>
                       {errorMessage ? errorMessage : hint}
