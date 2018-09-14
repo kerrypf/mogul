@@ -45,7 +45,6 @@ class Form extends Component {
     if (keyCode === 13 && this.props.onPressEnter) {
       let domTarget = findDOMNode(this);
       if (domTarget === target || domTarget.contains(target)) {
-        debugger;
         this.props.onPressEnter(target);
       }
     }
