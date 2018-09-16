@@ -283,7 +283,7 @@ export default class PreviewImage extends Component {
               width: scale * width,
               height: scale * height,
               transform: `rotate(${(loaded ? rotate : 0) * 90}deg)`,
-              transformOrigin: "left top"
+//              transformOrigin: "left top"
             }}>
             <StyledImg
               alt={"预览图片"}
