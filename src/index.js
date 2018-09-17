@@ -1,5 +1,3 @@
-import { NavLink } from "./components/Route";
-
 export {
   Item,
   item,
@@ -41,4 +39,4 @@ export { default as Tree } from "./components/Tree";
 
 export { default as Image } from "./components/Image"
 
-export { NavLink } from "./components/Route";
+export { NavLink, Redirect } from "./components/Route";
