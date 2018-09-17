@@ -7,5 +7,5 @@ import LoadingOverlay from "./LoadingOverlay"
 // sandbox https://codesandbox.io/s/l96rjj4z07
 storiesOf("App", module)
   .add("简单例子", () => <SimpleApp />)
-  .add("全屏加载", () => <LoadingOverlay/>)
-  .add("非常多的页面", () => <LotOfPages/>)
+//  .add("全屏加载", () => <LoadingOverlay/>)
+//  .add("非常多的页面", () => <LotOfPages/>)

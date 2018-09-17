@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import { Provider, Observer } from "mobx-react";
+import { Provider, observer } from "mobx-react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import styled from "styled-components";
 import configuration from "../configuration";
@@ -55,6 +55,7 @@ const Footer = styled.div`
   font-size: 14px;
 `;
 
+@observer
 export default class App extends Component {
   static propTypes = {
     children: PropTypes.oneOfType([PropTypes.func]),
@@ -104,38 +105,27 @@ export default class App extends Component {
         <BrowserRouter>
           <Provider mogul={configuration}>
             <RootContainer>
-              <MogulHistory/>
+              <MogulHistory />
               <Sider routes={renderRoutes.filter(route => route.type !== "redirect")} />
 
               <AppContainer direction={"column"} flex={1}>
-                { header ? <Header>{header}</Header> : null }
-                {/*<Observer>*/}
-                  {/*{() => (header && !configuration.fullScreen ? <Header>{header}</Header> : null)}*/}
-                {/*</Observer>*/}
+                {header && !configuration.fullScreen ? <Header>{header}</Header> : null}
                 <Content>
                   <Switch>{this.renderRoutes(renderRoutes)}</Switch>
                 </Content>
-                <Observer>
-                  {() =>
-                    footer && !configuration.fullScreen ? (
-                      <Footer style={{ textAlign: "center" }}>{footer}</Footer>
-                    ) : null
-                  }
-                </Observer>
+                {footer && !configuration.fullScreen ? (
+                  <Footer style={{ textAlign: "center" }}>{footer}</Footer>
+                ) : null}
               </AppContainer>
             </RootContainer>
           </Provider>
         </BrowserRouter>
 
-        <Observer>
-          {() =>
-            configuration.fullPageLoading ? (
-              <FullPageOverlay style={{ opacity: 1 }}>
-                <Spin size={100} />
-              </FullPageOverlay>
-            ) : null
-          }
-        </Observer>
+        { configuration.fullPageLoading ? (
+          <FullPageOverlay style={{ opacity: 1 }}>
+            <Spin size={100} />
+          </FullPageOverlay>
+        ) : null }
       </Fragment>
     );
   }
