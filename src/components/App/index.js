@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { Provider, observer } from "mobx-react";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import styled from "styled-components";
+import { Redirect } from "../Route";
 import configuration from "../configuration";
 import { Spin } from "../Indicator";
 import { Flex, Item, flex } from "../../utils/grid";

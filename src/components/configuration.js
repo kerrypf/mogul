@@ -1,9 +1,15 @@
 import { observable, action, computed, toJS } from "mobx";
 import { notification } from "antd";
-class Configuration {
-  @observable fullPageLoading = false;
+import queryString from "query-string";
 
-  @observable fullScreen = false;
+class Configuration {
+  @observable
+  fullPageLoading = false;
+
+  @observable
+  fullScreen = false;
+
+  fixQueryParams = null;
 
   @observable
   messageOptions = {
@@ -36,9 +42,11 @@ class Configuration {
     size: "small"
   };
 
-  @observable _confirmComposeProps = {};
+  @observable
+  _confirmComposeProps = {};
 
-  @observable localStorageKeyPrefix = "_MOGUL_";
+  @observable
+  localStorageKeyPrefix = "_MOGUL_";
 
   popupContext = null;
 
@@ -48,8 +56,8 @@ class Configuration {
   }
 
   @computed
-  get pagination(){
-    return toJS(this._pagination)
+  get pagination() {
+    return toJS(this._pagination);
   }
 
   @action.bound
@@ -60,7 +68,8 @@ class Configuration {
     fullScreen = this.fullScreen,
     popContext = this.popupContext,
     tableProps = {},
-    confirmComposeProps = {}
+    confirmComposeProps = {},
+    fixQueryParams = this.fixQueryParams
   } = {}) {
     this.messageOptions = {
       ...this.messageOptions,
@@ -90,6 +99,8 @@ class Configuration {
       ...this._confirmComposeProps,
       ...confirmComposeProps
     };
+
+    this.fixQueryParams = fixQueryParams;
   }
 
   /**
@@ -199,6 +210,50 @@ class Configuration {
       return null;
     }
     return this.__historyComp.props.history;
+  }
+
+  _getUrlObject(url, state) {
+    let urlObject = null;
+    if (typeof url === "string") {
+      urlObject = queryString.parseUrl(url);
+
+      urlObject = {
+        search: queryString.stringify({
+          ...urlObject.query,
+          ...this.fixQueryParams
+        }),
+        pathname: urlObject.url,
+        hash: urlObject.hash,
+        state
+      };
+    } else {
+      urlObject = {
+        ...url,
+        search: queryString.stringify(Object.assign({}, url.search, this.fixQueryParams))
+      };
+    }
+
+    return urlObject;
+  }
+
+  @action.bound
+  push(url, state) {
+    let history = this.getHistory();
+    if (!this.fixQueryParams) {
+      return history.push(this, arguments);
+    }
+
+    return history.push(this._getUrlObject(url, state));
+  }
+
+  @action.bound
+  replace(url, state) {
+    let history = this.getHistory();
+    if (!this.fixQueryParams) {
+      return history.replace(this, arguments);
+    }
+
+    return history.replace(this._getUrlObject(url, state));
   }
 }
 

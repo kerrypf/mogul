@@ -4,8 +4,9 @@ import styled, { css, injectGlobal } from "styled-components";
 import { observer } from "mobx-react";
 import { Icon, Tooltip, Popover } from "antd";
 import { Spring, animated } from "react-spring";
-import { withRouter, NavLink } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { ifProp } from "styled-tools";
+import { NavLink } from "../Route"
 import configuration from "../configuration";
 import { Flex, Item, flex, item } from "../../utils/grid";
 import { getScrollbarWidth } from "../../utils/getScrollbarWidth";

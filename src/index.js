@@ -1,3 +1,5 @@
+import { NavLink } from "./components/Route";
+
 export {
   Item,
   item,
@@ -11,7 +13,8 @@ export {
   confirmCompose,
   randomStr,
   Overlay,
-  createProvider
+  createProvider,
+  deepEqual
 } from "./utils";
 
 export { Spin, ContentLoader } from "./components/Indicator";
@@ -37,3 +40,5 @@ export { default as configuration } from "./components/configuration";
 export { default as Tree } from "./components/Tree";
 
 export { default as Image } from "./components/Image"
+
+export { NavLink } from "./components/Route";

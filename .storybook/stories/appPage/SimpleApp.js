@@ -7,9 +7,9 @@ configuration.config({
   sider: {
     logo: Logo
   },
-  fullScreen: true
+//  fullScreen: true
 });
-//
+
 export default class  extends Component{
 
   componentDidCatch(error, info){
