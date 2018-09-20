@@ -240,7 +240,7 @@ class Configuration {
   push(url, state) {
     let history = this.getHistory();
     if (!this.fixQueryParams) {
-      return history.push(this, arguments);
+      return history.push(url, state);
     }
 
     return history.push(this._getUrlObject(url, state));
@@ -250,7 +250,7 @@ class Configuration {
   replace(url, state) {
     let history = this.getHistory();
     if (!this.fixQueryParams) {
-      return history.replace(this, arguments);
+      return history.replace(url, state);
     }
 
     return history.replace(this._getUrlObject(url, state));
