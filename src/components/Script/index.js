@@ -137,7 +137,7 @@ export default class Script extends React.Component {
 
   render() {
     const { children } = this.props;
-    const { load } = this.state;
-    return load && children ? children() : null;
+    const { load, hasError } = this.state;
+    return load && children ? children(hasError) : null;
   }
 }
