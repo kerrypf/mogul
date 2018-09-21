@@ -40,3 +40,5 @@ export { default as Tree } from "./components/Tree";
 export { default as Image } from "./components/Image"
 
 export { NavLink, Redirect } from "./components/Route";
+
+export { default as Script } from "./components/Script";

@@ -15,6 +15,7 @@ function loadStories() {
   require("./stories/tagSelect");
   require("./stories/tree");
   require("./stories/Img");
+  require("./stories/ASyncScript")
 }
 
 configure(loadStories, module);
