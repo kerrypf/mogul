@@ -5,7 +5,7 @@ import MemorizeDemo from "./memorize";
 import CreateModal from "./createModal";
 import CreateProvider from "./createProvider";
 import LastReqPage from "./lastReq";
-
+import OnlyOneReqPage from "./onlyOneReq";
 storiesOf("工具", module)
   .add("加载", () => (
     <div>
@@ -33,4 +33,5 @@ storiesOf("工具", module)
   .add("memorize", () => <MemorizeDemo />)
   .add("createModal", () => <CreateModal />)
   .add("createProvider", () => <CreateProvider />)
-  .add("lastReq", () => <LastReqPage />);
+  .add("lastReq", () => <LastReqPage />)
+  .add("onlyOneReq", () => <OnlyOneReqPage/>);

@@ -1,5 +1,5 @@
 import { decorate, invokedWithArgs } from "./util";
-import { action, extendObservable } from "mobx";
+import { action, decorate as mobxDecorate, observable } from "mobx";
 function getDecorator(withArgs, lockName) {
   return (target, key, descriptor) => {
     if (!withArgs) {
@@ -8,10 +8,10 @@ function getDecorator(withArgs, lockName) {
         .slice(2, 8)}`;
     }
     const fn = descriptor.value;
-
     if (withArgs && !target.hasOwnProperty(lockName)) {
-      extendObservable(target, {
-        [lockName]: false
+      target[lockName] = false;
+      mobxDecorate(target, {
+        [lockName]: observable
       });
     }
 

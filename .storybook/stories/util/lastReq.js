@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { lastReq } from "../../../src/index";
+import { lastReq, onlyOneReq } from "../../../src/index";
 import { Input, Button } from "antd";
-import { observable } from "mobx";
 import { observer } from "mobx-react";
 
 const mock = delay => {
@@ -22,7 +21,7 @@ export default class extends Component {
     count: 0
   };
 
-  @observable loading = false;
+//  @observable loading = false;
 
   query() {
     let invokeTime = new Date().getTime();
@@ -39,7 +38,7 @@ export default class extends Component {
   render() {
     return (
       <div>
-        <Button onClick={() => this.query()}>
+        <Button onClick={ () => this.query }>
           测试一下
         </Button>
       </div>
