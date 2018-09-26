@@ -1,6 +1,6 @@
 {
   "name": "@mogul/components",
-  "version": "0.0.98-alpha.2000",
+  "version": "0.1.0",
   "private": false,
   "license": "MIT",
   "main": "build/mogul.js",
