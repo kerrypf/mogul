@@ -28,7 +28,7 @@ const validCheck = (value, rule, form) => {
 
   switch (rule[0]) {
     case "required":
-      return isFn(rule[1]) ? rule[1](value,form) : requiredCheck(value) ? true : rule[1];
+      return isFn(rule[1]) ? rule[1](value, form) : requiredCheck(value) ? true : rule[1];
     case "maxLength":
       let maxLengthNumber = Joi.number()
         .min(1)
@@ -58,8 +58,8 @@ export default class FormStore {
   }
 
   @computed
-  get top(){
-    if (!this.root){
+  get top() {
+    if (!this.root) {
       return this;
     }
 
@@ -67,7 +67,7 @@ export default class FormStore {
   }
 
   @computed
-  get parent(){
+  get parent() {
     return this.root;
   }
 
@@ -196,7 +196,7 @@ export default class FormStore {
   }
 
   @action.bound
-  $(name){
+  $(name) {
     return this.findFormByFieldName(name);
   }
 
@@ -205,8 +205,8 @@ export default class FormStore {
     if (this.component) {
       this._value = this.component.props.initialValue;
 
-      if (typeof resetChildren === "boolean" && resetChildren){
-        this.forms.forEach( form => form.resetValue(true) );
+      if (typeof resetChildren === "boolean" && resetChildren) {
+        this.forms.forEach(form => form.resetValue(true));
       }
 
       this.validate();
@@ -260,4 +260,10 @@ export default class FormStore {
 
   @action.bound
   flattenData() {}
+
+  @action.bound
+  brother(name) {
+    if (!this.parent) return null;
+    return this.parent.forms.find(form => form.fieldName === name);
+  }
 }
