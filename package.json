@@ -1,6 +1,6 @@
 {
   "name": "@mogul/components",
-  "version": "0.1.2",
+  "version": "0.1.2-alpha.remove-query",
   "private": false,
   "license": "MIT",
   "main": "build/mogul.js",
