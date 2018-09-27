@@ -36,7 +36,7 @@ const Mask = styled(Flex).attrs({ alignItems: "center", justifyContent: "center"
 export default class extends Component {
   state = {
     avai: false,
-    inPreview: false,
+    inPreview: false
   };
 
   static propTypes = {
@@ -103,7 +103,17 @@ export default class extends Component {
   };
 
   render() {
-    const { src, onClick, preview,zIndex, previewSrc, onError, onLoad, style, ...imgProps } = this.props;
+    const {
+      src,
+      onClick,
+      preview,
+      zIndex,
+      previewSrc,
+      onError,
+      onLoad,
+      style,
+      ...imgProps
+    } = this.props;
     const { avai, inPreview } = this.state;
     const hasCursor = preview || !!onClick;
     const showPreview = preview && avai && src && inPreview;
@@ -111,7 +121,7 @@ export default class extends Component {
     return (
       <Wrap innerRef={container => (this.container = container)}>
         <img
-          alt={ "图片" }
+          alt={"图片"}
           src={src}
           {...imgProps}
           style={{ cursor: hasCursor ? "pointer" : null, ...style }}
@@ -119,14 +129,18 @@ export default class extends Component {
           onLoad={this.handleOnLoad}
           onError={this.handleOnError}
         />
-        {avai && src ? (
+        {preview && avai && src ? (
           <Mask>
-            <View size={this.getIconSize()} onClick={ this.showPreview }/>
+            <View size={this.getIconSize()} onClick={this.showPreview} />
           </Mask>
         ) : null}
 
         {showPreview ? (
-          <PreviewImage zIndex={ zIndex } src={previewSrc ? previewSrc : src} onClose={this.hidePreview} />
+          <PreviewImage
+            zIndex={zIndex}
+            src={previewSrc ? previewSrc : src}
+            onClose={this.hidePreview}
+          />
         ) : null}
       </Wrap>
     );

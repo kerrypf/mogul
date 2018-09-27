@@ -1,8 +1,3 @@
-//export { default as BaseCollection } from './BaseCollection';
-
-//export { default as filter } from './filter';
-
-
 export { flex, Flex, Item, item } from "./grid";
 
 export { onlyOneReq, portal, createProvider, lastReq } from "./decorators";
@@ -19,4 +14,4 @@ export { randomStr } from "./randomStr";
 
 export { Overlay } from "./overlay";
 
-export { fullScreen } from "./fullScreen"
+export { fullScreen } from "./fullScreen";
