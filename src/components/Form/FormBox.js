@@ -33,7 +33,9 @@ export default class FormBox extends Component {
     const { form, children, ...rest } = this.props;
     return (
       <Provider form={this.state.form}>
-        <Flex {...rest}>{typeof children === "function" ? children(form) : children}</Flex>
+        <Flex {...rest}>
+          {typeof children === "function" ? children(this.state.form) : children}
+        </Flex>
       </Provider>
     );
   }
