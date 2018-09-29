@@ -16,6 +16,20 @@ export default class TableStore {
     return this.props.columns.filter(column => column);
   }
 
+  @computed.struct
+  get fixedLeftColumns() {
+    return this.columns.filter(column => {
+      return column.fixed === "left";
+    });
+  }
+
+  @computed.struct
+  get fixedRightColumns() {
+    return this.columns.filter(column => {
+      return column.fixed === "right";
+    });
+  }
+
   @computed
   get bordered() {
     return this.props.bordered;

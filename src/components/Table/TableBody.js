@@ -21,6 +21,21 @@ const RowCellOuter = styled(Item).attrs({
     `,
     css``
   )};
+  position: relative;
+  ${switchProp("sticky", {
+    right: css`
+      right: 0;
+      position: sticky;
+      box-shadow: -2px 0px 2px 1px rgba(208, 207, 207, 0.6);
+      z-index: 2;
+    `,
+    left: css`
+      left: 0;
+      position: sticky;
+      box-shadow: 2px 0px 2px 1px rgba(208, 207, 207, 0.6);
+      z-index: 2;
+    `
+  })};
   border-bottom: 1px solid #e8e8e8;
   height: 100%;
   overflow: auto;
@@ -150,6 +165,7 @@ export default class extends Component {
     } = this.props;
 
     return (
+      // 用于 drag 组件
       <div style={{ position: "relative" }}>
         {viewData.map((row, rowIndex) => (
           <Fragment key={row[rowKey]}>
@@ -170,7 +186,8 @@ export default class extends Component {
                       minWidth: column.minWidth,
                       height: rowHeight
                     }}
-                    index={index}>
+                    index={index}
+                    sticky={column.fixed}>
                     <RowCellInner>
                       <RowCell size={size} {...cellContainerProps}>
                         {column.render ? column.render(row, column) : row[column.key]}

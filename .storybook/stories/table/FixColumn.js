@@ -33,16 +33,6 @@ for (let i = 0; i <= 30; i++) {
 }
 
 export default class extends Component {
-  componentDidCatch(error, info) {
-    console.log(error, info);
-  }
-
-  getData() {}
-
-  //  componentDidMount(){
-  //    axios("http://localhost:3004/reps");
-  //  }
-
   render() {
     return (
       <div style={{ padding: 10 }}>
@@ -60,7 +50,8 @@ export default class extends Component {
               render(row) {
                 return <span>{row.id}</span>;
               },
-              minWidth: 200
+              minWidth: 200,
+              fixed: "left"
             },
             {
               title: "名称",
@@ -68,7 +59,7 @@ export default class extends Component {
               render(row) {
                 return <span>{row.name}</span>;
               },
-              minWidth: 200
+              minWidth: 200,
             },
             {
               title: "描述",
@@ -76,7 +67,8 @@ export default class extends Component {
               minWidth: 300,
               render(row) {
                 return <span>{row.description}</span>;
-              }
+              },
+//              fixed: "left"
             },
             {
               title: "创建于",
@@ -84,7 +76,8 @@ export default class extends Component {
               render(row) {
                 return <span>{row.created_at.toString()}</span>;
               },
-              width: 200
+              width: 200,
+
             },
             {
               title: "stars",
@@ -108,7 +101,8 @@ export default class extends Component {
               render(row) {
                 return <a href={row.url}>地址</a>;
               },
-              width: 50
+              width: 100,
+              fixed: "right"
             }
           ]}
         />

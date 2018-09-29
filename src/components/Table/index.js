@@ -91,7 +91,8 @@ class Table extends Component {
         headerMode: PropTypes.shape({
           type: PropTypes.oneOf(["sort"])
         }),
-        visible: PropTypes.bool
+        visible: PropTypes.bool,
+        fixed: PropTypes.oneOf(["left", "right"])
       })
     ),
     bordered: PropTypes.bool,
@@ -130,11 +131,7 @@ class Table extends Component {
     loading: false,
     draggable: false,
     showHeader: true,
-    noDataRender: ({ size }) => (
-      <NoDataSpan size={ size }>
-        暂无数据
-      </NoDataSpan>
-    )
+    noDataRender: ({ size }) => <NoDataSpan size={size}>暂无数据</NoDataSpan>
   };
 
   state = {};

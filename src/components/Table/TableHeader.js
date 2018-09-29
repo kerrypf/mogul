@@ -37,7 +37,23 @@ const HeaderCellOuter = styled(Item).attrs({
     `,
     css``
   )};
+  position: relative;
+  ${switchProp("sticky", {
+    right: css`
+      right: 0;
+      position: sticky;
+      box-shadow: -2px 0px 2px 1px rgba(208, 207, 207, 0.6);
+      z-index: 2;
+    `,
+    left: css`
+      left: 0;
+      position: sticky;
+      box-shadow: 2px 0px 2px 1px rgba(208, 207, 207, 0.6);
+      z-index: 2;
+    `
+  })};
   border-bottom: 1px solid #e8e8e8;
+  background-color: #fafafa;
 `;
 
 const HeaderCellInner = styled(Flex).attrs({
@@ -46,7 +62,6 @@ const HeaderCellInner = styled(Flex).attrs({
 })`
   height: 100%;
   width: 100%;
-  position: relative;
 `;
 
 const HeaderCell = styled(Item)`
@@ -155,7 +170,8 @@ export default class extends Component {
             key={column.key}
             flex={column.width ? undefined : column.flex ? column.flex : 1}
             style={{ width: column.width, minWidth: column.minWidth, minHeight: headerMinHeight }}
-            index={index}>
+            index={index}
+            sticky={column.fixed}>
             <HeaderCellInner>{this.renderTitle(column, index)}</HeaderCellInner>
           </HeaderCellOuter>
         ))}
