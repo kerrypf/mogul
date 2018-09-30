@@ -85,7 +85,8 @@ export default class extends Component {
               render(row) {
                 return <span>{row.stargazers_count}</span>;
               },
-              width: 100
+              width: 100,
+
             },
             {
               title: "当前是否有issue",
