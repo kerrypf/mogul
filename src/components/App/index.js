@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
+//import PropTypes from "prop-types";
 import { Provider, observer } from "mobx-react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import styled from "styled-components";
@@ -55,23 +55,35 @@ const Footer = styled.div`
   color: rgba(0, 0, 0, 0.65);
   font-size: 14px;
 `;
+type route = {
+  name: string,
+  path?: string,
+  icon?: string,
+  render: Function
+};
+type AppProps = {
+  footer: any,
+  header: any,
+  children?: Function,
+  routes: Array<route>
+};
 
 @observer
-export default class App extends Component {
-  static propTypes = {
-    children: PropTypes.oneOfType([PropTypes.func]),
-    footer: PropTypes.any,
-    header: PropTypes.any,
-    routes: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string,
-        children: PropTypes.array,
-        path: PropTypes.string,
-        render: PropTypes.func,
-        icon: PropTypes.any
-      })
-    )
-  };
+export default class App extends React.Component<AppProps> {
+  //  static propTypes = {
+  //    children: PropTypes.oneOfType([PropTypes.func]),
+  //    footer: PropTypes.any,
+  //    header: PropTypes.any,
+  //    routes: PropTypes.arrayOf(
+  //      PropTypes.shape({
+  //        name: PropTypes.string,
+  //        children: PropTypes.array,
+  //        path: PropTypes.string,
+  //        render: PropTypes.func,
+  //        icon: PropTypes.any
+  //      })
+  //    )
+  //  };
 
   renderRoutes(routes) {
     let routeComponents = [];
@@ -102,7 +114,7 @@ export default class App extends Component {
     const renderRoutes = routes ? routes : children();
 
     return (
-      <Fragment>
+      <React.Fragment>
         <BrowserRouter>
           <Provider mogul={configuration}>
             <RootContainer>
@@ -122,12 +134,12 @@ export default class App extends Component {
           </Provider>
         </BrowserRouter>
 
-        { configuration.fullPageLoading ? (
+        {configuration.fullPageLoading ? (
           <FullPageOverlay style={{ opacity: 1 }}>
             <Spin size={100} />
           </FullPageOverlay>
-        ) : null }
-      </Fragment>
+        ) : null}
+      </React.Fragment>
     );
   }
 }

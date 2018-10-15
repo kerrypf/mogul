@@ -1,7 +1,6 @@
 import styled, { css, keyframes } from "styled-components";
-import React, { Component } from "react";
+import * as React from "react";
 import { switchProp, ifProp } from "styled-tools";
-import PropTypes from "prop-types";
 import { Icon } from "antd";
 import { Item, Flex } from "../../utils/grid";
 
@@ -89,14 +88,21 @@ const CloseIcon = styled(Icon).attrs({
   }
 `;
 
-export default class extends Component {
-  static propTypes = {
-    theme: PropTypes.oneOf(["primary", "default"]),
-    size: PropTypes.oneOf(["small", "middle", "large"]),
-    closable: PropTypes.bool,
-    onClose: PropTypes.func
-  };
+type Theme = "primary" | "default";
+type TagSize = "small" | "middle" | "large";
 
+type TagProps = {
+  theme: Theme,
+  size: TagSize,
+  closable: boolean,
+  onClose: Function,
+  overflow?: string,
+  className?: string,
+  onClick?: Function,
+  children: any
+};
+
+export default class extends React.Component<TagProps> {
   static defaultProps = {
     flex: "inline-flex",
     alignItems: "center",
