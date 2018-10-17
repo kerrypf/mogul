@@ -1,10 +1,11 @@
 {
   "name": "@mogul/components",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "private": false,
   "license": "MIT",
   "main": "build/mogul.js",
   "jsnext:main": "build/mogul.js",
+  "typings": "typings/index.d.ts",
   "scripts": {
     "precommit": "lint-staged",
     "storybook": "start-storybook -p 9001 -c .storybook",
