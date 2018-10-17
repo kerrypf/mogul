@@ -72,11 +72,12 @@ export default class extends Component {
   render() {
     const { className, style, children, loading, keepContent, noCss } = this.props;
 
+    const concatClassName = className ? "__mogul__card " + className : "__mogul__card";
     return (
       <Container
-        noCss={ noCss }
+        noCss={noCss}
         innerRef={container => (this.container = container)}
-        className={className}
+        className={concatClassName}
         style={style}>
         {loading && !keepContent ? null : children}
         <Transition

@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { Redirect } from "../Route";
 import configuration from "../configuration";
 import { Spin } from "../Indicator";
-import { Flex, Item, flex } from "../../utils/grid";
+import { Flex, Item, flex, item } from "../../utils/grid";
 import Sider from "./Sider";
 import MogulHistory from "./MogulHistory";
 
@@ -44,9 +44,14 @@ const Header = styled.div`
   background-color: #fff;
 `;
 
-const Content = styled.div`
+const Content = styled(Flex).attrs({ direction: "column" })`
+  ${item({ flex: 1, shrink: 0 })};
   padding: 20px 30px;
   background-color: #f0f2f5;
+
+  & > .__mogul__card {
+    ${item({ flex: 1 })};
+  }
 `;
 
 const Footer = styled.div`
@@ -122,11 +127,11 @@ export default class App extends Component {
           </Provider>
         </BrowserRouter>
 
-        { configuration.fullPageLoading ? (
+        {configuration.fullPageLoading ? (
           <FullPageOverlay style={{ opacity: 1 }}>
             <Spin size={100} />
           </FullPageOverlay>
-        ) : null }
+        ) : null}
       </Fragment>
     );
   }

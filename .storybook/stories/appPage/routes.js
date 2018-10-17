@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Dropdown, Icon, Menu, Button } from "antd";
 import { Observer } from "mobx-react";
-import { configuration } from "../../../src";
+import { configuration, Card } from "../../../src";
 const menu = (
   <Menu theme={"dark"}>
     <Menu.Item>
@@ -24,7 +24,7 @@ const menu = (
 
 const page = ({ name }) => {
   return (
-    <div style={{ minHeight: 300, backgroundColor: "#fff" }}>
+    <Card style={{ backgroundColor: "#fff" }}>
       {name}
       <Dropdown overlay={menu}>
         <a className="ant-dropdown-link">
@@ -51,7 +51,7 @@ const page = ({ name }) => {
           </Button>
         )}
       </Observer>
-    </div>
+    </Card>
   );
 };
 
