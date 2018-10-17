@@ -93,7 +93,6 @@ class HeaderComp extends React.Component {
 
   listenWindowScroll = () => {
     this.last_known_scroll_position = window.scrollY;
-    console.log(111);
     if (!this.ticking) {
       window.requestAnimationFrame(() => {
         this.fixHeader(this.last_known_scroll_position);

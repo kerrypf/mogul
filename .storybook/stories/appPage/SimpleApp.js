@@ -3,6 +3,7 @@ import { App, configuration } from "../../../src/index";
 import Logo from "../image/logo.png";
 import routes from "./routes";
 import AppHeader from "./AppHeader";
+
 configuration.config({
   sider: {
     logo: Logo
