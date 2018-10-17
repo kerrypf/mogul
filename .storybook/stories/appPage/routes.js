@@ -24,7 +24,7 @@ const menu = (
 
 const page = ({ name }) => {
   return (
-    <Card style={{ backgroundColor: "#fff" }}>
+    <Card style={{ backgroundColor: "#fff", minHeight: 3000 }}>
       {name}
       <Dropdown overlay={menu}>
         <a className="ant-dropdown-link">

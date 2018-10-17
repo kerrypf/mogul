@@ -19,6 +19,7 @@ export default class  extends Component{
   render(){
     return <div>
       <App
+        fixHeader={ true }
         header={ <AppHeader routes={ {
           pages: routes.filter( route => route.type !== "redirect" )
         } }>hhh</AppHeader> }

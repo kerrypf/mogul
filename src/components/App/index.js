@@ -2,7 +2,8 @@ import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import { Provider, observer } from "mobx-react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { ifProp } from "styled-tools";
 import { Redirect } from "../Route";
 import configuration from "../configuration";
 import { Spin } from "../Indicator";
@@ -42,6 +43,16 @@ const Header = styled.div`
   height: 64px;
   padding: 0 30px;
   background-color: #fff;
+  position: relative;
+
+  ${ifProp(
+    "fixingPos",
+    css`
+      z-index: 999;
+      box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+    `,
+    css``
+  )};
 `;
 
 const Content = styled(Flex).attrs({ direction: "column" })`
@@ -61,6 +72,56 @@ const Footer = styled.div`
   font-size: 14px;
 `;
 
+class HeaderComp extends React.Component {
+  last_known_scroll_position = 0;
+  ticking = false;
+
+  state = {
+    scrollY: 0
+  };
+
+  componentDidMount() {
+    window.addEventListener("scroll", this.listenWindowScroll);
+    if (this.props.fixHeader) {
+      this.listenWindowScroll();
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.listenWindowScroll);
+  }
+
+  listenWindowScroll = () => {
+    this.last_known_scroll_position = window.scrollY;
+    console.log(111);
+    if (!this.ticking) {
+      window.requestAnimationFrame(() => {
+        this.fixHeader(this.last_known_scroll_position);
+        this.ticking = false;
+      });
+
+      this.ticking = true;
+    }
+  };
+
+  fixHeader = scrollY => {
+    this.setState({ scrollY });
+  };
+
+  render() {
+    const { fixHeader } = this.props;
+    const { scrollY } = this.state;
+    return (
+      <Header
+        fixingPos={fixHeader ? scrollY : null}
+        innerRef={header => (this.header = header)}
+        style={{ top: fixHeader ? scrollY : 0 }}>
+        {this.props.children}
+      </Header>
+    );
+  }
+}
+
 @observer
 export default class App extends Component {
   static propTypes = {
@@ -75,7 +136,12 @@ export default class App extends Component {
         render: PropTypes.func,
         icon: PropTypes.any
       })
-    )
+    ),
+    fixHeader: PropTypes.bool
+  };
+
+  static defaultProps = {
+    fixHeader: false
   };
 
   renderRoutes(routes) {
@@ -103,7 +169,7 @@ export default class App extends Component {
   }
 
   render() {
-    const { routes, children, footer, header } = this.props;
+    const { routes, children, footer, header, fixHeader } = this.props;
     const renderRoutes = routes ? routes : children();
 
     return (
@@ -115,7 +181,9 @@ export default class App extends Component {
               <Sider routes={renderRoutes.filter(route => route.type !== "redirect")} />
 
               <AppContainer direction={"column"} flex={1}>
-                {header && !configuration.fullScreen ? <Header>{header}</Header> : null}
+                {header && !configuration.fullScreen ? (
+                  <HeaderComp fixHeader={fixHeader}>{header}</HeaderComp>
+                ) : null}
                 <Content>
                   <Switch>{this.renderRoutes(renderRoutes)}</Switch>
                 </Content>
