@@ -34,6 +34,7 @@ declare class FormStore {
   resetValue(resetChildren?: boolean): void;
   validate(): boolean;
   getResult(): FormResult;
+  getFormData(): Object
 }
 
 type FormRule = {};

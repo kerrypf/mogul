@@ -104,7 +104,8 @@ class HeaderComp extends React.Component {
   };
 
   fixHeader = scrollY => {
-    this.setState({ scrollY });
+    // macos 浏览器允许向负方向滚动, 故设置最小Y滚动为 0
+    this.setState({ scrollY: Math.max(0, scrollY) });
   };
 
   render() {

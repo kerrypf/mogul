@@ -21,7 +21,7 @@ export default class FormBox extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      form: new FormStore(this.props.form, this)
+      form: new FormStore(this.props.form, this, true)
     };
   }
 

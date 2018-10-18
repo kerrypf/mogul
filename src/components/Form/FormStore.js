@@ -51,9 +51,12 @@ export default class FormStore {
   @observable _containerStyle = {};
   @observable errorMessage = null;
 
-  constructor(_, component) {
+  isLayout = false;
+
+  constructor(_, component, isLayout = false) {
     this.root = _;
     this.component = component;
+    this.isLayout = _ ? isLayout : true;
     this.setupForm();
   }
 
@@ -259,7 +262,24 @@ export default class FormStore {
   }
 
   @action.bound
-  flattenData() {}
+  getFormData() {
+    if (!this.isLayout) {
+      console.warn(`method: getFormData 只对 Form.Box 和 Form 有效`);
+
+      return null;
+    }
+
+    let data = {};
+
+    this.forms.forEach(form => {
+      if (data.hasOwnProperty(form.fieldName)) {
+        console.error(`already exist key ${form.fieldName} in ${this.fieldName}`);
+      }
+      data[form.fieldName] = form.isLayout ? form.getFormData() : form.value;
+    });
+
+    return data;
+  }
 
   @action.bound
   brother(name) {
