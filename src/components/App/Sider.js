@@ -6,7 +6,7 @@ import { Icon, Tooltip, Popover } from "antd";
 import { Spring, animated } from "react-spring";
 import { withRouter } from "react-router-dom";
 import { ifProp } from "styled-tools";
-import { NavLink } from "../Route"
+import { NavLink } from "../Route";
 import configuration from "../configuration";
 import { Flex, Item, flex, item } from "../../utils/grid";
 import { getScrollbarWidth } from "../../utils/getScrollbarWidth";
@@ -215,7 +215,8 @@ class RouteMenu extends Component {
       })
     ),
     iconSize: PropTypes.number,
-    indent: PropTypes.number
+    indent: PropTypes.number,
+    defaultExpand: PropTypes.bool
   };
 
   static defaultProps = {
@@ -223,9 +224,13 @@ class RouteMenu extends Component {
     indent: 0
   };
 
-  state = {
-    showChildren: true
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showChildren: typeof this.props.defaultExpand === "boolean" ? this.props.defaultExpand : true
+    };
+  }
 
   toggleShowChildren = () => {
     const { showChildren } = this.state;
@@ -341,6 +346,7 @@ export default class extends Component {
         name: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
         icon: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
         visible: PropTypes.bool,
+        defaultExpand: PropTypes.bool,
         children: PropTypes.arrayOf(
           PropTypes.shape({
             name: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
@@ -349,7 +355,8 @@ export default class extends Component {
           })
         )
       })
-    )
+    ),
+    multiMenuExpand: PropTypes.bool
   };
 
   state = {
@@ -381,6 +388,7 @@ export default class extends Component {
     const { offsetX } = this.state;
 
     if (configuration.fullScreen) return null;
+
     return (
       <Spring
         from={{ width: 200, opacity: 1, iconSize: 14 }}
@@ -414,6 +422,7 @@ export default class extends Component {
                       iconSize={iconSize}
                       paddingLeft={paddingLeft}
                       opacity={opacity}
+                      defaultExpand={route.defaultExpand}
                     />
                   </RouteContainer>
                 ))}

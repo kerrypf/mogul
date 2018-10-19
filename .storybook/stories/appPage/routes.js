@@ -99,6 +99,30 @@ export default [
     icon: "gift"
   },
   {
+    name: "入口页面2",
+    icon: "gift",
+    children: [
+      {
+        path: "/page7",
+        name: "页面7",
+        icon: "gift",
+        render: () =>
+          page({
+            name: "页面7"
+          })
+      },
+      {
+        path: "/page8",
+        name: "页面8",
+        icon: "gift",
+        render: () =>
+          page({
+            name: "页面8"
+          })
+      }
+    ]
+  },
+  {
     type: "redirect",
     from: "/",
     to: "/page1"

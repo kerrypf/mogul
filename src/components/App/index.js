@@ -134,14 +134,17 @@ export default class App extends Component {
         children: PropTypes.array,
         path: PropTypes.string,
         render: PropTypes.func,
-        icon: PropTypes.any
+        icon: PropTypes.any,
+        defaultExpand: PropTypes.bool
       })
     ),
-    fixHeader: PropTypes.bool
+    fixHeader: PropTypes.bool,
+    multiMenuExpand: PropTypes.bool
   };
 
   static defaultProps = {
-    fixHeader: false
+    fixHeader: false,
+    multiMenuExpand: true
   };
 
   renderRoutes(routes) {
@@ -169,7 +172,7 @@ export default class App extends Component {
   }
 
   render() {
-    const { routes, children, footer, header, fixHeader } = this.props;
+    const { routes, children, footer, header, fixHeader, multiMenuExpand } = this.props;
     const renderRoutes = routes ? routes : children();
 
     return (
@@ -178,7 +181,10 @@ export default class App extends Component {
           <Provider mogul={configuration}>
             <RootContainer>
               <MogulHistory />
-              <Sider routes={renderRoutes.filter(route => route.type !== "redirect")} />
+              <Sider
+                multiMenuExpand={multiMenuExpand}
+                routes={renderRoutes.filter(route => route.type !== "redirect")}
+              />
 
               <AppContainer direction={"column"} flex={1}>
                 {header && !configuration.fullScreen ? (
