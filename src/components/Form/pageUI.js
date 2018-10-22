@@ -61,7 +61,7 @@ export const FormField = styled(Item).attrs({
 export const FormMessage = styled.span`
   font-size: 12px;
   position: absolute;
-  bottom: -20px;
+  bottom: 100%;
   left: 0;
   z-index: 2;
 
@@ -89,7 +89,7 @@ const Container = styled.svg`
   cursor: pointer;
   top: 50%;
   transform: translate(-50%, -50%) scale(0.8);
-  
+
   transform-origin: center;
   &:hover {
     ${StyledPath} {
