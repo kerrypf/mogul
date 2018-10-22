@@ -61,7 +61,7 @@ export const FormField = styled(Item).attrs({
 export const FormMessage = styled.span`
   font-size: 12px;
   position: absolute;
-  bottom: 100%;
+  top: 100%;
   left: 0;
   z-index: 2;
 
