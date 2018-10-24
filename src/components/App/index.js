@@ -44,11 +44,13 @@ const Header = styled.div`
   padding: 0 30px;
   background-color: #fff;
   position: relative;
+  width: 100%;
 
   ${ifProp(
     "fixingPos",
     css`
       z-index: 999;
+      position: fixed;
       box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
     `,
     css``
@@ -112,12 +114,10 @@ class HeaderComp extends React.Component {
     const { fixHeader } = this.props;
     const { scrollY } = this.state;
     return (
-      <Header
-        fixingPos={fixHeader ? scrollY : null}
-        innerRef={header => (this.header = header)}
-        style={{ top: fixHeader ? scrollY : 0 }}>
-        {this.props.children}
-      </Header>
+      <Fragment>
+        {fixHeader && scrollY ? <Header className={"fixHeaderShadow"} /> : null}
+        <Header fixingPos={fixHeader ? scrollY : null}>{this.props.children}</Header>
+      </Fragment>
     );
   }
 }
