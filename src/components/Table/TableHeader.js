@@ -109,7 +109,11 @@ const SortIcon = styled(Icon)`
 @inject("table")
 @observer
 export default class extends Component {
-  renderTitle({ title, headerMode, headerContainerProps = {} }, index) {
+  renderTitleContent(title) {
+    return typeof title === "function" ? title(this.props.table) : title;
+  }
+
+  renderTitle({ title, headerMode, headerContainerProps = {} }) {
     const {
       table: { size }
     } = this.props;
@@ -117,7 +121,7 @@ export default class extends Component {
     if (!headerMode) {
       return (
         <HeaderCell size={size} {...headerContainerProps}>
-          {title}
+          {this.renderTitleContent(title)}
         </HeaderCell>
       );
     }
@@ -128,7 +132,8 @@ export default class extends Component {
         let sortByDesc = headerMode.value === "desc";
         return (
           <HeaderCell size={size} paddingRight={26} {...headerContainerProps}>
-            {title}
+            {this.renderTitleContent(title)}
+
             <SortIcon
               highlight={sortByAsc ? "true" : undefined}
               type="caret-up"
@@ -148,7 +153,7 @@ export default class extends Component {
           </HeaderCell>
         );
       default:
-        return <HeaderCell {...headerContainerProps}>{title}</HeaderCell>;
+        return <HeaderCell {...headerContainerProps}> {this.renderTitleContent(title)}</HeaderCell>;
     }
   }
 
