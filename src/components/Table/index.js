@@ -150,6 +150,7 @@ class Table extends Component {
 
   componentDidMount() {
     this.container.addEventListener("scroll", this.onScroll);
+    this.onScroll();
   }
 
   componentWillUnmount() {
