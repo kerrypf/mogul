@@ -43,6 +43,7 @@ export default class extends Component {
           fixHeader={true}
           scrollY={500}
           fluid={true}
+          showHeader={ false }
           columns={[
             {
               title: <div>id</div>,
@@ -94,7 +95,8 @@ export default class extends Component {
               render(row) {
                 return <span>{row.has_issues ? "是" : "五"}</span>;
               },
-              width: 100
+              width: 100,
+
             },
             {
               title: "地址",

@@ -13,7 +13,26 @@ export default class TableStore {
 
   @computed.struct
   get columns() {
-    return this.props.columns.filter(column => column);
+    let fixLeftColumns = [];
+
+    let fixRightColumns = [];
+
+    let middleColumns = [];
+    this.props.columns.forEach(column => {
+      if (column) {
+        switch (column.fixed) {
+          case "left":
+            fixLeftColumns.push(column);
+            break;
+          case "right":
+            fixRightColumns.push(column);
+            break;
+          default:
+            middleColumns.push(column);
+        }
+      }
+    });
+    return [...fixLeftColumns, ...middleColumns, ...fixRightColumns];
   }
 
   @computed

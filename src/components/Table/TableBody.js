@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 import { inject, observer } from "mobx-react";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import { ifProp, switchProp, prop } from "styled-tools";
+import { isChrome } from "../../utils/checkBrowser";
 import { Flex, Item } from "../../utils";
 const RowCellOuter = styled(Item).attrs({
   shrink: 0
@@ -22,20 +23,25 @@ const RowCellOuter = styled(Item).attrs({
     css``
   )};
   position: relative;
-  ${switchProp("sticky", {
-    right: css`
-      right: 0;
-      position: sticky;
-      box-shadow: -2px 0px 2px 1px rgba(208, 207, 207, 0.6);
-      z-index: 2;
-    `,
-    left: css`
-      left: 0;
-      position: sticky;
-      box-shadow: 2px 0px 2px 1px rgba(208, 207, 207, 0.6);
-      z-index: 2;
-    `
-  })};
+  ${isChrome
+    ? css`
+        ${switchProp("sticky", {
+          right: css`
+            right: 0;
+            position: sticky;
+            box-shadow: -2px 0px 2px 1px rgba(208, 207, 207, 0.6);
+            z-index: 2;
+          `,
+          left: css`
+            left: 0;
+            position: sticky;
+            box-shadow: 2px 0px 2px 1px rgba(208, 207, 207, 0.6);
+            z-index: 2;
+          `
+        })};
+      `
+    : ""};
+
   border-bottom: 1px solid #e8e8e8;
   height: 100%;
   overflow: auto;
@@ -176,6 +182,7 @@ export default class extends Component {
               style={{ height: rowHeight }}>
               {columns.map((column, index) => {
                 let cellContainerProps = column.cellContainerProps || {};
+
                 return (
                   <RowCellOuter
                     key={column.key}
