@@ -1,5 +1,6 @@
 import { observable, action, computed, toJS } from "mobx";
 import configuration from "../configuration";
+
 export default class TableStore {
   @observable props = null;
 
@@ -7,12 +8,28 @@ export default class TableStore {
 
   @observable unControlSize = 10;
 
+  @observable rowMeasureMap = new Map();
+
+  @observable headerMeasure = null;
+
+  mainScrollContainer = null;
+
+  fixLeftContainer = null;
+
+  fixRightContainer = null;
+
+  @observable highlightRowId = null;
+
+  @observable scrollTopPos = 0;
+
+  @observable scrollLeftPos = 0;
+
   constructor(_) {
     this.props = _;
   }
 
   @computed.struct
-  get columns() {
+  get columnTypes() {
     let fixLeftColumns = [];
 
     let fixRightColumns = [];
@@ -20,19 +37,57 @@ export default class TableStore {
     let middleColumns = [];
     this.props.columns.forEach(column => {
       if (column) {
-        switch (column.fixed) {
-          case "left":
-            fixLeftColumns.push(column);
-            break;
-          case "right":
-            fixRightColumns.push(column);
-            break;
-          default:
-            middleColumns.push(column);
+        if (column.width && column.width !== "auto") {
+          switch (column.fixed) {
+            case "left":
+              fixLeftColumns.push(column);
+              break;
+            case "right":
+              fixRightColumns.push(column);
+              break;
+            default:
+              middleColumns.push(column);
+          }
+        } else {
+          middleColumns.push(column);
         }
       }
     });
-    return [...fixLeftColumns, ...middleColumns, ...fixRightColumns];
+
+    return {
+      fixLeftColumns,
+      fixRightColumns,
+      middleColumns
+    };
+  }
+
+  @computed.struct
+  get columns() {
+    return [
+      ...this.columnTypes.fixLeftColumns,
+      ...this.columnTypes.middleColumns,
+      ...this.columnTypes.fixRightColumns
+    ];
+  }
+
+  @computed
+  get fixedLeftColumns() {
+    return this.columnTypes.fixLeftColumns;
+  }
+
+  @computed
+  get fixedRightColumns() {
+    return this.columnTypes.fixRightColumns;
+  }
+
+  @computed
+  get fixedLeftColumnsWidth() {
+    return this.fixedLeftColumns.map(({ width }) => width).reduce((a, b) => a + b, 0);
+  }
+
+  @computed
+  get fixedRightColumnsWidth() {
+    return this.fixedRightColumns.map(({ width }) => width).reduce((a, b) => a + b, 0);
   }
 
   @computed
@@ -84,6 +139,11 @@ export default class TableStore {
   @computed
   get fixHeader() {
     return this.props.fixHeader;
+  }
+
+  @computed
+  get showHeader() {
+    return this.props.showHeader;
   }
 
   @computed
@@ -159,5 +219,61 @@ export default class TableStore {
     this.unControlSize = size;
     // 不论第几页, 返回第一页;
     this.unControlPage = 1;
+  }
+
+  @action.bound
+  updateRowMeasure(rowData, contentRect) {
+    this.rowMeasureMap.set(rowData[this.rowKey], contentRect.bounds);
+  }
+
+  @action.bound
+  updateHeaderMeasure(contentRect) {
+    this.headerMeasure = contentRect.bounds;
+  }
+
+  @action.bound
+  updateScrollLeftPos(scrollLeftPos) {
+    this.scrollLeftPos = scrollLeftPos;
+  }
+
+  @action.bound
+  updateScrollTopPos(scrollTopPos) {
+    this.scrollTopPos = scrollTopPos;
+
+    this._updateContainerPos(this.mainScrollContainer, "top");
+    this._updateContainerPos(this.fixLeftContainer, "top");
+    this._updateContainerPos(this.fixRightContainer, "top");
+  }
+
+  @action.bound
+  registryContainer(type, dom) {
+    switch (type) {
+      case "mainScrollContainer":
+        this.mainScrollContainer = dom;
+        break;
+      case "fixLeftContainer":
+        this.fixLeftContainer = dom;
+        break;
+      case "fixRightContainer":
+        this.fixRightContainer = dom;
+        break;
+      default:
+        return null;
+    }
+  }
+
+  @action.bound
+  _updateContainerPos(dom, type) {
+    if (!dom) return;
+    if (type === "top") {
+      if (dom.scrollTop !== this.scrollTopPos) {
+        dom.scrollTop = this.scrollTopPos;
+      }
+    }
+  }
+
+  @action.bound
+  setHighlightRowId(id) {
+    this.highlightRowId = id;
   }
 }

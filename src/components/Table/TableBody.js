@@ -2,85 +2,13 @@ import React, { Component, Fragment, createElement } from "react";
 import styled, { css } from "styled-components";
 import { inject, observer } from "mobx-react";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
-import { ifProp, switchProp, prop } from "styled-tools";
-import { isChrome } from "../../utils/checkBrowser";
+import { switchProp, prop } from "styled-tools";
+import Measure from "react-measure";
 import { Flex, Item } from "../../utils";
-const RowCellOuter = styled(Item).attrs({
-  shrink: 0
-})`
-  ${ifProp(
-    "bordered",
-    css`
-      border-right: 1px solid #e8e8e8;
-      ${ifProp(
-        "index",
-        css``,
-        css`
-          border-left: 1px solid #e8e8e8;
-        `
-      )};
-    `,
-    css``
-  )};
-  position: relative;
-  ${isChrome
-    ? css`
-        ${switchProp("sticky", {
-          right: css`
-            right: 0;
-            position: sticky;
-            box-shadow: -2px 0px 2px 1px rgba(208, 207, 207, 0.6);
-            z-index: 2;
-          `,
-          left: css`
-            left: 0;
-            position: sticky;
-            box-shadow: 2px 0px 2px 1px rgba(208, 207, 207, 0.6);
-            z-index: 2;
-          `
-        })};
-      `
-    : ""};
-
-  border-bottom: 1px solid #e8e8e8;
-  height: 100%;
-  overflow: auto;
-  transition: background-color 0.3s;
-  will-change: background-color;
-`;
-
-const Row = styled(Flex)`
-  color: #333;
-
-  will-change: transform;
-  transform: translate3d(0, 0, 0);
-
-  ${ifProp(
-    "selected",
-    css`
-      box-shadow: 0px 1px 1px 0px #a2a2a2, 0px -1px 1px 0px #a2a2a2;
-      & {
-        ${RowCellOuter} {
-          background-color: #e6f7ff;
-        }
-      }
-    `,
-    css`
-      ${RowCellOuter} {
-        background-color: #fff;
-      }
-    `
-  )};
-
-  &:hover {
-    ${RowCellOuter} {
-      background-color: #e6f7ff;
-    }
-  }
-`;
+import { TableRowContainer, ColumnCellContainer } from "./ComponentUI";
 
 const SortableRow = SortableElement(({ index, disabled, ...rowProps }) =>
-  createElement(Row, rowProps)
+  createElement(TableRowContainer, rowProps)
 );
 
 const EmptyRow = styled(Flex)`
@@ -164,7 +92,8 @@ export default class extends Component {
         subTableKey,
         rowSelectKey,
         draggable,
-        size
+        size,
+        updateRowMeasure
       },
       noDataRender,
       subTableRender
@@ -175,35 +104,44 @@ export default class extends Component {
       <div style={{ position: "relative" }}>
         {viewData.map((row, rowIndex) => (
           <Fragment key={row[rowKey]}>
-            <SortableRow
-              index={rowIndex}
-              selected={!!row[rowSelectKey]}
-              disabled={!draggable}
-              style={{ height: rowHeight }}>
-              {columns.map((column, index) => {
-                let cellContainerProps = column.cellContainerProps || {};
+            <Measure
+              bounds={true}
+              onResize={contentRect => {
+                updateRowMeasure(row, contentRect);
+              }}>
+              {({ measureRef }) => (
+                <SortableRow
+                  rowHoverId={row[rowKey]}
+                  innerRef={measureRef}
+                  index={rowIndex}
+                  selected={!!row[rowSelectKey]}
+                  disabled={!draggable}
+                  style={{ height: rowHeight }}>
+                  {columns.map((column, index) => {
+                    let cellContainerProps = column.cellContainerProps || {};
 
-                return (
-                  <RowCellOuter
-                    key={column.key}
-                    bordered={bordered}
-                    flex={column.width ? undefined : column.flex ? column.flex : 1}
-                    style={{
-                      width: this.getColumnWidth(column),
-                      minWidth: column.minWidth,
-                      height: rowHeight
-                    }}
-                    index={index}
-                    sticky={column.fixed}>
-                    <RowCellInner>
-                      <RowCell size={size} {...cellContainerProps}>
-                        {column.render ? column.render(row, column) : row[column.key]}
-                      </RowCell>
-                    </RowCellInner>
-                  </RowCellOuter>
-                );
-              })}
-            </SortableRow>
+                    return (
+                      <ColumnCellContainer
+                        key={column.key}
+                        bordered={bordered}
+                        flex={column.width ? undefined : column.flex ? column.flex : 1}
+                        style={{
+                          width: this.getColumnWidth(column),
+                          minWidth: column.minWidth,
+                          height: rowHeight
+                        }}
+                        index={index}>
+                        <RowCellInner>
+                          <RowCell size={size} {...cellContainerProps}>
+                            {column.render ? column.render(row, column) : row[column.key]}
+                          </RowCell>
+                        </RowCellInner>
+                      </ColumnCellContainer>
+                    );
+                  })}
+                </SortableRow>
+              )}
+            </Measure>
 
             {subTableRender && typeof row[subTableKey] === "boolean" && row[subTableKey] ? (
               <SubTableRowContainer style={{ width: this.getSubTableWidth() }}>

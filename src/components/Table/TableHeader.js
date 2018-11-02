@@ -6,6 +6,7 @@ import { ifProp, switchProp, prop } from "styled-tools";
 import { isChrome } from "../../utils/checkBrowser";
 import { Flex, Item } from "../../utils";
 import variable from "../variable";
+import Measure from "react-measure";
 
 const HeaderRow = styled(Flex)`
   color: #333;
@@ -113,13 +114,14 @@ const SortIcon = styled(Icon)`
 
 @inject("table")
 @observer
-export default class extends Component {
+export class HeaderColumn extends Component {
   renderTitleContent(title) {
     return typeof title === "function" ? title(this.props.table) : title;
   }
 
-  renderTitle({ title, headerMode, headerContainerProps = {} }) {
+  render() {
     const {
+      column: { title, headerMode, headerContainerProps = {} },
       table: { size }
     } = this.props;
 
@@ -161,31 +163,57 @@ export default class extends Component {
         return <HeaderCell {...headerContainerProps}> {this.renderTitleContent(title)}</HeaderCell>;
     }
   }
+}
 
+@inject("table")
+@observer
+export default class extends Component {
   render() {
     const {
-      table: { columns, bordered, headerHeight, scrollX, scrollY, headerMinHeight },
+      table: {
+        columns,
+        bordered,
+        headerHeight,
+        scrollX,
+        scrollY,
+        headerMinHeight,
+        updateHeaderMeasure
+      },
       fixHeader
     } = this.props;
 
     return (
-      <HeaderRow
-        innerRef={header => (this.header = header)}
-        fixHeader={fixHeader}
-        needScroll={scrollY && scrollY !== "auto"}
-        style={{ height: headerHeight, width: scrollX }}>
-        {columns.map((column, index) => (
-          <HeaderCellOuter
-            bordered={bordered}
-            key={column.key}
-            flex={column.width ? undefined : column.flex ? column.flex : 1}
-            style={{ width: column.width, minWidth: column.minWidth, minHeight: headerMinHeight }}
-            index={index}
-            sticky={column.fixed}>
-            <HeaderCellInner>{this.renderTitle(column)}</HeaderCellInner>
-          </HeaderCellOuter>
-        ))}
-      </HeaderRow>
+      <Measure bounds={true} onResize={updateHeaderMeasure}>
+        {({ measureRef }) => (
+          <HeaderRow
+            innerRef={header => {
+              this.header = header;
+              return measureRef(header);
+            }}
+            fixHeader={fixHeader}
+            needScroll={scrollY && scrollY !== "auto"}
+            style={{ height: headerHeight, width: scrollX }}>
+            {columns.map((column, index) => (
+              <HeaderCellOuter
+                bordered={bordered}
+                key={column.key}
+                flex={column.width ? undefined : column.flex ? column.flex : 1}
+                style={{
+                  width: column.width,
+                  minWidth: column.minWidth,
+                  minHeight: headerMinHeight
+                }}
+                index={index}
+                //            sticky={column.fixed}
+              >
+                <HeaderCellInner>
+                  <HeaderColumn column={column} />
+                </HeaderCellInner>
+              </HeaderCellOuter>
+            ))}
+          </HeaderRow>
+        )}
+      </Measure>
     );
   }
 }

@@ -10,7 +10,8 @@ import TableBody from "./TableBody";
 import Pagination from "./Pagination";
 import { Spin } from "../Indicator";
 import { Flex } from "../../utils";
-
+import FixLeftColumns from "./FixLeftColumns";
+import FixRightColumns from "./FixRightColumns";
 const TableContainer = styled.div`
   display: inline-block;
   position: relative;
@@ -150,11 +151,16 @@ class Table extends Component {
 
   componentDidMount() {
     this.container.addEventListener("scroll", this.onScroll);
+
+    this.state.store.registryContainer("mainScrollContainer", this.container);
+
     this.onScroll();
   }
 
   componentWillUnmount() {
     this.container.removeEventListener("scroll", this.onScroll);
+
+    this.state.store.registryContainer("mainScrollContainer", null);
   }
 
   bindHeaderComponent = header => {
@@ -162,9 +168,13 @@ class Table extends Component {
   };
 
   onScroll = () => {
+    const { updateScrollLeftPos, updateScrollTopPos } = this.state.store;
+
     if (this.headerDom && this.props.showHeader) {
       this.headerDom.scrollLeft = this.container.scrollLeft;
     }
+    updateScrollLeftPos(this.container.scrollLeft);
+    updateScrollTopPos(this.container.scrollTop);
   };
 
   render() {
@@ -195,6 +205,7 @@ class Table extends Component {
           {fixHeader && showHeader ? (
             <TableHeader fixHeader={true} ref={this.bindHeaderComponent} />
           ) : null}
+
           <TableInner
             innerRef={contianer => (this.container = contianer)}
             needScrollY={scrollY && scrollY !== "auto"}
@@ -206,6 +217,10 @@ class Table extends Component {
               subTableRender={subTableRender}
             />
           </TableInner>
+
+          <FixLeftColumns />
+
+          <FixRightColumns />
 
           {pagination ? <Pagination /> : null}
           {loading ? (
