@@ -183,13 +183,15 @@ export default class extends Component {
     } = this.props;
 
     return (
-      <Measure bounds={true} onResize={updateHeaderMeasure}>
+      <Measure
+        bounds={true}
+        onResize={rect => {
+          console.log(11);
+          updateHeaderMeasure(rect);
+        }}>
         {({ measureRef }) => (
           <HeaderRow
-            innerRef={header => {
-              this.header = header;
-              return measureRef(header);
-            }}
+            innerRef={measureRef}
             fixHeader={fixHeader}
             needScroll={scrollY && scrollY !== "auto"}
             style={{ height: headerHeight, width: scrollX }}>
@@ -203,9 +205,7 @@ export default class extends Component {
                   minWidth: column.minWidth,
                   minHeight: headerMinHeight
                 }}
-                index={index}
-                //            sticky={column.fixed}
-              >
+                index={index}>
                 <HeaderCellInner>
                   <HeaderColumn column={column} />
                 </HeaderCellInner>

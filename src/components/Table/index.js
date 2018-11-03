@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { findDOMNode } from "react-dom";
-import { Provider, PropTypes as MobxPropTypes } from "mobx-react";
+import { Provider, PropTypes as MobxPropTypes, inject, observer } from "mobx-react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 import { ifProp, prop, switchProp } from "styled-tools";
@@ -12,6 +12,8 @@ import { Spin } from "../Indicator";
 import { Flex } from "../../utils";
 import FixLeftColumns from "./FixLeftColumns";
 import FixRightColumns from "./FixRightColumns";
+import NoDataRender from "./NoDataRender";
+
 const TableContainer = styled.div`
   display: inline-block;
   position: relative;
@@ -73,6 +75,21 @@ const NoDataSpan = styled.span`
     `
   })};
 `;
+
+@inject("table")
+@observer
+class RenderPlugins extends Component {
+  render() {
+    const { fixedLeftColumns, fixedRightColumns, viewData } = this.props.table;
+    return (
+      <Fragment>
+        {fixedLeftColumns.length === 0 ? null : <FixLeftColumns />}
+
+        {fixedRightColumns.length === 0 ? null : <FixRightColumns />}
+      </Fragment>
+    );
+  }
+}
 
 class Table extends Component {
   static propTypes = {
@@ -211,16 +228,12 @@ class Table extends Component {
             needScrollY={scrollY && scrollY !== "auto"}
             style={{ maxHeight: scrollY, width: scrollX }}>
             {showHeader ? fixHeader ? null : <TableHeader /> : null}
-            <TableBody
-              {...draggableProps}
-              noDataRender={noDataRender}
-              subTableRender={subTableRender}
-            />
+            <TableBody {...draggableProps} subTableRender={subTableRender} />
           </TableInner>
 
-          <FixLeftColumns />
+          <RenderPlugins />
 
-          <FixRightColumns />
+          <NoDataRender noDataRender={noDataRender} />
 
           {pagination ? <Pagination /> : null}
           {loading ? (

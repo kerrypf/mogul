@@ -11,13 +11,6 @@ const SortableRow = SortableElement(({ index, disabled, ...rowProps }) =>
   createElement(TableRowContainer, rowProps)
 );
 
-const EmptyRow = styled(Flex)`
-  color: #333;
-  border-bottom: 1px solid #efefef;
-  border-left: 1px solid #efefef;
-  border-right: 1px solid #efefef;
-`;
-
 const RowCellInner = styled(Flex).attrs({
   direction: "column",
   justifyContent: "center"
@@ -95,7 +88,6 @@ export default class extends Component {
         size,
         updateRowMeasure
       },
-      noDataRender,
       subTableRender
     } = this.props;
 
@@ -150,12 +142,6 @@ export default class extends Component {
             ) : null}
           </Fragment>
         ))}
-
-        {viewData.length === 0 ? (
-          <EmptyRow justifyContent={"center"} alignItems={"center"} style={{ height: rowHeight }}>
-            {noDataRender({ size })}
-          </EmptyRow>
-        ) : null}
       </div>
     );
   }
