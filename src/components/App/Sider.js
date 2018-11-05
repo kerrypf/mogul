@@ -13,15 +13,15 @@ import { getScrollbarWidth } from "../../utils/getScrollbarWidth";
 import variable from "../variable";
 
 injectGlobal`
-    .__fixOverlay__{
-        & .ant-popover-arrow{
-            display: none !important;
-        }
-        
-        & .ant-popover-inner-content{
-            padding: 0 ;
-        }
+  .__fixOverlay__{
+    & .ant-popover-arrow{
+      display: none !important;
     }
+      
+    & .ant-popover-inner-content{
+      padding: 0 ;
+    }
+  }
 `;
 
 const SiderContainer = styled(Flex).attrs({
@@ -201,6 +201,61 @@ const SubRouteChild = styled(NavLink)`
   }
 `;
 
+class SiderMenuIcon extends Component {
+  render() {
+    const { iconSize, icon } = this.props;
+
+    return (
+      <IconContainer>
+        {icon ? (
+          typeof icon === "string" ? (
+            <Icon type={icon} style={{ fontSize: iconSize }} />
+          ) : (
+            cloneElement(icon, {
+              style: {
+                fontSize: iconSize
+              }
+            })
+          )
+        ) : (
+          <Icon type={"antd"} style={{ fontSize: iconSize }} />
+        )}
+      </IconContainer>
+    );
+  }
+}
+
+class RouteMenuSingle extends Component {
+  static propTypes = {
+    name: PropTypes.string,
+    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    visible: PropTypes.bool,
+    path: PropTypes.string,
+    iconSize: PropTypes.number,
+    indent: PropTypes.number
+  };
+
+  static defaultProps = {
+    indent: 0,
+    opacity: 1
+  };
+
+  render() {
+    const { collapse } = configuration.sider;
+    const { icon, name, path, iconSize, opacity, paddingLeft, indent } = this.props;
+
+    return (
+      <Tooltip title={collapse ? name : null} placement={"right"}>
+        <RouteWithNoChild to={path} style={{ paddingLeft: indent + 30 }}>
+          <SiderMenuIcon icon={icon} iconSize={iconSize} />
+
+          <RouteName style={{ opacity, paddingLeft }}>{name}</RouteName>
+        </RouteWithNoChild>
+      </Tooltip>
+    );
+  }
+}
+
 class RouteMenu extends Component {
   static propTypes = {
     name: PropTypes.string,
@@ -213,14 +268,13 @@ class RouteMenu extends Component {
         icon: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
         visible: PropTypes.bool
       })
-    ),
+    ).isRequired,
     iconSize: PropTypes.number,
     indent: PropTypes.number,
     defaultExpand: PropTypes.bool
   };
 
   static defaultProps = {
-    children: [],
     indent: 0
   };
 
@@ -241,99 +295,94 @@ class RouteMenu extends Component {
 
   render() {
     const { collapse } = configuration.sider;
-    const { children, icon, name, path, iconSize, opacity, paddingLeft, indent } = this.props;
+    const { children, icon, name, iconSize, opacity, paddingLeft, indent } = this.props;
     const { showChildren } = this.state;
-    let hasChildren = children.length > 0;
 
-    if (hasChildren) {
+    const visibleChildren = children.filter(child => child.visible !== false);
+
+    return (
+      <Fragment>
+        <Popover
+          overlayClassName={"__fixOverlay__"}
+          content={
+            collapse ? (
+              <MenuContainer>
+                {visibleChildren.map(route => (
+                  <SubRouteChild key={route.name} to={route.path}>
+                    {" "}
+                    {route.name}{" "}
+                  </SubRouteChild>
+                ))}
+              </MenuContainer>
+            ) : null
+          }
+          placement={"rightTop"}>
+          <RouteItem onClick={collapse ? null : this.toggleShowChildren}>
+            <SiderMenuIcon icon={icon} iconSize={iconSize} />
+
+            <RouteName style={{ opacity, paddingLeft: paddingLeft }}>{name}</RouteName>
+            {collapse ? null : <ArrowIcon selected={showChildren} />}
+          </RouteItem>
+        </Popover>
+
+        <Spring
+          native={true}
+          to={{
+            height: showChildren && !collapse ? "auto" : 0,
+            opacity: showChildren && !collapse ? 1 : 0
+          }}
+          from={{ height: "auto", opacity: 1 }}>
+          {({ height, opacity }) => (
+            <animated.div style={{ height: height, opacity, overflow: "hidden" }}>
+              {visibleChildren.map(route => (
+                <RouteMenuSingle
+                  name={route.name}
+                  path={route.path}
+                  icon={route.icon}
+                  key={route.name}
+                  iconSize={14}
+                  paddingLeft={4}
+                  indent={20 + indent}
+                />
+              ))}
+            </animated.div>
+          )}
+        </Spring>
+      </Fragment>
+    );
+  }
+}
+
+@withRouter
+@observer
+class RouteSwitcher extends Component {
+  render() {
+    const { route, paddingLeft, opacity, iconSize } = this.props;
+
+    if (!route.children || route.children.length === 0) {
       return (
-        <Fragment>
-          <Popover
-            overlayClassName={"__fixOverlay__"}
-            content={
-              collapse ? (
-                <MenuContainer>
-                  {children.filter(child => child.visible !== false).map(route => (
-                    <SubRouteChild key={route.name} to={route.path}>
-                      {" "}
-                      {route.name}{" "}
-                    </SubRouteChild>
-                  ))}
-                </MenuContainer>
-              ) : null
-            }
-            placement={"rightTop"}>
-            <RouteItem onClick={collapse ? null : this.toggleShowChildren}>
-              <IconContainer>
-                {icon ? (
-                  typeof icon === "string" ? (
-                    <Icon type={icon} style={{ fontSize: iconSize }} />
-                  ) : (
-                    cloneElement(icon, {
-                      style: {
-                        fontSize: iconSize
-                      }
-                    })
-                  )
-                ) : (
-                  <Icon type={"antd"} style={{ fontSize: iconSize }} />
-                )}
-              </IconContainer>
-
-              <RouteName style={{ opacity, paddingLeft: paddingLeft }}>{name}</RouteName>
-              {collapse ? null : <ArrowIcon selected={showChildren} />}
-            </RouteItem>
-          </Popover>
-
-          <Spring
-            native={true}
-            to={{
-              height: showChildren && !collapse ? "auto" : 0,
-              opacity: showChildren && !collapse ? 1 : 0
-            }}
-            from={{ height: "auto", opacity: 1 }}>
-            {({ height, opacity }) => (
-              <animated.div style={{ height: height, opacity, overflow: "hidden" }}>
-                {children
-                  .filter(child => child.visible !== false)
-                  .map(route => (
-                    <RouteMenu
-                      key={route.name}
-                      name={route.name}
-                      path={route.path}
-                      icon={route.icon}
-                      children={[]}
-                      iconSize={14}
-                      paddingLeft={4}
-                      opacity={1}
-                      indent={20 + indent}
-                    />
-                  ))}
-              </animated.div>
-            )}
-          </Spring>
-        </Fragment>
+        <RouteMenuSingle
+          name={route.name}
+          path={route.path}
+          icon={route.icon}
+          iconSize={iconSize}
+          paddingLeft={paddingLeft}
+          opacity={opacity}
+        />
+      );
+    } else {
+      return (
+        <RouteMenu
+          name={route.name}
+          icon={route.icon}
+          children={route.children}
+          iconSize={iconSize}
+          paddingLeft={paddingLeft}
+          opacity={opacity}
+          defaultExpand={route.defaultExpand}
+        />
       );
     }
-    return (
-      <Tooltip title={collapse ? name : null} placement={"right"}>
-        <RouteWithNoChild to={path} style={{ paddingLeft: indent + 30 }}>
-          <IconContainer>
-            {icon ? (
-              typeof icon === "string" ? (
-                <Icon type={icon} style={{ fontSize: iconSize }} />
-              ) : (
-                icon
-              )
-            ) : (
-              <Icon type={"antd"} style={{ fontSize: iconSize }} />
-            )}
-          </IconContainer>
-
-          <RouteName style={{ opacity, paddingLeft }}>{name}</RouteName>
-        </RouteWithNoChild>
-      </Tooltip>
-    );
   }
 }
 
@@ -380,10 +429,15 @@ export default class extends Component {
     }
   };
 
-  render() {
-    const { logo, title, collapse, root } = configuration.sider;
+  redirectToRoot = () => {
+    const { root } = configuration.sider;
+    configuration.push(root);
+  };
 
-    const { routes, history } = this.props;
+  render() {
+    const { logo, title, collapse } = configuration.sider;
+
+    const { routes } = this.props;
 
     const { offsetX } = this.state;
 
@@ -401,7 +455,7 @@ export default class extends Component {
         {({ width, paddingLeft, opacity, iconSize }) => (
           <SiderContainer style={{ width: width }}>
             <Container style={{ width: width, left: -offsetX }}>
-              <Title onClick={() => history.push(root)}>
+              <Title onClick={this.redirectToRoot}>
                 {logo ? (
                   <LogoContainer>
                     <img src={logo} style={{ width: 40, height: 40 }} alt={"logo"} />
@@ -414,15 +468,11 @@ export default class extends Component {
               <RoutesContainer>
                 {routes.filter(route => route.visible !== false).map(route => (
                   <RouteContainer key={route.name}>
-                    <RouteMenu
-                      name={route.name}
-                      path={route.path}
-                      icon={route.icon}
-                      children={route.children}
+                    <RouteSwitcher
+                      route={route}
                       iconSize={iconSize}
                       paddingLeft={paddingLeft}
                       opacity={opacity}
-                      defaultExpand={route.defaultExpand}
                     />
                   </RouteContainer>
                 ))}
