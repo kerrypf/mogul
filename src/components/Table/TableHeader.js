@@ -127,7 +127,10 @@ export class HeaderColumn extends Component {
 
     if (!headerMode) {
       return (
-        <HeaderCell size={size} {...headerContainerProps}>
+        <HeaderCell
+          size={size}
+          {...headerContainerProps}
+          style={headerContainerProps.style ? { ...headerContainerProps.style } : null}>
           {this.renderTitleContent(title)}
         </HeaderCell>
       );

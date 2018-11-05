@@ -30,7 +30,7 @@ const schema = function() {
 };
 let result = [];
 
-for (let i = 0; i <= 30; i++) {
+for (let i = 0; i <= 100; i++) {
   result.push(schema());
 }
 
@@ -67,24 +67,11 @@ export default class extends Component {
           )}
         </Observer>
         <Table
+          //          pagination={ false }
           data={result}
           rowKey={"id"}
-          columns={[
-            {
-              title: "id",
-              key: "id"
-            },
-            {
-              title: "名称",
-              key: "name"
-            }
-          ]}
-        />
-        <Table
-          data={result}
-          rowKey={"id"}
-          fixHeader={true}
-          scrollY={500}
+          //          fixHeader={true}
+          //          scrollY={500}
           fluid={true}
           columns={[
             {
@@ -92,15 +79,16 @@ export default class extends Component {
               key: "id",
               render(row) {
                 return <span>{row.id}</span>;
-              }
+              },
+              width: 400
             },
             {
               title: "名称",
               key: "name",
               render(row) {
                 return <span>{row.name}</span>;
-              }
-              //            width: 200
+              },
+              width: 200,
             },
             {
               title: "描述",
@@ -108,41 +96,41 @@ export default class extends Component {
               //              minWidth: 300,
               render(row) {
                 return <span>{row.description}</span>;
-              }
-              //              flex: 2
-              //            width: 300
+              },
+                            flex: "2 0 377px"
+//              width: 300
             },
             {
               title: "创建于",
               key: "created_at",
               render(row) {
                 return <span>{row.created_at.toString()}</span>;
-              }
-              //            width: 150
+              },
+              minWidth: 500
             },
             {
               title: "stars",
               key: "stargazers_count",
               render(row) {
                 return <span>{row.stargazers_count}</span>;
-              }
-              //            width: 100
+              },
+              width: 100
             },
             {
               title: "当前是否有issue",
               key: "has_issues",
               render(row) {
                 return <span>{row.has_issues ? "是" : "五"}</span>;
-              }
-              //            width: 100
+              },
+              width: 100
             },
             {
               title: "地址",
               key: "url",
               render(row) {
                 return <a href={row.url}>地址</a>;
-              }
-              //            width: 50
+              },
+              width: 50
             }
           ]}
         />

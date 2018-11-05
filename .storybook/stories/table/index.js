@@ -7,6 +7,7 @@ import DraggableTable from "./DraggableTable";
 import MinWidthTableFluid from "./MinWidthTableFluid";
 import FixColumn from "./FixColumn";
 import PerformanceTable from "./PerformanceTable";
+import NoDataTable from "./NoDataTable";
 // sandbox https://codesandbox.io/s/l96rjj4z07
 storiesOf("Table", module)
   .add("简单表格", () => <SimpleTable />)
@@ -15,4 +16,5 @@ storiesOf("Table", module)
   .add("子表", () => <WithSubTable />)
   .add("拖拽表格行", () => <DraggableTable />)
   .add("固定单元格", () => <FixColumn />)
+  .add("无数据", () => <NoDataTable />)
   .add("performanceTable", () => <PerformanceTable />);

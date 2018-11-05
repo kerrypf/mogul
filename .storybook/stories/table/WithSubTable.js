@@ -107,7 +107,7 @@ export default class extends Component {
               data={ row.subscribers }
               rowKey={ "id" }
               columns={ [{
-                title: <div>id</div>,
+                title: "id",
                 key: "id",
                 render(row) {
                   return <span>{row.id}</span>;
