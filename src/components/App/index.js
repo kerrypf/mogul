@@ -138,12 +138,15 @@ export default class App extends Component {
       })
     ),
     fixHeader: PropTypes.bool,
-    multiMenuExpand: PropTypes.bool
+    defaultExpandAllMenu: PropTypes.bool,
+    openKeys: PropTypes.array,
+    style: PropTypes.object,
+    onOpenChange: PropTypes.func
   };
 
   static defaultProps = {
     fixHeader: false,
-    multiMenuExpand: true
+    defaultExpandAllMenu: true
   };
 
   renderRoutes(routes) {
@@ -171,17 +174,29 @@ export default class App extends Component {
   }
 
   render() {
-    const { routes, children, footer, header, fixHeader, multiMenuExpand } = this.props;
+    const {
+      routes,
+      children,
+      footer,
+      header,
+      fixHeader,
+      style,
+      defaultExpandAllMenu,
+      openKeys,
+      onOpenChange
+    } = this.props;
     const renderRoutes = routes ? routes : children();
 
     return (
       <Fragment>
         <BrowserRouter>
           <Provider mogul={configuration}>
-            <RootContainer>
+            <RootContainer style={style}>
               <MogulHistory />
               <Sider
-                multiMenuExpand={multiMenuExpand}
+                onOpenChange={onOpenChange}
+                openKeys={openKeys}
+                defaultExpandAllMenu={defaultExpandAllMenu}
                 routes={renderRoutes.filter(route => route.type !== "redirect")}
               />
 

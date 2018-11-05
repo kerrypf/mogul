@@ -225,6 +225,7 @@ class SiderMenuIcon extends Component {
   }
 }
 
+@withRouter
 class RouteMenuSingle extends Component {
   static propTypes = {
     name: PropTypes.string,
@@ -256,6 +257,8 @@ class RouteMenuSingle extends Component {
   }
 }
 
+@withRouter
+@observer
 class RouteMenu extends Component {
   static propTypes = {
     name: PropTypes.string,
@@ -282,22 +285,29 @@ class RouteMenu extends Component {
     super(props);
 
     this.state = {
-      showChildren: typeof this.props.defaultExpand === "boolean" ? this.props.defaultExpand : true
+      showChildren:
+        typeof this.props.defaultExpand === "boolean"
+          ? this.props.defaultExpand
+          : this.props.defaultExpandAllMenu
     };
   }
 
   toggleShowChildren = () => {
-    const { showChildren } = this.state;
-    this.setState({
-      showChildren: !showChildren
-    });
+    if (this.props.onOpenChange) {
+      this.props.onOpenChange(this.props.name, !this.props.expand);
+    } else {
+      const { showChildren } = this.state;
+      this.setState({
+        showChildren: !showChildren
+      });
+    }
   };
 
   render() {
     const { collapse } = configuration.sider;
-    const { children, icon, name, iconSize, opacity, paddingLeft, indent } = this.props;
-    const { showChildren } = this.state;
+    const { children, icon, name, iconSize, opacity, paddingLeft, indent, expand } = this.props;
 
+    const showChildren = typeof expand === "boolean" ? expand : this.state.showChildren;
     const visibleChildren = children.filter(child => child.visible !== false);
 
     return (
@@ -357,8 +367,15 @@ class RouteMenu extends Component {
 @observer
 class RouteSwitcher extends Component {
   render() {
-    const { route, paddingLeft, opacity, iconSize } = this.props;
-
+    const {
+      route,
+      paddingLeft,
+      opacity,
+      iconSize,
+      defaultExpandAllMenu,
+      openKeys,
+      onOpenChange
+    } = this.props;
     if (!route.children || route.children.length === 0) {
       return (
         <RouteMenuSingle
@@ -373,6 +390,7 @@ class RouteSwitcher extends Component {
     } else {
       return (
         <RouteMenu
+          defaultExpandAllMenu={defaultExpandAllMenu}
           name={route.name}
           icon={route.icon}
           children={route.children}
@@ -380,6 +398,8 @@ class RouteSwitcher extends Component {
           paddingLeft={paddingLeft}
           opacity={opacity}
           defaultExpand={route.defaultExpand}
+          onOpenChange={onOpenChange}
+          expand={openKeys ? openKeys.includes(route.name) : undefined}
         />
       );
     }
@@ -405,7 +425,7 @@ export default class extends Component {
         )
       })
     ),
-    multiMenuExpand: PropTypes.bool
+    defaultExpandAllMenu: PropTypes.bool
   };
 
   state = {
@@ -437,7 +457,7 @@ export default class extends Component {
   render() {
     const { logo, title, collapse } = configuration.sider;
 
-    const { routes } = this.props;
+    const { routes, defaultExpandAllMenu, onOpenChange, openKeys } = this.props;
 
     const { offsetX } = this.state;
 
@@ -469,10 +489,13 @@ export default class extends Component {
                 {routes.filter(route => route.visible !== false).map(route => (
                   <RouteContainer key={route.name}>
                     <RouteSwitcher
+                      defaultExpandAllMenu={defaultExpandAllMenu}
                       route={route}
                       iconSize={iconSize}
                       paddingLeft={paddingLeft}
                       opacity={opacity}
+                      onOpenChange={onOpenChange}
+                      openKeys={openKeys}
                     />
                   </RouteContainer>
                 ))}

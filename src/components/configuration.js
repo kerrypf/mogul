@@ -3,11 +3,9 @@ import { notification } from "antd";
 import queryString from "query-string";
 
 class Configuration {
-  @observable
-  fullPageLoading = false;
+  @observable fullPageLoading = false;
 
-  @observable
-  fullScreen = false;
+  @observable fullScreen = false;
 
   fixQueryParams = null;
 
@@ -42,11 +40,9 @@ class Configuration {
     size: "small"
   };
 
-  @observable
-  _confirmComposeProps = {};
+  @observable _confirmComposeProps = {};
 
-  @observable
-  localStorageKeyPrefix = "_MOGUL_";
+  @observable localStorageKeyPrefix = "_MOGUL_";
 
   popupContext = null;
 

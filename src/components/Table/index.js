@@ -81,7 +81,7 @@ const NoDataSpan = styled.span`
 @observer
 class RenderPlugins extends Component {
   render() {
-    const { fixedLeftColumns, fixedRightColumns, viewData } = this.props.table;
+    const { fixedLeftColumns, fixedRightColumns } = this.props.table;
     return (
       <Fragment>
         {fixedLeftColumns.length === 0 ? null : <FixLeftColumns />}
