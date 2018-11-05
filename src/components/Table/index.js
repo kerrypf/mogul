@@ -13,6 +13,7 @@ import { Flex } from "../../utils";
 import FixLeftColumns from "./FixLeftColumns";
 import FixRightColumns from "./FixRightColumns";
 import NoDataRender from "./NoDataRender";
+import { DragHandle } from "./ComponentUI";
 
 const TableContainer = styled.div`
   display: inline-block;
@@ -152,6 +153,8 @@ class Table extends Component {
     noDataRender: ({ size }) => <NoDataSpan size={size}>暂无数据</NoDataSpan>
   };
 
+  static DragHandle = DragHandle;
+
   state = {};
 
   static getDerivedStateFromProps(props, state) {
@@ -194,6 +197,18 @@ class Table extends Component {
     updateScrollTopPos(this.container.scrollTop);
   };
 
+  getTableApi = () => {
+    return this.state.store;
+  };
+
+  getDraggableContainer = () => {
+    return findDOMNode(this).querySelector(".__mogul_table_scroll_container");
+  };
+
+  bindContainerRef = contianer => {
+    this.container = contianer;
+  };
+
   render() {
     const {
       scrollY,
@@ -212,7 +227,11 @@ class Table extends Component {
     const draggableProps = draggable
       ? {
           pressDelay: 200,
-          ...draggable
+
+          ...draggable,
+          getContainer: this.getDraggableContainer,
+          helperClass:
+            "__mogul_table_dragging" + (draggable.helperClass ? draggable.helperClass : "")
         }
       : {};
 
@@ -224,16 +243,17 @@ class Table extends Component {
           ) : null}
 
           <TableInner
-            innerRef={contianer => (this.container = contianer)}
+            className={"__mogul_table_scroll_container"}
+            innerRef={this.bindContainerRef}
             needScrollY={scrollY && scrollY !== "auto"}
             style={{ maxHeight: scrollY, width: scrollX }}>
             {showHeader ? fixHeader ? null : <TableHeader /> : null}
             <TableBody {...draggableProps} subTableRender={subTableRender} />
+
+            <NoDataRender noDataRender={noDataRender} />
           </TableInner>
 
           <RenderPlugins />
-
-          <NoDataRender noDataRender={noDataRender} />
 
           {pagination ? <Pagination /> : null}
           {loading ? (

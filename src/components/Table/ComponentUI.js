@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 import styled, { css } from "styled-components";
+import { SortableHandle } from "react-sortable-hoc";
 import { Flex, Item } from "../../utils/grid";
 import { ifProp } from "styled-tools";
-
+import variable from "../variable";
 export const ColumnCellContainer = styled(Item).attrs({
   shrink: 0
 })`
@@ -48,6 +49,10 @@ const RowContainer = styled(Flex)`
       }
     `
   )};
+
+  &.__mogul_table_dragging {
+    cursor: grabbing;
+  }
 `;
 
 export function rowHover(Comp) {
@@ -99,3 +104,26 @@ export class TableRowContainer extends Component {
     );
   }
 }
+
+const StyledDragIcon = styled.svg`
+  transition: fill 0.3s;
+  cursor: move;
+  width: 28px;
+  height: 28px;
+  display: inline-block;
+  &:hover {
+    fill: ${variable.primary};
+  }
+`;
+
+const DragElement = (props = {}) => (
+  <StyledDragIcon viewBox="0 0 1024 1024" version="1.1" {...props}>
+    <path
+      d={
+        "M298.666667 810.666667v-85.333334h85.333333v85.333334H298.666667m170.666666 0v-85.333334h85.333334v85.333334h-85.333334m170.666667 0v-85.333334h85.333333v85.333334h-85.333333m-341.333333-170.666667v-85.333333h85.333333v85.333333H298.666667m170.666666 0v-85.333333h85.333334v85.333333h-85.333334m170.666667 0v-85.333333h85.333333v85.333333h-85.333333m-341.333333-170.666667V384h85.333333v85.333333H298.666667m170.666666 0V384h85.333334v85.333333h-85.333334m170.666667 0V384h85.333333v85.333333h-85.333333M298.666667 298.666667V213.333333h85.333333v85.333334H298.666667m170.666666 0V213.333333h85.333334v85.333334h-85.333334m170.666667 0V213.333333h85.333333v85.333334h-85.333333z"
+      }
+    />
+  </StyledDragIcon>
+);
+
+export const DragHandle = SortableHandle(DragElement);

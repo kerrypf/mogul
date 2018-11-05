@@ -177,7 +177,8 @@ export default class extends Component {
         scrollX,
         scrollY,
         headerMinHeight,
-        updateHeaderMeasure
+        updateHeaderMeasure,
+        viewData
       },
       fixHeader
     } = this.props;
@@ -186,7 +187,6 @@ export default class extends Component {
       <Measure
         bounds={true}
         onResize={rect => {
-          console.log(11);
           updateHeaderMeasure(rect);
         }}>
         {({ measureRef }) => (
@@ -194,7 +194,11 @@ export default class extends Component {
             innerRef={measureRef}
             fixHeader={fixHeader}
             needScroll={scrollY && scrollY !== "auto"}
-            style={{ height: headerHeight, width: scrollX }}>
+            style={{
+              height: headerHeight,
+              width: scrollX,
+              overflowX: viewData.length === 0 ? "auto" : null
+            }}>
             {columns.map((column, index) => (
               <HeaderCellOuter
                 bordered={bordered}

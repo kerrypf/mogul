@@ -46,6 +46,11 @@ type TableProps = {
   showHeader: boolean;
   size: "small" | "middle" | "large";
 };
+
+declare class TableStore {
+  viewData: Array<Object>;
+}
+
 export default class Table extends React.Component<TableProps, {}> {
   static defaultProps: {
     fluid: false;
@@ -63,4 +68,6 @@ export default class Table extends React.Component<TableProps, {}> {
   };
 
   state: {};
+
+  getTableApi(): typeof TableStore;
 }

@@ -111,7 +111,6 @@ export default class extends Component {
                   style={{ height: rowHeight }}>
                   {columns.map((column, index) => {
                     let cellContainerProps = column.cellContainerProps || {};
-
                     return (
                       <ColumnCellContainer
                         key={column.key}
@@ -124,9 +123,13 @@ export default class extends Component {
                         }}
                         index={index}>
                         <RowCellInner>
-                          <RowCell size={size} {...cellContainerProps}>
-                            {column.render ? column.render(row, column) : row[column.key]}
-                          </RowCell>
+                          {createElement(RowCell, {
+                            size,
+                            ...cellContainerProps,
+                            //see https://github.com/mobxjs/mobx/blob/master/CHANGELOG.md
+                            style: cellContainerProps.style ? { ...cellContainerProps.style } : {},
+                            children: column.render ? column.render(row, column) : row[column.key]
+                          })}
                         </RowCellInner>
                       </ColumnCellContainer>
                     );

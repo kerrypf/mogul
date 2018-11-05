@@ -21,6 +21,7 @@ export default class NoDataRender extends Component {
     } = this.props;
 
     if (viewData.length !== 0 || !noDataRender) return null;
+
     return (
       <EmptyRow justifyContent={"center"} alignItems={"center"}>
         {noDataRender({ size })}
