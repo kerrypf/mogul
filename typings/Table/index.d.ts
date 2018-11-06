@@ -50,6 +50,7 @@ type TableProps = {
 
 declare class TableStore {
   viewData: Array<Object>;
+  resetTableState: Function;
 }
 
 export default class Table extends React.Component<TableProps, {}> {

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import { Table } from "../../../src/index";
 import faker from "faker";
 import { Checkbox } from "antd";
@@ -35,11 +35,18 @@ for (let i = 0; i <= 30; i++) {
 
 export default class extends Component {
   state = {
-    scrollY: "auto"
+    scrollY: "auto",
+    fixHeader: false
   };
 
+  constructor(props) {
+    super(props);
+    this.table = createRef()
+  }
+
+
   render() {
-    const { scrollY } = this.state;
+    const { scrollY, fixHeader } = this.state;
     return (
       <div style={{ padding: 10 }}>
         <Checkbox
@@ -51,11 +58,30 @@ export default class extends Component {
           }}>
           固定高度
         </Checkbox>
+
+        <Checkbox
+          checked={fixHeader}
+          onChange={({ target: { checked } }) => {
+
+            this.setState({
+              fixHeader: checked
+            }, () => {
+              this.table.current.getTableApi().resetTableState()
+            });
+          }}>
+          固定头部
+        </Checkbox>
+
+
+        <button onClick={ () => {
+          this.table.current.getTableApi().resetTableState()
+        } }>rest</button>
         <Table
+          ref={ this.table }
           data={result}
           rowKey={"id"}
           headerHeight={80}
-          fixHeader={true}
+          fixHeader={fixHeader}
           scrollY={scrollY}
           fluid={true}
           //          showHeader={ false }

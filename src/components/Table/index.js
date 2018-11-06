@@ -165,18 +165,21 @@ class Table extends Component {
     this.container.removeEventListener("scroll", this.onScroll);
 
     this.state.store.registryContainer("mainScrollContainer", null);
+    this.state.store.registryContainer("headerContainer", null);
   }
 
   bindHeaderComponent = header => {
-    this.headerDom = findDOMNode(header);
+    console.log(111);
+    this.state.store.registryContainer("headerContainer", findDOMNode(header));
+    //    this.headerDom = findDOMNode(header);
   };
 
   onScroll = () => {
     const { updateScrollLeftPos, updateScrollTopPos } = this.state.store;
 
-    if (this.headerDom && this.props.showHeader) {
-      this.headerDom.scrollLeft = this.container.scrollLeft;
-    }
+    //    if (this.headerDom && this.props.showHeader) {
+    //      this.headerDom.scrollLeft = this.container.scrollLeft;
+    //    }
     updateScrollLeftPos(this.container.scrollLeft);
     updateScrollTopPos(this.container.scrollTop);
   };
@@ -220,19 +223,21 @@ class Table extends Component {
         }
       : {};
 
+    const tableHeader = showHeader ? (
+      <TableHeader fixHeader={fixHeader} ref={fixHeader ? this.bindHeaderComponent : null} />
+    ) : null;
+
     return (
       <Provider table={this.state.store}>
         <TableContainer fluid={fluid} style={style}>
-          {fixHeader && showHeader ? (
-            <TableHeader fixHeader={true} ref={this.bindHeaderComponent} />
-          ) : null}
+          {fixHeader ? tableHeader : null}
 
           <TableInner
             className={"__mogul_table_scroll_container"}
             innerRef={this.bindContainerRef}
             needScrollY={scrollY && scrollY !== "auto"}
             style={{ maxHeight: scrollY === "auto" ? "unset" : scrollY, width: scrollX }}>
-            {showHeader ? fixHeader ? null : <TableHeader /> : null}
+            {fixHeader ? null : tableHeader}
             <TableBody {...draggableProps} subTableRender={subTableRender} />
 
             <NoDataRender noDataRender={noDataRender} />

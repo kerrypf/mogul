@@ -221,6 +221,7 @@ export default class extends Component {
         <FixContainerInner
           style={{ maxHeight, width: `calc(100% + ${verticalScrollBarWidth}px)` }}
           innerRef={container => (this.container = container)}>
+          {!fixHeader ? <HeaderRowComponent /> : null}
           {viewData.map(row => <RowComponent rowData={row} key={row[rowKey]} />)}
         </FixContainerInner>
       </FixRightContainer>

@@ -209,6 +209,7 @@ export default class extends Component {
         <FixContainerInner
           style={{ maxHeight }}
           innerRef={container => (this.container = container)}>
+          {!fixHeader ? <HeaderRowComponent /> : null}
           {viewData.map(row => <RowComponent rowData={row} key={row[rowKey]} />)}
         </FixContainerInner>
       </FixLeftContainer>

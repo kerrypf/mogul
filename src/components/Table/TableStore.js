@@ -18,6 +18,8 @@ export default class TableStore {
 
   fixRightContainer = null;
 
+  headerContainer = null;
+
   @observable highlightRowId = null;
 
   @observable scrollTopPos = 0;
@@ -234,6 +236,9 @@ export default class TableStore {
   @action.bound
   updateScrollLeftPos(scrollLeftPos) {
     this.scrollLeftPos = scrollLeftPos;
+
+    this._updateContainerPos(this.headerContainer, "left");
+    this._updateContainerPos(this.mainScrollContainer, "left");
   }
 
   @action.bound
@@ -257,6 +262,9 @@ export default class TableStore {
       case "fixRightContainer":
         this.fixRightContainer = dom;
         break;
+      case "headerContainer":
+        this.headerContainer = dom;
+        break;
       default:
         return null;
     }
@@ -269,11 +277,23 @@ export default class TableStore {
       if (dom.scrollTop !== this.scrollTopPos) {
         dom.scrollTop = this.scrollTopPos;
       }
+    } else if (type === "left") {
+      if (dom.scrollLeft !== this.scrollLeftPos) {
+        dom.scrollLeft = this.scrollLeftPos;
+      }
     }
   }
 
   @action.bound
   setHighlightRowId(id) {
     this.highlightRowId = id;
+  }
+
+  @action.bound
+  resetTableState() {
+    this.highlightRowId = null;
+
+    this.updateScrollLeftPos(0);
+    this.updateScrollTopPos(0);
   }
 }
