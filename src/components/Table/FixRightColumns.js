@@ -7,11 +7,11 @@ import { ifProp, prop, switchProp } from "styled-tools";
 import { HeaderColumn } from "./TableHeader";
 import { TableRowContainer, ColumnCellContainer } from "./ComponentUI";
 
-const FixLeftContainer = styled.div`
+const FixRightContainer = styled.div`
   position: absolute;
   z-index: 10;
   top: 0;
-  right: ${getScrollbarWidth()}px;
+  right: 0;
   overflow-x: hidden;
   transition: box-shadow 0.3s;
 
@@ -21,7 +21,7 @@ const FixLeftContainer = styled.div`
 `;
 
 const FixContainerInner = styled.div`
-  width: calc(100% + ${getScrollbarWidth()}px);
+  width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
 `;
@@ -209,14 +209,16 @@ export default class extends Component {
       }
     }
     return (
-      <FixLeftContainer className={prefixClass} style={{ width: fixedRightColumnsWidth }}>
+      <FixRightContainer
+        className={prefixClass}
+        style={{ width: fixedRightColumnsWidth, right: maxHeight ? this.scrollBarWidth : 0 }}>
         {fixHeader ? <HeaderRowComponent /> : null}
         <FixContainerInner
-          style={{ maxHeight }}
+          style={{ maxHeight, width: `calc(100% + ${this.scrollBarWidth})` }}
           innerRef={container => (this.container = container)}>
           {viewData.map(row => <RowComponent rowData={row} key={row[rowKey]} />)}
         </FixContainerInner>
-      </FixLeftContainer>
+      </FixRightContainer>
     );
   }
 }
