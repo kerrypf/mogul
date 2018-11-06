@@ -45,6 +45,7 @@ type TableProps = {
   draggable: false | dragProps;
   showHeader: boolean;
   size: "small" | "middle" | "large";
+  loadingDelay: number;
 };
 
 declare class TableStore {
@@ -65,6 +66,7 @@ export default class Table extends React.Component<TableProps, {}> {
     draggable: false;
     showHeader: true;
     noDataRender: Function;
+    loadingDelay: 300;
   };
 
   state: {};

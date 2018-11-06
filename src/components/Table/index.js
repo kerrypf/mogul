@@ -3,17 +3,18 @@ import { findDOMNode } from "react-dom";
 import { Provider, PropTypes as MobxPropTypes, inject, observer } from "mobx-react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
+import { Transition, interpolate } from "react-spring";
 import { ifProp, prop, switchProp } from "styled-tools";
 import TableStore from "./TableStore";
 import TableHeader from "./TableHeader";
 import TableBody from "./TableBody";
 import Pagination from "./Pagination";
-import { Spin } from "../Indicator";
+//import { Spin } from "../Indicator";
 import { Flex } from "../../utils";
 import FixLeftColumns from "./FixLeftColumns";
 import FixRightColumns from "./FixRightColumns";
 import NoDataRender from "./NoDataRender";
-import { DragHandle } from "./ComponentUI";
+import { DragHandle, Loader } from "./ComponentUI";
 
 const TableContainer = styled.div`
   display: inline-block;
@@ -43,22 +44,6 @@ const TableInner = styled.div`
       overflow-y: auto;
     `
   )};
-`;
-
-const LoadingOverlay = styled(Flex).attrs({
-  alignItems: "center",
-  justifyContent: "center"
-})`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: 20;
-  filter: blur(0.5px);
-  user-select: none;
-  overflow: hidden;
-  background-color: rgba(255, 255, 255, 0.6);
 `;
 
 const NoDataSpan = styled.span`
@@ -135,7 +120,8 @@ class Table extends Component {
       })
     ]),
     showHeader: PropTypes.bool,
-    size: PropTypes.oneOf(["small", "middle", "large"])
+    size: PropTypes.oneOf(["small", "middle", "large"]),
+    loadingDelay: PropTypes.number.isRequired
   };
 
   static defaultProps = {
@@ -150,7 +136,8 @@ class Table extends Component {
     loading: false,
     draggable: false,
     showHeader: true,
-    noDataRender: ({ size }) => <NoDataSpan size={size}>暂无数据</NoDataSpan>
+    noDataRender: ({ size }) => <NoDataSpan size={size}>暂无数据</NoDataSpan>,
+    loadingDelay: 300
   };
 
   static DragHandle = DragHandle;
@@ -221,7 +208,8 @@ class Table extends Component {
       subTableRender,
       draggable,
       showHeader,
-      fluid
+      fluid,
+      loadingDelay
     } = this.props;
 
     const draggableProps = draggable
@@ -256,11 +244,8 @@ class Table extends Component {
           <RenderPlugins />
 
           {pagination ? <Pagination /> : null}
-          {loading ? (
-            <LoadingOverlay>
-              <Spin size={50} />
-            </LoadingOverlay>
-          ) : null}
+
+          <Loader loading={loading} loadingDelay={loadingDelay} />
         </TableContainer>
       </Provider>
     );

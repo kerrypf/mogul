@@ -4,6 +4,7 @@ import { Provider, observer } from "mobx-react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { ifProp } from "styled-tools";
+import { Transition } from "react-spring";
 import { Redirect } from "../Route";
 import configuration from "../configuration";
 import { Spin } from "../Indicator";
@@ -215,11 +216,20 @@ export default class App extends Component {
           </Provider>
         </BrowserRouter>
 
-        {configuration.fullPageLoading ? (
-          <FullPageOverlay style={{ opacity: 1 }}>
-            <Spin size={100} />
-          </FullPageOverlay>
-        ) : null}
+        <Transition
+          items={configuration.fullPageLoading}
+          from={{ opacity: 0 }}
+          enter={{ opacity: 1 }}
+          leave={{ opacity: 0 }}>
+          {show =>
+            show &&
+            (({ opacity }) => (
+              <FullPageOverlay style={{ opacity }}>
+                <Spin size={100} />
+              </FullPageOverlay>
+            ))
+          }
+        </Transition>
       </Fragment>
     );
   }

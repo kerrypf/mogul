@@ -14,7 +14,6 @@ configuration.config({
 export default class  extends Component{
 
   componentDidCatch(error, info){
-    console.log(error , info);
   }
 
   render(){

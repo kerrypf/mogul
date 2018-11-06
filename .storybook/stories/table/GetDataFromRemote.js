@@ -44,7 +44,7 @@ const fetchData = ({ page = 1, size = 10 })=>{
         total: 850,
         data: result
       });
-    }, 1000);
+    }, 800);
   });
 };
 

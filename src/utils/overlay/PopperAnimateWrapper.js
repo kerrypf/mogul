@@ -12,11 +12,12 @@ export default class extends Component {
       <Fragment>
         {animation ? (
           <Transition
+            items={show}
             from={{ opacity: 0, scale: 0.2 }}
             enter={{ opacity: 1, scale: 1 }}
             leave={{ opacity: 0, scale: 0.2 }}
             config={config.wobbly}>
-            {show ? ({ scale, opacity }) => <Popper scale={scale} opacity={opacity} /> : () => null}
+            {show => show && (({ scale, opacity }) => <Popper scale={scale} opacity={opacity} />)}
           </Transition>
         ) : show ? (
           <Popper scale={1} opacity={1} />

@@ -60,13 +60,12 @@
     esutils "^2.0.2"
     js-tokens "^3.0.0"
 
-"@babel/runtime@7.0.0-beta.49":
-  version "7.0.0-beta.49"
-  resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.0.0-beta.49.tgz#03b3bf07eb982072c8e851dd2ddd5110282e61bf"
-  integrity sha1-A7O/B+uYIHLI6FHdLd1RECguYb8=
+"@babel/runtime@^7.1.2":
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.1.2.tgz#81c89935f4647706fc54541145e6b4ecfef4b8e3"
+  integrity sha512-Y3SCjmhSupzFB6wcv1KmmFucH6gDVnI30WjOcicV10ju0cZjak3Jcs67YLIXBrmZYw1xCrVeJPbycFwrqNyxpg==
   dependencies:
-    core-js "^2.5.6"
-    regenerator-runtime "^0.11.1"
+    regenerator-runtime "^0.12.0"
 
 "@babel/template@7.0.0-beta.44":
   version "7.0.0-beta.44"
@@ -2622,7 +2621,7 @@ core-js@^1.0.0:
   resolved "http://registry.npm.taobao.org/core-js/download/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
   integrity sha1-ZSKUwUZR2yj6k70tX/KYOk8IxjY=
 
-core-js@^2.4.0, core-js@^2.4.1, core-js@^2.5.0, core-js@^2.5.3, core-js@^2.5.6:
+core-js@^2.4.0, core-js@^2.4.1, core-js@^2.5.0, core-js@^2.5.3:
   version "2.5.7"
   resolved "http://registry.npm.taobao.org/core-js/download/core-js-2.5.7.tgz#f972608ff0cead68b841a16a932d0b183791814e"
   integrity sha512-RszJCAxg/PP6uzXVXL6BsxSXx/B05oJAQ2vkJRjyjrEcNVycaqOmNb5OTxZPE3xa5gwZduqza6L9JOCenh/Ecw==
@@ -7555,12 +7554,12 @@ react-split-pane@^0.1.77:
     prop-types "^15.5.10"
     react-style-proptype "^3.0.0"
 
-react-spring@^5.3.18:
-  version "5.3.18"
-  resolved "https://registry.npmjs.org/react-spring/-/react-spring-5.3.18.tgz#39cf98265991529799898455210164123a0787be"
-  integrity sha512-gPLxo0wk1OYK1b3ZL9emWIAoWuQvTjuLDT8+yKXG+PTyEOYHvhaqEWShykL4bN6AUjPJyY4+7CLioHxJeAefZA==
+react-spring@6.1.6:
+  version "6.1.6"
+  resolved "https://registry.yarnpkg.com/react-spring/-/react-spring-6.1.6.tgz#032671c051c0ec90408fcb8c8e7dc7934dd2e7fc"
+  integrity sha512-h5gKG5PWj6mk66XUMdEUt26TOCTF3ILdkrqL6InAxGYdD6IJ9mg+KYJygBzheZxzRfkOu/b+tCX1w69eNZu1aw==
   dependencies:
-    "@babel/runtime" "7.0.0-beta.49"
+    "@babel/runtime" "^7.1.2"
 
 react-style-proptype@^3.0.0:
   version "3.2.1"
@@ -7735,10 +7734,15 @@ regenerate@^1.2.1:
   resolved "http://registry.npm.taobao.org/regenerate/download/regenerate-1.4.0.tgz#4a856ec4b56e4077c557589cae85e7a4c8869a11"
   integrity sha512-1G6jJVDWrt0rK99kBjvEtziZNCICAuvIPkSiUFIQxVP06RCVpq3dmDo2oi6ABpYaDYaTRr67BEhL8r1wgEZZKg==
 
-regenerator-runtime@^0.11.0, regenerator-runtime@^0.11.1:
+regenerator-runtime@^0.11.0:
   version "0.11.1"
   resolved "http://registry.npm.taobao.org/regenerator-runtime/download/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
   integrity sha512-MguG95oij0fC3QV3URf4V2SDYGJhJnJGqvIIgdECeODCT98wSWDAJ94SSuVpYQUoTcGUIL6L4yNB7j1DFFHSBg==
+
+regenerator-runtime@^0.12.0:
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.12.1.tgz#fa1a71544764c036f8c49b13a08b2594c9f8a0de"
+  integrity sha512-odxIc1/vDlo4iZcfXqRYFj0vpXFNoGdKMAUieAlFYO6m/nl5e9KR/beGf41z4a1FI+aQgtjhuaSlDxQ0hmkrHg==
 
 regenerator-transform@^0.10.0:
   version "0.10.1"

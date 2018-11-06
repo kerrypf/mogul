@@ -1,10 +1,13 @@
-import React, { Component } from "react";
+import React, { Component, PureComponent } from "react";
 import { inject, observer } from "mobx-react";
 import styled, { css } from "styled-components";
 import { SortableHandle } from "react-sortable-hoc";
-import { Flex, Item } from "../../utils/grid";
 import { ifProp } from "styled-tools";
+import { Transition } from "react-spring";
+
+import { Flex, Item } from "../../utils/grid";
 import variable from "../variable";
+import { Spin } from "../Indicator";
 export const ColumnCellContainer = styled(Item).attrs({
   shrink: 0
 })`
@@ -127,3 +130,46 @@ const DragElement = (props = {}) => (
 );
 
 export const DragHandle = SortableHandle(DragElement);
+
+const LoadingOverlay = styled(Flex).attrs({
+  alignItems: "center",
+  justifyContent: "center"
+})`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  filter: blur(0.5px);
+  user-select: none;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.6);
+`;
+
+export class Loader extends PureComponent {
+  render() {
+    const { loading, loadingDelay } = this.props;
+    return (
+      <Transition
+        items={loading}
+        from={{ showSpin: 0 }}
+        enter={{ showSpin: 1 }}
+        leave={{ showSpin: 0 }}
+        delay={loadingDelay}>
+        {show =>
+          show &&
+          (({ showSpin }) => {
+            let result = loading && showSpin > 0;
+
+            return result ? (
+              <LoadingOverlay>
+                <Spin size={50} />
+              </LoadingOverlay>
+            ) : null;
+          })
+        }
+      </Transition>
+    );
+  }
+}

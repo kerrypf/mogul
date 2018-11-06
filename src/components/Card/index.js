@@ -81,15 +81,17 @@ export default class extends Component {
         style={style}>
         {loading && !keepContent ? null : children}
         <Transition
+          items={loading}
           from={{ opacity: 0 }}
           enter={{ opacity: 1 }}
           leave={{ opacity: 0 }}
           config={config.slow}>
-          {loading
-            ? ({ opacity }) => (
-                <CenterEl style={{ opacity }}>{this.renderLoadingContent()}</CenterEl>
-              )
-            : () => null}
+          {loading =>
+            loading &&
+            (({ opacity }) => (
+              <CenterEl style={{ opacity }}>{this.renderLoadingContent()}</CenterEl>
+            ))
+          }
         </Transition>
       </Container>
     );
