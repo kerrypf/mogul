@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import {  Table } from "../../../src/index";
+import { Table } from "../../../src/index";
 import faker from "faker";
+import { Checkbox } from "antd";
 
 const Languages = ["javascript", "java", "c#", "c++", "prolog", "nodejs"];
 
@@ -33,17 +34,31 @@ for (let i = 0; i <= 30; i++) {
 }
 
 export default class extends Component {
+  state = {
+    scrollY: "auto"
+  };
+
   render() {
+    const { scrollY } = this.state;
     return (
       <div style={{ padding: 10 }}>
+        <Checkbox
+          checked={scrollY !== "auto"}
+          onChange={({ target: { checked } }) => {
+            this.setState({
+              scrollY: checked ? 500 : "auto"
+            });
+          }}>
+          固定高度
+        </Checkbox>
         <Table
           data={result}
           rowKey={"id"}
           headerHeight={80}
           fixHeader={true}
-          scrollY={500}
+          scrollY={scrollY}
           fluid={true}
-//          showHeader={ false }
+          //          showHeader={ false }
           columns={[
             {
               title: () => <div>id</div>,
@@ -60,8 +75,8 @@ export default class extends Component {
               render(row) {
                 return <span>{row.name}</span>;
               },
-              width: 300,
-//              fixed: "left"
+              width: 300
+              //              fixed: "left"
             },
             {
               title: "描述",
@@ -69,8 +84,8 @@ export default class extends Component {
               minWidth: 300,
               render(row) {
                 return <span>{row.description}</span>;
-              },
-//              fixed: "left"
+              }
+              //              fixed: "left"
             },
             {
               title: "创建于",
@@ -78,8 +93,7 @@ export default class extends Component {
               render(row) {
                 return <span>{row.created_at.toString()}</span>;
               },
-              width: 200,
-
+              width: 200
             },
             {
               title: "stars",
@@ -87,8 +101,7 @@ export default class extends Component {
               render(row) {
                 return <span>{row.stargazers_count}</span>;
               },
-              width: 100,
-
+              width: 100
             },
             {
               title: "当前是否有issue",

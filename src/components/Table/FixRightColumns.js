@@ -195,26 +195,31 @@ export default class extends Component {
     } = this.props;
 
     let maxHeight = null;
-
+    let verticalScrollBarWidth = this.scrollBarWidth;
     if (!scrollY || scrollY === "auto") {
       maxHeight = null;
+      verticalScrollBarWidth = 0;
     } else {
       maxHeight = `calc(${scrollY}px - ${this.scrollBarWidth}px)`;
     }
 
     let prefixClass = "mogul_table_sticky_right";
+
     if (mainScrollContainer) {
-      if (scrollLeftPos + mainScrollContainer.offsetWidth > mainScrollContainer.scrollWidth) {
+      if (
+        scrollLeftPos + mainScrollContainer.offsetWidth >=
+        mainScrollContainer.scrollWidth + verticalScrollBarWidth
+      ) {
         prefixClass = "";
       }
     }
     return (
       <FixRightContainer
         className={prefixClass}
-        style={{ width: fixedRightColumnsWidth, right: maxHeight ? this.scrollBarWidth : 0 }}>
+        style={{ width: fixedRightColumnsWidth, right: maxHeight ? verticalScrollBarWidth : 0 }}>
         {fixHeader ? <HeaderRowComponent /> : null}
         <FixContainerInner
-          style={{ maxHeight, width: `calc(100% + ${this.scrollBarWidth})` }}
+          style={{ maxHeight, width: `calc(100% + ${verticalScrollBarWidth}px)` }}
           innerRef={container => (this.container = container)}>
           {viewData.map(row => <RowComponent rowData={row} key={row[rowKey]} />)}
         </FixContainerInner>

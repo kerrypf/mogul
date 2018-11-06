@@ -231,7 +231,7 @@ class Table extends Component {
             className={"__mogul_table_scroll_container"}
             innerRef={this.bindContainerRef}
             needScrollY={scrollY && scrollY !== "auto"}
-            style={{ maxHeight: scrollY, width: scrollX }}>
+            style={{ maxHeight: scrollY === "auto" ? "unset" : scrollY, width: scrollX }}>
             {showHeader ? fixHeader ? null : <TableHeader /> : null}
             <TableBody {...draggableProps} subTableRender={subTableRender} />
 
