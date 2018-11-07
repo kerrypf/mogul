@@ -35,8 +35,9 @@ for (let i = 0; i <= 30; i++) {
 
 export default class extends Component {
   state = {
-    scrollY: "auto",
-    fixHeader: false
+    scrollY: 500,
+    fixHeader: true,
+    loading: true
   };
 
   constructor(props) {
@@ -44,9 +45,15 @@ export default class extends Component {
     this.table = createRef()
   }
 
+  componentDidMount(){
+    this.setState({
+      loading: false
+    })
+  }
+
 
   render() {
-    const { scrollY, fixHeader } = this.state;
+    const { scrollY, fixHeader,loading } = this.state;
     return (
       <div style={{ padding: 10 }}>
         <Checkbox
@@ -77,8 +84,9 @@ export default class extends Component {
           this.table.current.getTableApi().resetTableState()
         } }>rest</button>
         <Table
+          loading={ loading }
           ref={ this.table }
-          data={result}
+          data={ loading ? [] : result}
           rowKey={"id"}
           headerHeight={80}
           fixHeader={fixHeader}

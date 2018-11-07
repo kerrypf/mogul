@@ -63,7 +63,10 @@ const NoDataSpan = styled.span`
 @observer
 class RenderPlugins extends Component {
   render() {
-    const { fixedLeftColumns, fixedRightColumns } = this.props.table;
+    const { fixedLeftColumns, fixedRightColumns, viewData, mainScrollContainer } = this.props.table;
+
+    if (!mainScrollContainer) return null;
+    if (viewData.length === 0) return null;
     return (
       <Fragment>
         {fixedLeftColumns.length === 0 ? null : <FixLeftColumns />}
@@ -169,17 +172,12 @@ class Table extends Component {
   }
 
   bindHeaderComponent = header => {
-    console.log(111);
     this.state.store.registryContainer("headerContainer", findDOMNode(header));
-    //    this.headerDom = findDOMNode(header);
   };
 
   onScroll = () => {
     const { updateScrollLeftPos, updateScrollTopPos } = this.state.store;
 
-    //    if (this.headerDom && this.props.showHeader) {
-    //      this.headerDom.scrollLeft = this.container.scrollLeft;
-    //    }
     updateScrollLeftPos(this.container.scrollLeft);
     updateScrollTopPos(this.container.scrollTop);
   };

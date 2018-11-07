@@ -26,7 +26,7 @@ const makeNodeData = node => ({
 
 const nodeData = data.map(node => makeNodeData(node));
 
-console.log(nodeData);
+//console.log(nodeData);
 
 class Demo extends Component {
   state = {
