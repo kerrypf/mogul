@@ -16,7 +16,7 @@ export default class extends Component {
             from={{ opacity: 0, scale: 0.2 }}
             enter={{ opacity: 1, scale: 1 }}
             leave={{ opacity: 0, scale: 0.2 }}
-            config={config.wobbly}>
+            config={config.stiff}>
             {show => show && (({ scale, opacity }) => <Popper scale={scale} opacity={opacity} />)}
           </Transition>
         ) : show ? (

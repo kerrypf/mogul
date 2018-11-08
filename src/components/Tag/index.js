@@ -6,15 +6,15 @@ import { Icon } from "antd";
 import { Item, Flex } from "../../utils/grid";
 
 const FadeIn = keyframes`
-    from{
-        opacity: .2;
-        transform: rotateZ(10deg);
-    }
-    
-    to{
-        opacity: 1;
-        transform: rotateZ(0deg);
-    }
+  from{
+    opacity: .2;
+    transform: rotateZ(10deg);
+  }
+  
+  to{
+    opacity: 1;
+    transform: rotateZ(0deg);
+  }
 `;
 
 const Container = styled(Flex).attrs({
