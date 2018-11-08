@@ -151,8 +151,7 @@ class HeaderRowComponent extends Component {
 @inject("table")
 @observer
 export default class extends Component {
-  ticking = false;
-
+  
   constructor(props) {
     super(props);
     this.scrollBarWidth = getScrollbarWidth();
