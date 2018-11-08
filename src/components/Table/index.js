@@ -157,16 +157,12 @@ class Table extends Component {
   }
 
   componentDidMount() {
-    this.container.addEventListener("scroll", this.onScroll);
-
     this.state.store.registryContainer("mainScrollContainer", this.container);
 
     this.onScroll();
   }
 
   componentWillUnmount() {
-    this.container.removeEventListener("scroll", this.onScroll);
-
     this.state.store.registryContainer("mainScrollContainer", null);
     this.state.store.registryContainer("headerContainer", null);
   }
@@ -232,6 +228,7 @@ class Table extends Component {
 
           <TableInner
             className={"__mogul_table_scroll_container"}
+            onScroll={this.onScroll}
             innerRef={this.bindContainerRef}
             needScrollY={scrollY && scrollY !== "auto"}
             style={{ maxHeight: scrollY === "auto" ? "unset" : scrollY, width: scrollX }}>
