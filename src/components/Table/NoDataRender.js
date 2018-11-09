@@ -16,7 +16,7 @@ const EmptyRow = styled(Flex)`
 export default class NoDataRender extends Component {
   render() {
     const {
-      table: { size, viewData },
+      table: { size, viewData, isLoading },
       noDataRender
     } = this.props;
 
@@ -24,7 +24,7 @@ export default class NoDataRender extends Component {
 
     return (
       <EmptyRow justifyContent={"center"} alignItems={"center"}>
-        {noDataRender({ size })}
+        {noDataRender({ size, loading: isLoading })}
       </EmptyRow>
     );
   }

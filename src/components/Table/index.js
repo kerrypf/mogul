@@ -136,8 +136,9 @@ class Table extends Component {
     loading: false,
     draggable: false,
     showHeader: true,
-    noDataRender: ({ size }) => <NoDataSpan size={size}>暂无数据</NoDataSpan>,
-    loadingDelay: 300
+    noDataRender: ({ size, loading }) => (
+      <NoDataSpan size={size}>{loading ? "加载中..." : "暂无数据"} </NoDataSpan>
+    )
   };
 
   static DragHandle = DragHandle;
@@ -173,7 +174,6 @@ class Table extends Component {
 
   onScroll = () => {
     const { updateScrollLeftPos, updateScrollTopPos } = this.state.store;
-
     updateScrollLeftPos(this.container.scrollLeft);
     updateScrollTopPos(this.container.scrollTop);
   };

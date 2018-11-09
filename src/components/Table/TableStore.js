@@ -162,6 +162,11 @@ export default class TableStore {
     return configuration.tableProps.size;
   }
 
+  @computed
+  get isLoading() {
+    return this.props.loading;
+  }
+
   @computed.struct
   get header() {
     let header = [];
