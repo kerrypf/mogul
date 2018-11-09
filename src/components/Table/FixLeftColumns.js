@@ -168,7 +168,6 @@ export default class extends Component {
       table: { registryContainer }
     } = this.props;
 
-    this.container.addEventListener("scroll", this.onScroll);
     registryContainer("fixLeftContainer", this.container);
   }
 
@@ -176,7 +175,6 @@ export default class extends Component {
     const {
       table: { registryContainer }
     } = this.props;
-    this.container.removeEventListener("scroll", this.onScroll);
     registryContainer("fixLeftContainer", null);
   }
 
@@ -207,6 +205,7 @@ export default class extends Component {
         style={{ width: fixedLeftColumnsWidth }}>
         {fixHeader ? <HeaderRowComponent /> : null}
         <FixContainerInner
+          onScroll={this.onScroll}
           style={{ maxHeight }}
           innerRef={container => (this.container = container)}>
           {!fixHeader ? <HeaderRowComponent /> : null}

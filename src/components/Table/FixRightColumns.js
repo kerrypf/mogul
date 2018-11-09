@@ -151,6 +151,7 @@ class HeaderRowComponent extends Component {
 @inject("table")
 @observer
 export default class extends Component {
+  
   constructor(props) {
     super(props);
     this.scrollBarWidth = getScrollbarWidth();
@@ -161,7 +162,6 @@ export default class extends Component {
       table: { registryContainer }
     } = this.props;
 
-    this.container.addEventListener("scroll", this.onScroll);
     registryContainer("fixRightContainer", this.container);
   }
 
@@ -169,7 +169,6 @@ export default class extends Component {
     const {
       table: { registryContainer }
     } = this.props;
-    this.container.removeEventListener("scroll", this.onScroll);
     registryContainer("fixRightContainer", null);
   }
 
@@ -219,6 +218,7 @@ export default class extends Component {
         style={{ width: fixedRightColumnsWidth, right: maxHeight ? verticalScrollBarWidth : 0 }}>
         {fixHeader ? <HeaderRowComponent /> : null}
         <FixContainerInner
+          onScroll={this.onScroll}
           style={{ maxHeight, width: `calc(100% + ${verticalScrollBarWidth}px)` }}
           innerRef={container => (this.container = container)}>
           {!fixHeader ? <HeaderRowComponent /> : null}

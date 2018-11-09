@@ -237,17 +237,29 @@ export default class TableStore {
   updateScrollLeftPos(scrollLeftPos) {
     this.scrollLeftPos = scrollLeftPos;
 
-    this._updateContainerPos(this.headerContainer, "left");
-    this._updateContainerPos(this.mainScrollContainer, "left");
+    if (!this.updateScrollLeftPos.ticking) {
+      window.requestAnimationFrame(() => {
+        this._updateContainerPos(this.headerContainer, "left");
+        this._updateContainerPos(this.mainScrollContainer, "left");
+        this.updateScrollLeftPos.ticking = false;
+      });
+      this.updateScrollLeftPos.ticking = true;
+    }
   }
 
   @action.bound
   updateScrollTopPos(scrollTopPos) {
     this.scrollTopPos = scrollTopPos;
 
-    this._updateContainerPos(this.mainScrollContainer, "top");
-    this._updateContainerPos(this.fixLeftContainer, "top");
-    this._updateContainerPos(this.fixRightContainer, "top");
+    if (!this.updateScrollTopPos.ticking) {
+      window.requestAnimationFrame(() => {
+        this._updateContainerPos(this.mainScrollContainer, "top");
+        this._updateContainerPos(this.fixLeftContainer, "top");
+        this._updateContainerPos(this.fixRightContainer, "top");
+        this.updateScrollTopPos.ticking = false;
+      });
+      this.updateScrollTopPos.ticking = true;
+    }
   }
 
   @action.bound
