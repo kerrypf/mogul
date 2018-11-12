@@ -121,7 +121,7 @@ class Table extends Component {
     ]),
     showHeader: PropTypes.bool,
     size: PropTypes.oneOf(["small", "middle", "large"]),
-    loadingDelay: PropTypes.number.isRequired
+    loadingDelay: PropTypes.number
   };
 
   static defaultProps = {
