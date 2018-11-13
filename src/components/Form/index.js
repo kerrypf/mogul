@@ -10,7 +10,7 @@ import FormRadioGroup from "./FormRadioGroup";
 import FormSelect from "./FormSelect";
 import FormCascader from "./FormCascader";
 import ConnectForm from "./ConnectForm";
-import { FormClear } from "./pageUI";
+import { FormClear, FormSpin } from "./pageUI";
 
 class Form extends Component {
   static propTypes = {
@@ -71,6 +71,7 @@ Form.Input = FormInput;
 Form.Box = FormBox;
 Form.Connect = ConnectForm;
 Form.Clear = FormClear;
+Form.Spin = FormSpin;
 
 export default Form;
 export { default as withForm } from "./withForm";

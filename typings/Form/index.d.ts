@@ -24,6 +24,7 @@ declare class FormStore {
   value: any;
   errors: Array<string>;
   isFormValid: boolean;
+  validating: boolean;
   setupForm(): void;
   tearDownForm(): void;
   updateFormConfig(): void;
@@ -33,8 +34,9 @@ declare class FormStore {
   brother(name: string): typeof FormStore | null;
   resetValue(resetChildren?: boolean): void;
   validate(): boolean;
+  validateAsync(): Promise<boolean>;
   getResult(): FormResult;
-  getFormData(): Object
+  getFormData(): Object;
 }
 
 type FormRule = {};

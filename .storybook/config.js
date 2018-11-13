@@ -1,4 +1,5 @@
 import React from "react";
+import 'babel-polyfill';
 import { configure, addDecorator } from "@storybook/react";
 
 const ThemeProviderWrap = (storyFn, context) => <div>{storyFn(context)}</div>;

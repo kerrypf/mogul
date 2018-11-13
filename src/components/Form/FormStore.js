@@ -1,4 +1,5 @@
 import { observable, action, computed, toJS } from "mobx";
+import invariant from "invariant";
 // 不能使用 import Joi from "joi-browser" 方式导入 Joi, 因为 Joi 不是标准的写法. 故只能做这种妥协
 const Joi = require("joi-browser");
 
@@ -127,6 +128,8 @@ export default class FormStore {
 
   @action.bound
   setupForm() {
+    this.validateAsync.count = 0;
+
     if (this.root) {
       this.root.addForm(this);
     }
@@ -175,7 +178,7 @@ export default class FormStore {
   changeValue(_value) {
     this._value = _value;
     if (this.errorMessage) {
-      this.validate();
+      this.validateAsync();
     }
     if (this.component) {
       if (this.component.props.onChange) {
@@ -212,14 +215,13 @@ export default class FormStore {
         this.forms.forEach(form => form.resetValue(true));
       }
 
-      this.validate();
+      this.validateAsync();
     }
   }
 
   @action.bound
   validate() {
     let valid = true;
-
     //验证所有依赖
     for (let i = 0; i < this.forms.length; i++) {
       if (!this.forms[i].validate()) {
@@ -231,6 +233,11 @@ export default class FormStore {
       for (let i = 0; i < rules.length; i++) {
         let rule = rules[i];
         let result = validCheck(this.value, rule, this);
+        invariant(
+          !(result instanceof Promise),
+          `Form Component : ${this.fieldName} 包含 async 验证, 请使用 validateAsync 方法`
+        );
+
         if (result !== true) {
           this.errorMessage = result ? result : "规则不合法";
           valid = false;
@@ -240,6 +247,56 @@ export default class FormStore {
         }
       }
     }
+    return valid;
+  }
+
+  @observable validating = false;
+
+  @action.bound
+  async validateAsync() {
+    let valid = true;
+    this.validating = true;
+    this.validateAsync.count = this.validateAsync.count + 1;
+    let executeCount = this.validateAsync.count;
+    //验证所有依赖
+    for (let i = 0; i < this.forms.length; i++) {
+      let result = null;
+      try {
+        result = await this.forms[i].validateAsync();
+      } catch (e) {
+        result = e instanceof Error ? e.message : e;
+      }
+
+      if (result !== true) {
+        valid = false;
+      }
+    }
+    let rules = this.component.props.rules;
+    if (rules && Array.isArray(rules)) {
+      for (let i = 0; i < rules.length; i++) {
+        let rule = rules[i];
+        let result = null;
+        try {
+          result = await validCheck(this.value, rule, this);
+        } catch (e) {
+          result = e instanceof Error ? e.message : e;
+        }
+        if (executeCount === this.validateAsync.count) {
+          if (result !== true) {
+            this.errorMessage = result ? result : "规则不合法";
+            valid = false;
+            i = rules.length; //break loop
+          } else {
+            this.errorMessage = null;
+          }
+        } else {
+          valid = false;
+          i = rules.length; //break loop
+        }
+      }
+    }
+
+    this.validating = false;
     return valid;
   }
 
