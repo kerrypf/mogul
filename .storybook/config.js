@@ -1,6 +1,11 @@
 import React from "react";
 import 'babel-polyfill';
 import { configure, addDecorator } from "@storybook/react";
+import { configure as MobxConfig } from "mobx";
+
+MobxConfig({
+  enforceActions: "observed"
+});
 
 const ThemeProviderWrap = (storyFn, context) => <div>{storyFn(context)}</div>;
 

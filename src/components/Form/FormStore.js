@@ -51,6 +51,7 @@ export default class FormStore {
   @observable _labelStyle = {};
   @observable _containerStyle = {};
   @observable errorMessage = null;
+  @observable validating = false;
 
   isLayout = false;
 
@@ -250,12 +251,10 @@ export default class FormStore {
     return valid;
   }
 
-  @observable validating = false;
-
   @action.bound
   async validateAsync() {
     let valid = true;
-    this.validating = true;
+    this.setValidating(true);
     this.validateAsync.count = this.validateAsync.count + 1;
     let executeCount = this.validateAsync.count;
     //验证所有依赖
@@ -283,11 +282,11 @@ export default class FormStore {
         }
         if (executeCount === this.validateAsync.count) {
           if (result !== true) {
-            this.errorMessage = result ? result : "规则不合法";
+            this.setErrorMessage(result ? result : "规则不合法");
             valid = false;
             i = rules.length; //break loop
           } else {
-            this.errorMessage = null;
+            this.setErrorMessage(null);
           }
         } else {
           valid = false;
@@ -295,9 +294,19 @@ export default class FormStore {
         }
       }
     }
+    this.setValidating(false);
 
-    this.validating = false;
     return valid;
+  }
+
+  @action.bound
+  setValidating(validating) {
+    this.validating = validating;
+  }
+
+  @action.bound
+  setErrorMessage(errorMessage) {
+    this.errorMessage = errorMessage;
   }
 
   @action.bound
