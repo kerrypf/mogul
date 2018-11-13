@@ -15,8 +15,8 @@ declare class FormStore {
   _containerStyle: React.CSSProperties;
   errorMessage: string;
 
-  top: typeof FormStore;
-  parent: typeof FormStore;
+  top: FormStore;
+  parent: FormStore;
   isEmpty: boolean;
   labelStyle: React.CSSProperties;
   containerStyle: React.CSSProperties;
@@ -29,9 +29,9 @@ declare class FormStore {
   tearDownForm(): void;
   updateFormConfig(): void;
   changeValue(value: any): void;
-  findFormByFieldName(name: string): typeof FormStore | null;
-  $(name: string): typeof FormStore | null;
-  brother(name: string): typeof FormStore | null;
+  findFormByFieldName(name: string): FormStore | null;
+  $(name: string): FormStore | null;
+  brother(name: string): FormStore | null;
   resetValue(resetChildren?: boolean): void;
   validate(): boolean;
   validateAsync(): Promise<boolean>;
@@ -47,15 +47,15 @@ type RootFormProps = {
 };
 
 type RootFormState = {
-  form: typeof FormStore;
+  form: FormStore;
 };
 
 type BoxFormProps = {
   fieldName: string;
-  form: typeof FormStore;
+  form: FormStore;
   style: React.CSSProperties;
   containerStyle: React.CSSProperties;
-  children: (form: typeof FormStore) => JSX.Element | JSX.Element;
+  children: (form: FormStore) => JSX.Element | JSX.Element;
 };
 
 type ConnectFormProps = {
@@ -65,9 +65,9 @@ type ConnectFormProps = {
   label: string | JSX.Element;
   labelStyle: React.CSSProperties;
   containerStyle: React.CSSProperties;
-  children: (form: typeof FormStore) => JSX.Element | null;
+  children: (form: FormStore) => JSX.Element | null;
   hint: string | number | JSX.Element;
-  form: typeof FormStore;
+  form: FormStore;
 };
 
 declare class FormBox extends React.Component<BoxFormProps, RootFormState> {
@@ -111,5 +111,5 @@ export default class Form extends React.Component<RootFormProps, RootFormState> 
 
   static Clear: Clear;
 
-  getForm(): typeof FormStore;
+  getForm(): FormStore;
 }
