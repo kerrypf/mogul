@@ -14,7 +14,8 @@
     "storybook:build": "build-storybook -c .storybook -o .out",
     "clean:node_modules": "rimraf ./node_modules",
     "build": "rollup -c ./scripts/rollup.config.js",
-    "prepublishOnly": "node ./scripts/publish"
+    "prepublishOnly": "node ./scripts/publish",
+    "test": "rollup -c ./scripts/rollup.config.js"
   },
   "repository": {
     "type": "git",
