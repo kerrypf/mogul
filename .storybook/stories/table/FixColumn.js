@@ -82,7 +82,7 @@ export default class extends Component {
 
         <button onClick={ () => {
           this.table.current.getTableApi().resetTableState()
-        } }>rest</button>
+        } }>reset</button>
         <Table
           loading={ loading }
           ref={ this.table }
