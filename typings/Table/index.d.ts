@@ -16,8 +16,8 @@ type Column = {
   cellContainerProps?: React.CSSProperties;
   headerContainerProps?: React.CSSProperties;
   headerMode?: columnMode;
-  visible: boolean;
-  fixed: "left" | "right";
+  visible?: boolean;
+  fixed?: "left" | "right";
 };
 
 type dragProps = {
@@ -66,7 +66,7 @@ export default class Table extends React.Component<TableProps, {}> {
     loading: false;
     draggable: false;
     showHeader: true;
-    noDataRender: Function;
+    noDataRender: renderToJsxFn;
     loadingDelay: 300;
   };
 
