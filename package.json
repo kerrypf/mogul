@@ -17,7 +17,7 @@
     "prepublishOnly": "node ./scripts/publish",
     "test": "rollup -c ./scripts/rollup.config.js"
   },
-  "repository": {
+  "_repository": {
     "type": "git",
     "url": "https://github.com/freshesx/mogul.git"
   },
