@@ -33,9 +33,7 @@ export { default as Table } from "./Table";
 export { default as Form } from "./Form";
 
 export { configuration } from "./configuration";
-//
-// export { default as Tree } from "./components/Tree";
-//
+
 export { default as Image } from "./Image";
 
 export { NavLink, Redirect } from "./Route";
