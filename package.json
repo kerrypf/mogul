@@ -21,6 +21,7 @@
     "url": "https://github.com/freshesx/mogul/issues"
   },
   "devDependencies": {
+    "@semantic-release/git": "^7.0.5",
     "@storybook/addon-actions": "^3.4.6",
     "@storybook/addon-console": "^1.0.0",
     "@storybook/react": "^3.4.6",
