@@ -4,7 +4,8 @@
   "description": "React UI components based on Mobx && Antd, help freshesx to easy build admin pages",
   "private": false,
   "license": "MIT",
-  "author": "JennerChen <zhangqing332@live.com>",
+  "repository": "https://github.com/freshesx/mogul.git",
+  "author": "zhangqing <zhangqing332@live.com>",
   "main": "build/mogul.js",
   "jsnext:main": "build/mogul.js",
   "typings": "typings/index.d.ts",
@@ -16,10 +17,6 @@
     "build": "rollup -c ./scripts/rollup.config.js",
     "prepublishOnly": "node ./scripts/publish",
     "test": "rollup -c ./scripts/rollup.config.js"
-  },
-  "_repository": {
-    "type": "git",
-    "url": "https://github.com/freshesx/mogul.git"
   },
   "bugs": {
     "url": "https://github.com/freshesx/mogul/issues"
@@ -53,6 +50,7 @@
     "lint-staged": "^7.1.3",
     "mobx": "^5.1.2",
     "mobx-react": "^5.1.2",
+    "node-fetch": "^2.3.0",
     "prettier": "^1.10.2",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
