@@ -6,6 +6,7 @@
 [![CircleCI](https://circleci.com/gh/freshesx/mogul.svg?style=svg&circle-token=37fb5b4463a5bbc51ad8a291cecb8af30a0c1349)](https://circleci.com/gh/freshesx/mogul)
 [![NPM downloads](https://img.shields.io/npm/dm/@mogul/components.svg?style=flat-square)](https://www.npmjs.com/package/@mogul/components)
 [![NPM downloads](https://img.shields.io/npm/l/@mogul/components.svg?style=flat-square)](https://www.npmjs.com/package/@mogul/components)
+[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/@mogul/components.svg)](https://www.npmjs.com/package/@mogul/components)
 [![Github Tag](https://img.shields.io/github/tag/freshesx/mogul.svg)](https://github.com/freshesx/mogul)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![style: styled-components](https://img.shields.io/badge/style-%F0%9F%92%85%20styled--components-orange.svg?colorB=daa357&colorA=db748e)](https://github.com/styled-components/styled-components)
