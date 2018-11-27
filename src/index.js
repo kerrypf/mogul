@@ -15,6 +15,8 @@ export {
   deepEqual
 } from "./utils";
 
+const d = null;
+
 export { Spin, ContentLoader } from "./components/Indicator";
 
 export { default as Card } from "./components/Card";
