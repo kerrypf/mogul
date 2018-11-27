@@ -4,7 +4,7 @@ type overProps = string | "auto";
 
 type flexProps = {
   flex?: "flex" | "inline-flex";
-  direction: "column" | "row" | "row-reverse" | "column-reverse";
+  direction?: "column" | "row" | "row-reverse" | "column-reverse";
   wrap?: "nowrap" | "wrap";
   justifyContent?: "flex-start" | "center" | "flex-end" | "end";
   alignItems?: "stretch" | "flex-start" | "center" | "flex-end" | "end";
