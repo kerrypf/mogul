@@ -38,4 +38,6 @@ yarn add @mogul/components
 npx @mogul/create-mogul-app <project-name>
 ```
 
+> 不支持直接使用脚本的方式引用
+
 详见: [文档](https://freshesx.github.io/mogul-website/)
