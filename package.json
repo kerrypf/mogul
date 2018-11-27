@@ -15,7 +15,8 @@
     "storybook:build": "build-storybook -c .storybook -o .out",
     "clean:node_modules": "rimraf ./node_modules",
     "build": "rollup -c ./scripts/rollup.config.js",
-    "test": "rollup -c ./scripts/rollup.config.js"
+    "test": "eslint ./src/index.js",
+    "lint": "eslint ./src/index.js"
   },
   "bugs": {
     "url": "https://github.com/freshesx/mogul/issues"
