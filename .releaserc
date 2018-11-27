@@ -1,7 +1,7 @@
 {
   "branch": "master",
   "dryRun": false,
-  "debug":true,
+  "debug":false,
   "plugins":[
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
