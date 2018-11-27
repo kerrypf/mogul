@@ -195,11 +195,17 @@ export default class extends Component {
 
   getPrefixClass = () => {
     const {
-      table: { mainScrollContainer, scrollLeftPos }
+      table: { mainScrollContainer, scrollLeftPos, scrollY }
     } = this.props;
 
+    let verticalScrollBarWidth = this.scrollBarWidth;
+
+    if (!scrollY || scrollY === "auto") {
+      verticalScrollBarWidth = 0;
+    }
+
     return scrollLeftPos + mainScrollContainer.offsetWidth <
-      mainScrollContainer.scrollWidth + this.scrollBarWidth
+      mainScrollContainer.scrollWidth + verticalScrollBarWidth
       ? "mogul_table_sticky_right"
       : "";
   };
