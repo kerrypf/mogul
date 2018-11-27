@@ -11,7 +11,7 @@
       "message": "chore(release): 🤖 ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
     }],
     ["@semantic-release/github",{
-      "_assets": ["build/**/*.{js,css}", "typings/**/*.d.ts", "package.json", "LICENSE", "README.md"]
+      "assets": ["dist/**/*.{js,css}"]
     }]
   ],
   "preset": "angular"
