@@ -39,3 +39,5 @@ export { default as Image } from "./Image";
 export { NavLink, Redirect } from "./Route";
 
 export { default as Script } from "./Script";
+
+export { default as ActionButton } from "./ActionButton";
