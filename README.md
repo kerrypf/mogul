@@ -41,3 +41,11 @@ npx @mogul/create-mogul-app <project-name>
 > 不支持直接使用脚本的方式引用
 
 详见: [文档](https://freshesx.github.io/mogul-website/)
+
+## 与 `antd` , `create-react-app` 的关系
+
+`mogul` 注重后台管理页面的开发， 基于当前流行的开源库，二次封装。尽量保证不侵入引用库
+
+@mogul/components 是 `antd` 的补充, 增加了一些关于后台管理页面的组件。
+
+@mogul/mogul-scripts: 是基于`create-react-app`封装的0配置脚手架, 使用方式尽量与`CRA`保持一致。
