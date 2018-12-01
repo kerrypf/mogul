@@ -11,6 +11,7 @@
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![style: styled-components](https://img.shields.io/badge/style-%F0%9F%92%85%20styled--components-orange.svg?colorB=daa357&colorA=db748e)](https://github.com/styled-components/styled-components)
 [![GitHub stars](https://img.shields.io/github/stars/freshesx/mogul.svg?style=social&label=Stars)](https://github.com/freshesx/mogul)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/1f498cc05ed34dfeb5553c5caef5becf)](https://www.codacy.com/app/JennerChen/mogul?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=freshesx/mogul&amp;utm_campaign=Badge_Grade)
 <a href="#badge">
     <img alt="semantic-release" src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg">
   </a>
