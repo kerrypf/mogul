@@ -175,6 +175,7 @@ export default class extends Component {
     const {
       table: { registryContainer }
     } = this.props;
+    this.isUnmount = true;
     registryContainer("fixRightContainer", null);
   }
 
@@ -188,7 +189,7 @@ export default class extends Component {
 
   updateScrollMeta() {
     let prefix = this.getPrefixClass();
-    if (prefix !== this.prefixClass) {
+    if (prefix !== this.prefixClass && !this.isUnmount) {
       this.forceUpdate();
     }
   }
