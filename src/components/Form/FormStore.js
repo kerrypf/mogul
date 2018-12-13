@@ -130,7 +130,6 @@ export default class FormStore {
   @action.bound
   setupForm() {
     this.validateAsync.count = 0;
-
     if (this.root) {
       this.root.addForm(this);
     }
@@ -172,7 +171,7 @@ export default class FormStore {
 
   @action.bound
   removeForm(form) {
-    this.forms = this.forms.filter(f => f.fieldName !== form.fieldName);
+    this.forms = this.forms.filter(f => f !== form);
   }
 
   @action.bound

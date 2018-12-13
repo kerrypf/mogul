@@ -7,6 +7,7 @@ import AssoDemo from "./AssoDemo";
 import FormClearUsage from "./FormClearUsage";
 import TabIndex from "./TabIndex";
 import AsyncValidate from "./AsyncValidate";
+import FixError from "./FixError";
 
 storiesOf("表单", module)
   .add("简单例子", () => <SimpleDemo />)
@@ -14,4 +15,5 @@ storiesOf("表单", module)
   .add("表单的联动", () => <AssoDemo />)
   .add("清空组件", () => <FormClearUsage />)
   .add("组件focus", () => <TabIndex />)
-  .add("async验证", () => <AsyncValidate />);
+  .add("async验证", () => <AsyncValidate />)
+//  .add("fix error", () => <FixError/>);
