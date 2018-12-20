@@ -142,12 +142,14 @@ export default class App extends Component {
     defaultExpandAllMenu: PropTypes.bool,
     openKeys: PropTypes.array,
     style: PropTypes.object,
-    onOpenChange: PropTypes.func
+    onOpenChange: PropTypes.func,
+    browserRouterConfig: PropTypes.object
   };
 
   static defaultProps = {
     fixHeader: false,
-    defaultExpandAllMenu: true
+    defaultExpandAllMenu: true,
+    browserRouterConfig: {}
   };
 
   renderRoutes(routes) {
@@ -184,13 +186,14 @@ export default class App extends Component {
       style,
       defaultExpandAllMenu,
       openKeys,
-      onOpenChange
+      onOpenChange,
+      browserRouterConfig
     } = this.props;
     const renderRoutes = routes ? routes : children();
 
     return (
       <Fragment>
-        <BrowserRouter>
+        <BrowserRouter {...browserRouterConfig}>
           <Provider mogul={configuration}>
             <RootContainer style={style}>
               <MogulHistory />
