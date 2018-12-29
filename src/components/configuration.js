@@ -23,7 +23,8 @@ class Configuration {
     visible: true,
     title: "Mogul",
     logo: null,
-    root: "/"
+    root: "/",
+    width: 200
   };
 
   @observable
