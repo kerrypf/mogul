@@ -13,8 +13,11 @@ scripts/
 .babelrc
 .eslintr
 .circleci
+.editorconfig
 rollup.config.js
 yarn.lock
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+CODE_OF_CONDUCT.md
+PULL_REQUEST_TEMPLATE.md
