@@ -4,6 +4,7 @@ type SiderParams = {
   title?: string | JSX.Element;
   logo?: null | string | JSX.Element;
   root?: string;
+  width?: number;
 };
 
 type TableProps = {
@@ -33,7 +34,7 @@ type MessageMethods = {
   info: (msg: string, options?: Object) => void;
 };
 
-export  declare namespace configuration {
+export declare namespace configuration {
   let fullPageLoading: boolean;
 
   let fullScreen: boolean;
