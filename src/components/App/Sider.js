@@ -455,7 +455,7 @@ export default class extends Component {
   };
 
   render() {
-    const { logo, title, collapse } = configuration.sider;
+    const { logo, title, collapse, width: _siderWidth } = configuration.sider;
 
     const { routes, defaultExpandAllMenu, onOpenChange, openKeys } = this.props;
 
@@ -463,11 +463,13 @@ export default class extends Component {
 
     if (configuration.fullScreen) return null;
 
+    const siderWidth = _siderWidth && Number(_siderWidth) ? Math.max(_siderWidth, 200) : 200;
+
     return (
       <Spring
-        from={{ width: 200, opacity: 1, iconSize: 14 }}
+        from={{ width: siderWidth, opacity: 1, iconSize: 14 }}
         to={{
-          width: collapse ? 80 : 200,
+          width: collapse ? 80 : siderWidth,
           opacity: collapse ? 0 : 1,
           paddingLeft: collapse ? 0 : 4,
           iconSize: collapse ? 16 : 14
@@ -486,19 +488,21 @@ export default class extends Component {
               </Title>
 
               <RoutesContainer>
-                {routes.filter(route => route.visible !== false).map(route => (
-                  <RouteContainer key={route.name}>
-                    <RouteSwitcher
-                      defaultExpandAllMenu={defaultExpandAllMenu}
-                      route={route}
-                      iconSize={iconSize}
-                      paddingLeft={paddingLeft}
-                      opacity={opacity}
-                      onOpenChange={onOpenChange}
-                      openKeys={openKeys}
-                    />
-                  </RouteContainer>
-                ))}
+                {routes
+                  .filter(route => route.visible !== false)
+                  .map(route => (
+                    <RouteContainer key={route.name}>
+                      <RouteSwitcher
+                        defaultExpandAllMenu={defaultExpandAllMenu}
+                        route={route}
+                        iconSize={iconSize}
+                        paddingLeft={paddingLeft}
+                        opacity={opacity}
+                        onOpenChange={onOpenChange}
+                        openKeys={openKeys}
+                      />
+                    </RouteContainer>
+                  ))}
               </RoutesContainer>
 
               <CollapseContainer
