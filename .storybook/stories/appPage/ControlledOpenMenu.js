@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Checkbox } from "antd";
+import { Checkbox, InputNumber } from "antd";
 import { App, configuration } from "../../../src/index";
 import Logo from "../image/logo.png";
 import routes from "./routes";
@@ -52,6 +52,20 @@ export default class extends Component {
           }>
           只允许一个展开菜单
         </Checkbox>
+
+        菜单宽度, 默认200
+        <InputNumber
+          defaultValue={ configuration.sider.width }
+          onBlur={ ({ target: { value } }) => {
+            if (value){
+              configuration.config({
+                sider: {
+                  width: value
+                }
+              })
+            }
+          } }
+        />
         <App
           openKeys={this.state.openKeys}
           onOpenChange={this.handleonOpenChange}
