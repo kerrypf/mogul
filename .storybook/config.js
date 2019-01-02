@@ -1,5 +1,5 @@
 import React from "react";
-import 'babel-polyfill';
+import "babel-polyfill";
 import { configure, addDecorator } from "@storybook/react";
 import { configure as MobxConfig } from "mobx";
 
@@ -21,7 +21,7 @@ function loadStories() {
   require("./stories/tagSelect");
   require("./stories/tree");
   require("./stories/Img");
-  require("./stories/ASyncScript")
+  require("./stories/ASyncScript");
 }
 
 configure(loadStories, module);
