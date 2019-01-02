@@ -10,13 +10,17 @@
   "jsnext:main": "build/mogul.js",
   "typings": "typings/index.d.ts",
   "scripts": {
-    "precommit": "lint-staged",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "storybook:build": "build-storybook -c .storybook -o docs",
     "clean:node_modules": "rimraf ./node_modules",
     "build": "rollup -c ./scripts/rollup.config.js",
     "test": "eslint ./src/index.js",
     "lint": "eslint ./src/index.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "bugs": {
     "url": "https://github.com/freshesx/mogul/issues"
@@ -46,13 +50,13 @@
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.1.0",
     "faker": "^4.1.0",
-    "husky": "^0.14.3",
+    "husky": "^1.3.1",
     "inquirer": "^6.0.0",
-    "lint-staged": "^7.1.3",
+    "lint-staged": "^8.1.0",
     "mobx": "^5.1.2",
     "mobx-react": "^5.1.2",
     "node-fetch": "^2.3.0",
-    "prettier": "^1.15.2",
+    "prettier": "^1.15.3",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
@@ -100,6 +104,19 @@
   },
   "lint-staged": {
     "src/**/*.{js,json,md}": [
+      "npm run lint",
+      "prettier --write",
+      "git add"
+    ],
+    "typings/**/*.{d.ts}": [
+      "prettier --write",
+      "git add"
+    ],
+    ".storybook/**/*.{js,json}": [
+      "prettier --write",
+      "git add"
+    ],
+    "{README,CODE_OF_CONDUCT}.md": [
       "prettier --write",
       "git add"
     ]
