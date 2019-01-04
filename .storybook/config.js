@@ -17,7 +17,7 @@ function loadStories() {
   require("./stories/table/index");
   require("./stories/util/index");
   require("./stories/cascader/index");
-  require("./stories/Query/index");
+  //  require("./stories/Query/index");
   require("./stories/tagSelect");
   require("./stories/tree");
   require("./stories/Img");
