@@ -5,7 +5,7 @@ import commonjs from "rollup-plugin-commonjs";
 import filesize from "rollup-plugin-filesize";
 import clear from "rollup-plugin-clear";
 import license from "rollup-plugin-license";
-import eslint from "rollup-plugin-eslint";
+import { eslint } from "rollup-plugin-eslint";
 import antdExternal from "./fix/fixAntd";
 
 const path = require("path");
@@ -39,7 +39,8 @@ export default {
       only: [/^\.{0,2}\//],
     }),
     babel({
-      exclude: "node_modules/**"
+      exclude: "node_modules/**",
+      externalHelpers: true
     }),
     commonjs({
       include: "src/**",
