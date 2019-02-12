@@ -51,3 +51,8 @@ npx @mogul/create-mogul-app <project-name>
 @mogul/components 是 `antd` 的补充, 增加了一些关于后台管理页面的组件。
 
 @mogul/mogul-scripts: 是基于`create-react-app`封装的 0 配置脚手架, 使用方式尽量与`CRA`保持一致。
+
+## 相关资料
+
+- [mogul-scripts](https://github.com/freshesx/mogul-scripts)
+- [mogul-website](https://github.com/freshesx/mogul-website)
