@@ -33,7 +33,6 @@
     "@babel/plugin-proposal-json-strings",
 
     ["babel-plugin-styled-components"],
-    ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }],
-    "@babel/plugin-external-helpers"
+    ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }]
   ]
 }
