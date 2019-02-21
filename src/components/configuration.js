@@ -9,6 +9,8 @@ class Configuration {
 
   fixQueryParams = null;
 
+  customFullScreenSpin = null;
+
   @observable
   messageOptions = {
     placement: "topRight",
@@ -66,7 +68,8 @@ class Configuration {
     popContext = this.popupContext,
     tableProps = {},
     confirmComposeProps = {},
-    fixQueryParams = this.fixQueryParams
+    fixQueryParams = this.fixQueryParams,
+    customFullScreenSpin
   } = {}) {
     this.messageOptions = {
       ...this.messageOptions,
@@ -98,6 +101,18 @@ class Configuration {
     };
 
     this.fixQueryParams = fixQueryParams;
+
+    switch (typeof customFullScreenSpin) {
+      case "function":
+      case "undefined":
+        this.customFullScreenSpin = customFullScreenSpin;
+        break;
+      default:
+        console.warn(
+          `config.customFullScreenSpin 必须为一个方法, 但获得一个${typeof customFullScreenSpin}`
+        );
+      // do nothing
+    }
   }
 
   /**

@@ -176,6 +176,18 @@ export default class App extends Component {
     return routeComponents;
   }
 
+  renderFullScreenSpin = ({ opacity, ...rest }) => {
+    let comp = <Spin size={100} />;
+    if (
+      configuration.customFullScreenSpin &&
+      typeof configuration.customFullScreenSpin === "function"
+    ) {
+      comp = configuration.customFullScreenSpin({ opacity, ...rest });
+    }
+
+    return <FullPageOverlay style={{ opacity }}>{comp}</FullPageOverlay>;
+  };
+
   render() {
     const {
       routes,
@@ -224,14 +236,7 @@ export default class App extends Component {
           from={{ opacity: 0 }}
           enter={{ opacity: 1 }}
           leave={{ opacity: 0 }}>
-          {show =>
-            show &&
-            (({ opacity }) => (
-              <FullPageOverlay style={{ opacity }}>
-                <Spin size={100} />
-              </FullPageOverlay>
-            ))
-          }
+          {show => show && this.renderFullScreenSpin}
         </Transition>
       </Fragment>
     );
