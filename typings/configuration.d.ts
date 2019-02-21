@@ -20,6 +20,8 @@ type ConfigProps = {
   tableProps?: TableProps;
   confirmComposeProps?: object;
   fixQueryParams?: Object;
+  customFullScreenSpin?: Function | undefined;
+  customSpin?: Function | undefined;
 };
 
 type RouteHistory = {
@@ -56,6 +58,10 @@ export declare namespace configuration {
   function config(configProps: ConfigProps): void;
 
   let message: MessageMethods;
+
+  let customFullScreenSpin: undefined | Function;
+
+  let customSpin: undefined | Function;
 
   function message_info(msg: string, options?: Object): void;
 
