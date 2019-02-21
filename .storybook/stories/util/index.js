@@ -7,7 +7,7 @@ import CreateProvider from "./createProvider";
 import LastReqPage from "./lastReq";
 import OnlyOneReqPage from "./onlyOneReq";
 import SpinDemo from "./SpinDemo";
-
+import CustomSpinDemo from "./CustomSpin";
 import styled from "styled-components";
 
 const StyledActionButton = styled(ActionButton)`
@@ -62,4 +62,5 @@ storiesOf("工具", module)
   .add("createModal", () => <CreateModal />)
   .add("createProvider", () => <CreateProvider />)
   .add("lastReq", () => <LastReqPage />)
-  .add("onlyOneReq", () => <OnlyOneReqPage />);
+  .add("onlyOneReq", () => <OnlyOneReqPage />)
+  .add("自定义spin", () => <CustomSpinDemo />);
