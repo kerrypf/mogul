@@ -1,6 +1,6 @@
 {
   "name": "@mogul/components",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "React UI components based on Mobx && Antd, help freshesx to easy build admin pages",
   "private": false,
   "license": "MIT",
