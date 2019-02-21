@@ -51,6 +51,18 @@ const page = ({ name }) => {
           </Button>
         )}
       </Observer>
+
+      <Button
+        onClick={() => {
+          configuration.config({
+            customFullScreenSpin: () => <div>自定义组件....</div>
+          });
+          configuration.showFullPageLoading();
+
+          setTimeout(() => configuration.hideFullPageLoading(), 2000);
+        }}>
+        自定义overlay组件
+      </Button>
     </Card>
   );
 };
