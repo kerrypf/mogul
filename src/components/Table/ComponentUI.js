@@ -4,10 +4,11 @@ import styled, { css } from "styled-components";
 import { SortableHandle } from "react-sortable-hoc";
 import { ifProp } from "styled-tools";
 import { Transition } from "react-spring";
-
+import configuration from "../configuration";
 import { Flex, Item } from "../../utils/grid";
 import variable from "../variable";
 import { Spin } from "../Indicator";
+import { CUSTOM_SPIN_TABLE } from "../symbols";
 export const ColumnCellContainer = styled(Item).attrs({
   shrink: 0
 })`
@@ -150,6 +151,7 @@ const LoadingOverlay = styled(Flex).attrs({
 export class Loader extends PureComponent {
   render() {
     const { loading, loadingDelay } = this.props;
+    const { customSpin } = configuration;
     return (
       <Transition
         items={loading}
@@ -161,11 +163,12 @@ export class Loader extends PureComponent {
           show &&
           (({ showSpin }) => {
             let result = loading && showSpin > 0;
-
+            let comp = null;
+            if (customSpin) {
+              comp = customSpin(CUSTOM_SPIN_TABLE, this);
+            }
             return result ? (
-              <LoadingOverlay>
-                <Spin size={50} />
-              </LoadingOverlay>
+              <LoadingOverlay>{comp ? comp : <Spin size={50} />}</LoadingOverlay>
             ) : null;
           })
         }

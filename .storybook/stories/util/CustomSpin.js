@@ -1,9 +1,10 @@
 import React from "react";
 import { Spring, config } from "react-spring";
 import { Button, Checkbox } from "antd";
-import { Spin, Flex, Item, Card, onlyOneReq, configuration } from "../../../src";
+import { Spin, Flex, Item, Card, onlyOneReq, configuration, Table } from "../../../src";
 
-const CustomSpin = () => {
+const CustomSpin = ({ type }) => {
+  console.log(type);
   return (
     <div>
       <img
@@ -25,7 +26,7 @@ export default class extends React.Component {
 
   useCustomPictureAsSpin = checked => {
     configuration.config({
-      customSpin: checked ? type => <CustomSpin /> : undefined
+      customSpin: checked ? type => <CustomSpin type={type} /> : undefined
     });
     this.setState({
       useCustom: checked
@@ -47,6 +48,74 @@ export default class extends React.Component {
         <Card loading={true} style={{ minHeight: 200 }}>
           <div>hhhh</div>
         </Card>
+
+        <div style={{ height: 100 }} />
+        <Table
+          data={[]}
+          rowKey={"id"}
+          loading={true}
+          fluid={true}
+          columns={[
+            {
+              title: <div>id</div>,
+              key: "id",
+              render(row) {
+                return <span>{row.id}</span>;
+              },
+              width: 400
+            },
+            {
+              title: "名称",
+              key: "name",
+              render(row) {
+                return <span>{row.name}</span>;
+              },
+              width: 200
+            },
+            {
+              title: "描述",
+              key: "description",
+              //              minWidth: 300,
+              render(row) {
+                return <span>{row.description}</span>;
+              },
+              flex: "2 0 377px"
+              //              width: 300
+            },
+            {
+              title: "创建于",
+              key: "created_at",
+              render(row) {
+                return <span>{row.created_at.toString()}</span>;
+              },
+              minWidth: 500
+            },
+            {
+              title: "stars",
+              key: "stargazers_count",
+              render(row) {
+                return <span>{row.stargazers_count}</span>;
+              },
+              width: 100
+            },
+            {
+              title: "当前是否有issue",
+              key: "has_issues",
+              render(row) {
+                return <span>{row.has_issues ? "是" : "五"}</span>;
+              },
+              width: 100
+            },
+            {
+              title: "地址",
+              key: "url",
+              render(row) {
+                return <a href={row.url}>地址</a>;
+              },
+              width: 50
+            }
+          ]}
+        />
       </div>
     );
   }
