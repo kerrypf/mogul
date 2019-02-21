@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 import { config, Transition } from "react-spring";
 import { ifProp } from "styled-tools";
+import configuration from "../configuration";
 import { Spin, ContentLoader } from "../Indicator";
+import { CUSTOM_SPIN_CARD } from "../symbols";
 const Container = styled.div`
   position: relative;
   ${ifProp(
@@ -46,7 +48,7 @@ export default class extends Component {
   static defaultProps = {
     style: {},
     loading: false,
-    loadingTemplate: "spin",
+    //    loadingTemplate: "spin",
     keepContent: false,
     noCss: false
   };
@@ -56,16 +58,21 @@ export default class extends Component {
     if (!this.container) {
       return null;
     }
-    const { width, height } = this.container.getBoundingClientRect();
     if (renderLoading) {
       return renderLoading();
     }
+
     switch (loadingTemplate) {
       case "list":
+        const { width, height } = this.container.getBoundingClientRect();
         return <ContentLoader width={width - 80} height={height - 80} />;
       case "spin":
-      default:
         return <Spin size={40} />;
+      default:
+        let comp = configuration.customSpin
+          ? configuration.customSpin(CUSTOM_SPIN_CARD, this)
+          : null;
+        return comp ? comp : <Spin size={40} />;
     }
   };
 

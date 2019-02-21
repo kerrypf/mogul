@@ -9,7 +9,9 @@ class Configuration {
 
   fixQueryParams = null;
 
-  customFullScreenSpin = null;
+  customFullScreenSpin = undefined;
+
+  customSpin = undefined;
 
   @observable
   messageOptions = {
@@ -69,7 +71,8 @@ class Configuration {
     tableProps = {},
     confirmComposeProps = {},
     fixQueryParams = this.fixQueryParams,
-    customFullScreenSpin
+    customFullScreenSpin,
+    customSpin
   } = {}) {
     this.messageOptions = {
       ...this.messageOptions,
@@ -109,7 +112,23 @@ class Configuration {
         break;
       default:
         console.warn(
-          `config.customFullScreenSpin 必须为一个方法, 但获得一个${typeof customFullScreenSpin}`
+          `config.customFullScreenSpin 必须为一个方法, 但获得一个${typeof customFullScreenSpin}
+           如果你想要重置'customFullScreenSpin', 请使用 'undefined'
+          `
+        );
+      // do nothing
+    }
+
+    switch (typeof customSpin) {
+      case "function":
+      case "undefined":
+        this.customSpin = customSpin;
+        break;
+      default:
+        console.warn(
+          `config.customFullScreenSpin 必须为一个方法, 但获得一个${typeof customSpin}。
+            如果你想要重置'customSpin', 请使用 'undefined'
+          `
         );
       // do nothing
     }
