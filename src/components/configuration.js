@@ -71,8 +71,8 @@ class Configuration {
     tableProps = {},
     confirmComposeProps = {},
     fixQueryParams = this.fixQueryParams,
-    customFullScreenSpin,
-    customSpin
+    customFullScreenSpin = null,
+    customSpin = null
   } = {}) {
     this.messageOptions = {
       ...this.messageOptions,
@@ -111,11 +111,12 @@ class Configuration {
         this.customFullScreenSpin = customFullScreenSpin;
         break;
       default:
-        console.warn(
-          `config.customFullScreenSpin 必须为一个方法, 但获得一个${typeof customFullScreenSpin}
+        if (customFullScreenSpin !== null) {
+          console.warn(`config.customFullScreenSpin 必须为一个方法, 但获得一个${typeof customFullScreenSpin}
            如果你想要重置'customFullScreenSpin', 请使用 'undefined'
-          `
-        );
+          `);
+        }
+
       // do nothing
     }
 
@@ -125,11 +126,14 @@ class Configuration {
         this.customSpin = customSpin;
         break;
       default:
-        console.warn(
-          `config.customFullScreenSpin 必须为一个方法, 但获得一个${typeof customSpin}。
+        if (customSpin === null) {
+          console.warn(
+            `config.customFullScreenSpin 必须为一个方法, 但获得一个${typeof customSpin}。
             如果你想要重置'customSpin', 请使用 'undefined'
           `
-        );
+          );
+        }
+
       // do nothing
     }
   }
