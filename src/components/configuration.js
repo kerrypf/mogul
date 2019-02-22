@@ -126,7 +126,7 @@ class Configuration {
         this.customSpin = customSpin;
         break;
       default:
-        if (customSpin === null) {
+        if (customSpin !== null) {
           console.warn(
             `config.customFullScreenSpin 必须为一个方法, 但获得一个${typeof customSpin}。
             如果你想要重置'customSpin', 请使用 'undefined'
