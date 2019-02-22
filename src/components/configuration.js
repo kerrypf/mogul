@@ -133,7 +133,6 @@ class Configuration {
           `
           );
         }
-
       // do nothing
     }
   }
