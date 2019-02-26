@@ -98,7 +98,7 @@
     "invariant": "^2.2.4",
     "joi-browser": "^13.0.1",
     "polished": "^1.9.3",
-    "popper.js": "^1.14.4",
+    "popper.js": "^1.14.7",
     "query-string": "5.1.1",
     "react-content-loader": "^3.1.2",
     "react-measure": "^2.1.2",
