@@ -53,6 +53,17 @@ npx @mogul/create-mogul-app <project-name>
 
 @mogul/mogul-scripts: 是基于`create-react-app`封装的 0 配置脚手架, 使用方式尽量与`CRA`保持一致。
 
+## Why mobx
+
+当前主流状态管理有 `Redux`, `Mobx`, `Relay`
+
+1. Redux: 通常是react中最欢迎的，但是组件库并不一定需要。主要原因有一下
+Redux强调清晰的数据流。在实际开发中，你会发现拖慢了开发进度, 而且你需要优化频繁更新的组件，这都是额外的工作量。Redux使用单数据中心模式, 不适合后台组件的设计逻辑
+
+2. Mobx: 通过 mobx-react 使得 react组件拥有双向数据流的功能, 能够大幅度减少 setState 的使用, 数据共享只需 provider就可以传递到子组件, 而且自动执行setState刷新组件。在开发组件的工程中, 特别是业务逻辑代码, 几乎从来不需要手动优化 `componentWillReceiveProps` 等方法, 这大大节省了开发时间。更高的代码可读性, 使用es6 class+装饰器(decorators), 使得代码非常清晰。 react只做ui渲染部分, 极少setState, 不需要跨越不同目录寻找代码, 数据逻辑在class中完成, 自动渲染到ui层。Mobx主要缺点他会修改transform数据结构,变成obserable, 这会增加测试复杂度。同时,个人原因, 我更喜欢纯粹的数据, Mobx施加了太多魔法。这和vue类似。
+
+3. Relay: Facebook的Relay使用graphql当做数据获取方式, 他能够一次性获取装饰组件所有需要的数据,内置数据性能优化功能, 通过mutations触发修改,自动重新获取数据, 能够快速开发组件, 个人更看好Relay相对于Redux、Mobx。But, 必须使用graphql, 这不符合国情, 所以没有选用。
+
 ## 相关资料
 
 - [mogul-scripts](https://github.com/freshesx/mogul-scripts)
