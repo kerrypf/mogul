@@ -1,9 +1,11 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import PropTypes from "prop-types";
-import PreviewImage from "./PreviewImage";
+import lozad, { markAsUnLoaded } from "../../utils/lazyLoad";
 import styled from "styled-components";
+import PreviewImage from "./PreviewImage";
 import { View } from "./Icons";
 import { Flex } from "../../utils";
+import { isIE } from "../../utils/checkBrowser";
 const Wrap = styled.div`
   display: inline-block;
   position: relative;
@@ -34,6 +36,8 @@ const Mask = styled(Flex).attrs({ alignItems: "center", justifyContent: "center"
   }
 `;
 export default class extends Component {
+  img = createRef();
+
   state = {
     avai: false,
     inPreview: false
@@ -43,13 +47,36 @@ export default class extends Component {
     src: PropTypes.string.isRequired,
     preview: PropTypes.bool,
     previewSrc: PropTypes.string,
-    zIndex: PropTypes.number
+    zIndex: PropTypes.number,
+    lazyLoad: PropTypes.bool
   };
 
   static defaultProps = {
     preview: false,
-    zIndex: 1000
+    zIndex: 1000,
+    lazyLoad: false
   };
+
+  componentDidMount() {
+    this.lazyLoadImg();
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.src !== this.props.src) {
+      markAsUnLoaded(this.img.current);
+      this.lazyLoadImg();
+    }
+  }
+
+  lazyLoadImg() {
+    if (!isIE) {
+      if (this.props.lazyLoad) {
+        this.lazyLoadObserver = lozad(this.img.current, {});
+
+        this.lazyLoadObserver.observe();
+      }
+    }
+  }
 
   handleOnLoad = () => {
     const { onLoad } = this.props;
@@ -112,18 +139,32 @@ export default class extends Component {
       onError,
       onLoad,
       style,
+      lazyLoad,
       ...imgProps
     } = this.props;
     const { avai, inPreview } = this.state;
     const hasCursor = preview || !!onClick;
     const showPreview = preview && avai && src && inPreview;
+    // 如果启用了lazyLoad, 那么自动将
+    let lazyLoadProps = null;
+
+    if (lazyLoad) {
+      if (isIE) {
+        lazyLoadProps = { src };
+      } else {
+        lazyLoadProps = { "data-src": src };
+      }
+    } else {
+      lazyLoadProps = { src };
+    }
 
     return (
       <Wrap innerRef={container => (this.container = container)}>
         <img
+          ref={this.img}
           alt={"图片"}
-          src={src}
           {...imgProps}
+          {...lazyLoadProps}
           style={{ cursor: hasCursor ? "pointer" : null, ...style }}
           onClick={this.handleOnClick}
           onLoad={this.handleOnLoad}
