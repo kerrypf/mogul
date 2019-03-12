@@ -5,6 +5,7 @@ type ImageProps = {
   preview: boolean;
   previewSrc?: string;
   zIndex: number;
+  lazyLoad: boolean
 };
 
 type ImageState = {
@@ -16,6 +17,7 @@ export default class Image extends React.Component<ImageProps, ImageState> {
   static defaultProps: {
     preview: false;
     zIndex: 1000;
+    lazyLoad: false
   };
 
   state: {
