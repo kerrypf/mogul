@@ -7,9 +7,13 @@ import { FormField, FormFieldContainer, LabelItem, FormMessage } from "./pageUI"
 
 function getDecorator(withArgs, defaultProps) {
   return Comp => {
+    const displayName = Comp.displayName ? `withForm_${Comp.displayName}` : `withForm_Component`;
+
     return inject("form")(
       observer(
         class extends Component {
+          static displayName = displayName;
+
           static propTypes = {
             fieldName: PropTypes.string,
             initialValue: PropTypes.any,
@@ -65,7 +69,8 @@ function getDecorator(withArgs, defaultProps) {
               "hint",
               "fieldName",
               "isMobXReactObserver",
-              "propTypes"
+              "propTypes",
+              "displayName"
             ];
             let newProps = {};
 
@@ -77,18 +82,29 @@ function getDecorator(withArgs, defaultProps) {
             return newProps;
           }
 
+          defaultLabelRender = () => {
+            return this.props.label;
+          };
+
           render() {
             const { label, hint } = this.props;
             const { labelStyle, isRequired, errorMessage, containerStyle } = this.state.form;
+
+            let labelFn = null;
+            if (typeof label === "function") {
+              labelFn = label;
+            } else {
+              labelFn = this.defaultLabelRender;
+            }
 
             return (
               <Provider form={this.state.form}>
                 <FormFieldContainer style={containerStyle}>
                   <LabelItem required={isRequired} style={labelStyle}>
                     {" "}
-                    {label}
+                    {labelFn(this.state.form)}
                   </LabelItem>
-                  <FormField tabIndex={ 0 } hasError={!!errorMessage}>
+                  <FormField tabIndex={0} hasError={!!errorMessage}>
                     <Comp {...this.removeBlackListProps()} form={this.state.form} />
                     <FormMessage hasError={!!errorMessage}>
                       {errorMessage ? errorMessage : hint}

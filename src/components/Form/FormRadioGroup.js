@@ -8,6 +8,8 @@ import { Item, Flex } from "../../utils";
 @withForm
 @observer
 export default class extends Component {
+  static displayName = "FormRadioGroup";
+
   static propTypes = {
     options: PropTypes.arrayOf(
       PropTypes.shape({

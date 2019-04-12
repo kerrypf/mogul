@@ -10,6 +10,8 @@ import { Cascader } from "antd";
 })
 @observer
 export default class extends Component {
+  static displayName = "FormCascader";
+
   static propTypes = {
     options: PropTypes.arrayOf(
       PropTypes.shape({
