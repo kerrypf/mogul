@@ -10,6 +10,8 @@ import { Item, Flex } from "../../utils";
 })
 @observer
 export default class FormCheckGroup extends Component {
+  static displayName = "FormCheckGroup";
+
   static propTypes = {
     options: PropTypes.arrayOf(
       PropTypes.shape({

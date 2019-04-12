@@ -13,6 +13,8 @@ import ConnectForm from "./ConnectForm";
 import { FormClear, FormSpin } from "./pageUI";
 
 class Form extends Component {
+  static displayName = "MogulForm";
+
   static propTypes = {
     labelStyle: PropTypes.object,
     onPressEnter: PropTypes.func

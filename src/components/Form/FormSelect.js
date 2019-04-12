@@ -7,6 +7,8 @@ import { Select } from "antd";
 @withForm
 @observer
 export default class extends Component {
+  static displayName = "FormSelect";
+
   static propTypes = {
     options: PropTypes.arrayOf(
       PropTypes.shape({

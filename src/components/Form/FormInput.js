@@ -7,6 +7,8 @@ import withForm from "./withForm";
 @withForm
 @observer
 export default class FormInput extends Component {
+  static displayName = "FormInput";
+
   static propTypes = {
     placeholder: PropTypes.string,
     disabled: PropTypes.bool
@@ -27,12 +29,7 @@ export default class FormInput extends Component {
     } = this.props;
 
     return (
-      <Input
-        value={value}
-        onChange={this.handleOnChange}
-        onBlur={this.handleBlur}
-        { ...rest }
-      />
+      <Input value={value} onChange={this.handleOnChange} onBlur={this.handleBlur} {...rest} />
     );
   }
 }

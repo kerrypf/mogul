@@ -7,6 +7,8 @@ import { FormField, FormFieldContainer, LabelItem, FormMessage } from "./pageUI"
 @inject("form")
 @observer
 export default class extends Component {
+  static displayName = "ConnectForm";
+
   static propTypes = {
     fieldName: PropTypes.string,
     initialValue: PropTypes.any,
@@ -49,6 +51,10 @@ export default class extends Component {
     }
   }
 
+  defaultLabelRender = () => {
+    return this.props.label;
+  };
+
   render() {
     const { label, children, hint } = this.props;
     const { labelStyle, isRequired, errorMessage, containerStyle } = this.state.form;
@@ -58,14 +64,20 @@ export default class extends Component {
     if (!component) {
       return null;
     }
+    let labelFn = null;
+    if (typeof label === "function") {
+      labelFn = label;
+    } else {
+      labelFn = this.defaultLabelRender;
+    }
     return (
       <Provider form={this.state.form}>
         <FormFieldContainer style={containerStyle}>
           <LabelItem required={isRequired} style={labelStyle}>
             {" "}
-            {label}
+            {labelFn(this.state.form)}
           </LabelItem>
-          <FormField tabIndex={ 0 }  hasError={!!errorMessage}>
+          <FormField tabIndex={0} hasError={!!errorMessage}>
             {component}
             <FormMessage hasError={!!errorMessage}>
               {errorMessage ? errorMessage : hint}

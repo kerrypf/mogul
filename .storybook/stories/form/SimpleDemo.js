@@ -18,7 +18,12 @@ class Demo extends Component {
 
   getFlatData = () => {
     if (this.form.getForm().validate()) {
-      console.log(this.form.getForm().$("simpleDemo").getFormData());
+      console.log(
+        this.form
+          .getForm()
+          .$("simpleDemo")
+          .getFormData()
+      );
       return null;
     }
   };
@@ -166,7 +171,7 @@ class Demo extends Component {
             <div style={{ width: "100%" }}>使用 Form.Connect 自定义的组件：</div>
             <Form.Connect
               fieldName={"selectTimeRange"}
-              label={"请选择时间"}
+              label={form => (form.value[0] && form.value[1] ? "已选择时间" : "请选择时间")}
               initialValue={[moment(), null]}
               rules={[["required", value => (value[0] && value[1] ? true : "时间必填")]]}
               containerStyle={{

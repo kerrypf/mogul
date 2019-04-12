@@ -6,6 +6,8 @@ import { Flex } from "../../utils";
 @inject("form")
 @observer
 export default class FormBox extends Component {
+  static displayName = "FormBox";
+
   static propTypes = {
     fieldName: PropTypes.string,
     form: MobxPropTypes.objectOrObservableObject.isRequired,
