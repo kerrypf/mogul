@@ -19,10 +19,16 @@ let pkg = require("../package.json"),
 
 export default {
   input: "src/index.js",
-  output: {
-    file: "build/mogul.js",
-    format: "cjs"
-  },
+  output: [
+    {
+      file: "build/mogul.cjs.js",
+      format: "cjs"
+    },
+    {
+      file: "build/mogul.esm.js",
+      format: "esm"
+    }
+  ],
   external,
   plugins: [
     clear({
